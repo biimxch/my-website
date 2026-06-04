@@ -1,5 +1,9 @@
 import "./globals.css";
-import { Montserrat, Prompt } from "next/font/google";
+import { Montserrat, Prompt, Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 // โหลดฟอนต์ Montserrat สำหรับภาษาอังกฤษ
 const montserrat = Montserrat({
@@ -26,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="th" className={`${montserrat.variable} ${prompt.variable} scroll-smooth`}>
+    <html lang="th" className={cn("scroll-smooth", montserrat.variable, prompt.variable, "font-sans", geist.variable)}>
       <body 
         className="bg-[#fafaf8] text-gray-900 antialiased"
         // 💡 เราใช้ style กำหนดลำดับฟอนต์ตรงนี้แทนการตั้งค่าใน config ไปเลยครับ

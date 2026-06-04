@@ -1,195 +1,240 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
-import { projects } from "@/lib/data";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { projects } from "@/lib/data"; 
+import Carousel from "../ui/Carousel"; 
+
+const categoryMapping = [
+  { displayCategory: "Web Design & Development", projectIndex: 0 },
+  { displayCategory: "Game Development", projectIndex: 1 },
+  { displayCategory: "UI/UX Design", projectIndex: 2 },
+  { displayCategory: "Branding & Visual Design", projectIndex: 3 },
+];
 
 export default function Projects() {
-  const [view, setView] = useState<"list" | "grid">("list");
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  
+  const activeProject = activeIndex !== null ? projects[categoryMapping[activeIndex].projectIndex] : null;
+
+  const carouselItems = useMemo(() => {
+    return categoryMapping.map((item) => {
+      const proj = projects[item.projectIndex];
+      return {
+        id: proj.slug,
+        title: proj.title,
+        image: proj.coverImage,
+      };
+    });
+  }, []);
 
   return (
-    <section id="work" className=" pt-20 max-w-5xl mx-auto px-6 py-24 border-t border-[#e2e0da]">
-
-      {/* Section Header */}
-      <div className="flex items-start justify-between mb-12">
-        <h2 className="flex items-start text-6xl font-medium tracking-tight text-gray-900 leading-none">
+    <section id="projects" className="pt-20 max-w-6xl mx-auto px-6 py-24 border-t border-[#CCCCCC]">
+      
+      {/* Section Title */}
+      <div className="mb-14">
+        <h2 className="text-6xl font-medium tracking-tight text-[#334FAE] leading-none">
           PROJECTS
-          {/* เปลี่ยนจาก sup เป็น span และใช้ mt-1 หรือ mt-2 ดันลงมานิดนึงให้พอดีกับหัวตัว P */}
-          <span className="text-xl text-gray-400 ml-4 font-light mt-6.5">
-            ({projects.length})
-          </span>
         </h2>
-
-        {/* Toggle buttons แบบ Sliding Pill */}
-        <div className="flex items-center gap-1 mt-2 p-1 bg-white rounded-xl">
-          <button
-            onClick={() => setView("list")}
-            className={`relative p-2 rounded-lg transition-colors duration-300 z-10 ${
-              view === "list" ? "text-white" : "text-gray-400 hover:text-gray-900"
-            }`}
-            aria-label="List view"
-          >
-            {view === "list" && (
-              <motion.div
-                layoutId="active-toggle"
-                className="absolute inset-0 bg-gray-900 rounded-lg"
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                style={{ zIndex: -1 }}
-              />
-            )}
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-              <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor"/>
-              <rect x="1" y="7" width="14" height="2.5" rx="1" fill="currentColor"/>
-              <rect x="1" y="12" width="14" height="2.5" rx="1" fill="currentColor"/>
-            </svg>
-          </button>
-
-          <button
-            onClick={() => setView("grid")}
-            className={`relative p-2 rounded-lg transition-colors duration-300 z-10 ${
-              view === "grid" ? "text-white" : "text-gray-400 hover:text-gray-900"
-            }`}
-            aria-label="Grid view"
-          >
-            {view === "grid" && (
-              <motion.div
-                layoutId="active-toggle"
-                className="absolute inset-0 bg-gray-900 rounded-lg"
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                style={{ zIndex: -1 }}
-              />
-            )}
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-              <rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
-              <rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
-              <rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
-              <rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
-            </svg>
-          </button>
-        </div>
       </div>
 
-      {/* List/Grid Content (AnimatePresence) */}
-      <AnimatePresence mode="wait">
-        {view === "list" ? (
-          <motion.div
-            key="list"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="flex flex-col gap-6"
-          >
-            {projects.map((project) => (
-              <Link
-                key={project.slug}
-                href={`/work/${project.slug}`}
-                className="group bg-white border border-[#e2e0da] rounded-2xl overflow-hidden flex flex-row transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
-              >
-                {/* Left: Text */}
-                <div className="flex flex-col flex-1 px-8 py-8">
-                  <p className="text-xs text-gray-400 mb-2">{project.year}</p>
-                  <h3 className="text-2xl font-medium tracking-tight text-gray-900 mb-3 group-hover:text-gray-500 transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-6 max-w-sm">
-                    {project.description}
-                  </p>
-                  {/* Tags สำหรับโหมด List (ใหญ่กว่าปกติ) */}
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {project.tags?.map((tag) => (
-                      <span 
-                        key={tag} 
-                        className="px-3.5 py-1.5 border border-[#e2e0da] rounded-full text-[13px] font-medium text-gray-600 bg-white"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  {/* CTA */}
-                  <div className="mt-auto">
-                    <div className="inline-flex items-center gap-2 text-sm text-gray-900 bg-white rounded-full px-5 py-2.5 border border-[#e2e0da] group-hover:bg-[#f3f2ee] transition-colors duration-300">
-                      View Case Study ↗
-                    </div>
-                  </div>
-                </div>
+      {/* 📦 Grid โครงสร้างหลัก */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 items-start w-full">
+        
+        {/* ---------------- ฝั่งซ้าย: รายการหมวดหมู่หลัก (1/3) ---------------- */}
+        <div className="flex flex-col py-2 lg:min-h-[380px] lg:pr-12 w-full min-w-0">
+          <div className="space-y-2">
+            {categoryMapping.map((item, index) => {
+              const project = projects[item.projectIndex];
+              const isSelected = activeIndex === index;
 
-                {/* Right: Image */}
-                <div className="w-[45%] shrink-0 relative m-3 rounded-xl overflow-hidden bg-[#e8e7e3]">
-                  <div className="w-full h-full min-h-[280px] bg-gradient-to-br from-gray-200 to-gray-300" />
-                </div>
-              </Link>
-            ))}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="grid"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4"
-          >
-            {projects.map((project) => (
-              <Link
-                key={project.slug}
-                href={`/work/${project.slug}`}
-                className="group bg-white border border-[#e2e0da] rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
-              >
-                {/* Image */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#e8e7e3] rounded-xl m-2 mb-0 border border-[#e2e0da]/50">
-                  <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300" />
-                </div>
-
-                {/* Info */}
-                <div className="p-4 flex flex-col flex-1">
-                  <h3 className="text-lg font-medium tracking-tight text-gray-900 mb-3 group-hover:text-gray-500 transition-colors duration-300">
-                    {project.title}
-                  </h3>
+              return (
+                <div key={project.slug} className="border-b border-[#CCCCCC]/30 lg:border-none pb-2 lg:pb-0">
                   
-                  {/* ส่วนล่างของการ์ด Grid (Tags + วงกลมลูกศร) */}
-                  <div className="mt-auto flex items-end justify-between pt-2">
-                    {/* Tags สำหรับโหมด Grid (ย่อให้เล็กลง) */}
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.tags?.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2.5 py-1 border border-[#e2e0da] rounded-full text-[10px] font-medium text-gray-500 bg-white"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                  {/* ปุ่มกดเลือกเมนู */}
+                  <button
+                    onClick={() => {
+                      setActiveIndex(isSelected ? null : index);
+                    }}
+                    onMouseEnter={() => {
+                      if (window.innerWidth >= 1024) setActiveIndex(index);
+                    }}
+                    className="relative w-full text-left px-5 py-4 rounded-xl flex items-start gap-3.5 transition-colors duration-300 group z-10"
+                  >
+                    {isSelected && (
+                      <motion.div
+                        layoutId="active-project-pill"
+                        className="absolute inset-0 bg-[#334FAE] rounded-xl -z-10"
+                        transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                      />
+                    )}
                     
-                    {/* ไอคอน ↗ ในวงกลม */}
-                    <div className="w-8 h-8 rounded-full border border-[#e2e0da] bg-gray-50 group-hover:bg-gray-900 group-hover:text-white group-hover:border-gray-900 transition-colors duration-300 flex items-center justify-center shrink-0 ml-2">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M7 17L17 7" />
-                        <path d="M7 7h10v10" />
-                      </svg>
+                    <span className={`text-sm font-semibold font-mono pt-0.5 transition-colors duration-300 ${
+                      isSelected ? "text-blue-200" : "text-stone-400 group-hover:text-[#334FAE]"
+                    }`}>
+                      0{index + 1}.
+                    </span>
+                    
+                    <div className="flex flex-col gap-0.5">
+                      <span className={`text-[1.05rem] font-medium tracking-tight transition-colors duration-300 ${
+                        isSelected ? "text-white" : "text-stone-700 group-hover:text-[#334FAE]"
+                      }`}>
+                        {item.displayCategory}
+                      </span>
+                      <span className={`text-xs font-medium tracking-wide uppercase transition-colors duration-300 ${
+                        isSelected ? "text-blue-200/90" : "text-stone-400 group-hover:text-stone-500"
+                      }`}>
+                        {project.title}
+                      </span>
                     </div>
+                  </button>
+
+                  {/* 📱 Mobile Accordion Content */}
+                  <div className="lg:hidden overflow-hidden">
+                    <AnimatePresence initial={false}>
+                      {isSelected && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                          <div className="px-5 pt-4 pb-6 flex flex-col gap-4">
+                            <div className="relative overflow-hidden aspect-[16/9] w-full bg-stone-50 rounded-xl border border-[#CCCCCC]/40">
+                              <img src={project.coverImage} alt={project.title} className="w-full h-full object-cover" />
+                            </div>
+                            
+                            <div className="flex items-center justify-between gap-4 w-full mt-1">
+                              <h3 className="text-xl font-bold tracking-tight text-[#334FAE]">
+                                {project.title}
+                              </h3>
+                              <Link
+                                href={`/work/${project.slug}`}
+                                className="inline-flex items-center gap-1.5 bg-[#334FAE] text-white px-4 py-2 rounded-lg font-semibold text-xs shadow-xs shrink-0"
+                              >
+                                View Case Study
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                  <line x1="7" y1="7" x2="17" y2="17"></line>
+                                  <polyline points="17 7 17 17 7 17"></polyline>
+                                </svg>
+                              </Link>
+                            </div>
+                            
+                            <p className="text-sm text-stone-600 leading-relaxed font-light">
+                              {project.description}
+                            </p>
+
+                            <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-stone-100">
+                              <span className="text-[11px] font-bold text-stone-400 uppercase tracking-wider">Duration:</span>
+                              <span className="font-mono text-[#334FAE] font-bold text-xs mr-2">{project.duration}</span>
+                              <div className="flex flex-wrap gap-1">
+                                {project.tags.map((tag) => (
+                                  <span key={tag} className="px-2.5 py-0.5 border border-[#CCCCCC] rounded-full text-[10px] font-medium text-stone-500 bg-white">
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
-              </Link>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+              );
+            })}
+          </div>
 
-      {/* Footer row */}
-      <div className="flex items-center justify-between mt-10">
-        <p className="text-xs text-gray-400 max-w-[220px] leading-relaxed">
-          These are just a few highlights. More work available on request.
-        </p>
-        <a
-          href="mailto:chompunuch.autt@gmail.com"
-          className="flex items-center gap-2 text-xs uppercase tracking-widest bg-gray-900 text-white px-5 py-3 hover:bg-gray-700 transition-colors duration-300"
-        >
-          Get in touch ↗
-        </a>
+          <div className="mt-8 hidden lg:block">
+            <a
+              href="#contact"
+              className="inline-flex w-full items-center justify-between bg-[#334FAE] text-white font-semibold px-6 py-4 rounded-xl group hover:bg-[#253b8c] transition-colors duration-300 shadow-sm"
+            >
+              <span className="text-sm tracking-tight">Let&apos;s collaborate</span>
+              <svg className="transform group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <line x1="7" y1="7" x2="17" y2="17"></line>
+                <polyline points="17 7 17 17 7 17"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        {/* ---------------- 🖥️ ฝั่งขวา: คอนเทนต์ขนาดใหญ่ (2/3) ---------------- */}
+        <div className="hidden lg:flex lg:col-span-2 flex-col lg:pl-12 w-full min-w-0">
+          
+          {/* 🎯 เอาคลาสจัดกึ่งกลางออก เพื่อให้ตัว Carousel ยืดขนาดแนบสนิทไปกับกล่องสี่เหลี่ยมรอบนอกสมบูรณ์แบบ */}
+          <div className="w-full bg-stone-50 rounded-2xl border border-[#CCCCCC]/40 shadow-sm overflow-hidden relative" style={{ height: '380px' }}>
+            <Carousel
+              items={carouselItems} 
+              baseWidth={700} // ส่งค่าตั้งต้นขนาดใหญ่ขึ้นให้สัมพันธ์กับขนาดจอคอมพิวเตอร์เดสก์ท็อป
+              autoplay={false}
+              autoplayDelay={3000}
+              pauseOnHover={false}
+              loop={false}
+              round={false}
+              activeIndex={activeIndex ?? 0} 
+              onChange={(index) => setActiveIndex(index)} 
+            />
+          </div>
+
+          <div className="mt-6 w-full">
+            <AnimatePresence mode="wait">
+              {activeProject && (
+                <motion.div
+                  key={activeProject.slug}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
+                  className="flex flex-col w-full gap-4"
+                >
+                  <div className="flex items-center justify-between gap-4 w-full">
+                    <h3 className="text-2xl font-bold tracking-tight text-[#334FAE]">
+                      {activeProject.title}
+                    </h3>
+                    <Link
+                      href={`/work/${activeProject.slug}`}
+                      className="inline-flex items-center gap-2 bg-[#334FAE] text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-2xs hover:bg-[#253b8c] transition-colors duration-200 shrink-0"
+                    >
+                      View Case Study
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <line x1="7" y1="7" x2="17" y2="17"></line>
+                        <polyline points="17 7 17 17 7 17"></polyline>
+                      </svg>
+                    </Link>
+                  </div>
+
+                  <p className="text-[1.02rem] text-stone-600 leading-relaxed font-light max-w-2xl">
+                    {activeProject.description}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-y-3 pt-4 border-t border-stone-100 w-full mt-2">
+                    <div className="flex items-center gap-x-6">
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-xs font-medium text-stone-400 uppercase tracking-wider">Duration:</span>
+                        <span className="text-[#334FAE] font-bold font-mono text-sm">{activeProject.duration}</span>
+                      </div>
+
+                      <div className="w-px h-4 bg-[#CCCCCC]" />
+
+                      <div className="flex flex-wrap gap-1.5 items-center">
+                        {activeProject.tags.map((tag) => (
+                          <span key={tag} className="px-3 py-1 border border-[#CCCCCC] rounded-full text-xs font-medium text-stone-500 bg-white">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+        </div>
+
       </div>
-
     </section>
   );
 }

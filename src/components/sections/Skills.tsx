@@ -18,7 +18,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="pt-20 max-w-5xl mx-auto px-6 py-24 border-t border-[#e2e0da]"
+      className="pt-20 max-w-6xl mx-auto px-6 py-24 border-t border-[#e2e0da]"
     >
       <div className="flex items-start justify-between mb-16">
         <h2 className="text-6xl font-medium tracking-tight text-gray-900 leading-none">
