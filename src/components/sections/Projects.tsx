@@ -86,7 +86,7 @@ export default function Projects() {
               Now Viewing
             </span>
 
-            <h3 className="mt-4 text-3xl lg:text-5xl font-bold tracking-tight text-[#334FAE] leading-[1.1]">
+            <h3 className="mt-4 text-3xl lg:text-5xl font-medium tracking-tight text-[#334FAE] leading-[1.1]">
               {featuredProject.title}
             </h3>
 
@@ -150,16 +150,6 @@ export default function Projects() {
               />
             </div>
 
-            {/* Duration Badge */}
-            <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm border border-[#CCCCCC]/60 rounded-md px-2.5 py-1.5 flex items-center gap-1.5 shadow-2xs">
-              <span className="text-[9px] font-medium text-stone-400 uppercase tracking-wider">
-                Duration
-              </span>
-              <span className="w-px h-2.5 bg-stone-200" />
-              <span className="font-mono text-[#334FAE] font-bold text-[11px]">
-                {featuredProject.duration}
-              </span>
-            </div>
           </div>
         </motion.div>
       </AnimatePresence>
