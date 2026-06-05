@@ -5,7 +5,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
-// 1. นำเข้าคอมโพเนนต์โครงสร้างยืดหดจาก shadcn
+// นำเข้าคอมโพเนนต์โครงสร้างยืดหดจาก shadcn
 import {
   Navbar as ResizableNavbar,
   NavBody,
@@ -48,11 +48,10 @@ export default function Navbar() {
   };
 
   return (
-    // 2. เปลี่ยน header เดิมมาใช้ตัว ResizableNavbar ควบคุมตำแหน่ง z-index
     <ResizableNavbar className="fixed top-0 left-0 right-0 z-50">
       
-      {/* 🖥️ Desktop Layout: ตัว NavBody จะทำหน้าที่หดตัวอัตโนมัติเมื่อ scroll เกิน 100px */}
-      <NavBody className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      {/* 🖥️ 1. Desktop Layout: เพิ่มคลาส `hidden lg:flex` ซ่อนบนมือถือ ยืดเต็มพื้นที่บนจอคอม */}
+      <NavBody className="hidden lg:flex max-w-7xl mx-auto px-6 items-center justify-between w-full">
         
         {/* เลย์เอาต์ฝั่งซ้าย: โลโก้ของคุณ */}
         <Link
@@ -123,8 +122,8 @@ export default function Navbar() {
         </div>
       </NavBody>
 
-      {/* 📱 Mobile Layout: รองรับการหดและเปิดแฮมเบอร์เกอร์เมนูบนมือถือ */}
-      <MobileNav>
+      {/* 📱 2. Mobile Layout: เพิ่มคลาส `lg:hidden` บังคับพับเก็บหน้ากากดีไซน์ทันทีเมื่อเปิดบนจอ PC */}
+      <MobileNav className="lg:hidden w-full">
         <MobileNavHeader>
           <Link href="/" className="font-bold text-[1.15rem] tracking-wide text-[#334FAE]">
             CHPNCH A.

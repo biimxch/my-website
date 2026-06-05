@@ -156,7 +156,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         width: visible ? "90%" : "100%",
         paddingRight: visible ? "12px" : "0px",
         paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
+        borderRadius: visible ? "50px" : "12px",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -226,7 +226,7 @@ export const MobileNavToggle = ({
   return isOpen ? (
     <IconX className="text-black dark:text-white" onClick={onClick} />
   ) : (
-    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+    <IconMenu2 className="text-[#334FAE]" onClick={onClick} />
   );
 };
 
