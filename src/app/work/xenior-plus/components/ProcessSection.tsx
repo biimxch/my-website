@@ -7,8 +7,8 @@ export default function ProcessSection() {
   
   return (
     <div className="py-4">
-      <div className="mb-12 relative">
-        <span className="font-pinyon text-5xl text-[#334EAC] absolute -top-5 left-0 select-none opacity-40">
+      <div className="mb-14 relative pt-3">
+        <span className="font-pinyon text-5xl text-[#334EAC] absolute -top-7 left-0 select-none opacity-40">
           Methodology
         </span>
         <span className="text-[10px] font-mono font-bold text-[#081F5C] uppercase tracking-widest block pt-5">

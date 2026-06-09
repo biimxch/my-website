@@ -42,7 +42,7 @@ export const projects: Project[] = [
     tags: ["Website", "UX/UI Design", "Next.js"],
     description:
       "Web platform for managing and showcasing CPE senior projects. Designed the Xenior Form replacing manual paper-based evaluation, built responsive frontend, and validated usability through UAT with faculty.",
-    coverImage: "/images/xenior_plus.png",
+    coverImage: "/images/xenior.png",
     liveUrl: "",
     figmaUrl: "",
   },
@@ -68,7 +68,7 @@ export const projects: Project[] = [
     tags: ["Prototyping", "UI Design"],
     description:
       "High-fidelity interactive prototype for a skincare e-commerce platform. Focused on requirement elicitation, visual hierarchy, and intuitive user flows.",
-    coverImage: "/images/skinmatch/cover.jpg",
+    coverImage: "/images/skinmatch.png",
     figmaUrl: "",
   },
   {

@@ -13,11 +13,11 @@ export default function Hero() {
           Case Study · UX/UI + Frontend Implementation
         </span>
         
-        <div className="relative mt-4 mb-2">
+        <div className="relative mt-6 mb-4">
           <h1 className="text-5xl lg:text-6xl font-medium tracking-tight text-[#081F5C] leading-none z-10 relative">
             Xenior+
           </h1>
-          <span className="font-pinyon text-7xl text-[#334EAC] absolute -top-5 left-24 select-none opacity-20 pointer-events-none">
+          <span className="font-pinyon text-6xl md:text-7xl text-[#334EAC] absolute -top-4 md:-top-5 left-12 md:left-24 select-none opacity-20 pointer-events-none">
             Showcase
           </span>
         </div>

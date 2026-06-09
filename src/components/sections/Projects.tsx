@@ -68,9 +68,6 @@ export default function Projects() {
         </h2>
       </div>
 
-      {/* ════════════════════════════════════════
-          HERO PROJECT PREVIEW (สัดส่วน 40% : 60%)
-         ════════════════════════════════════════ */}
       <AnimatePresence mode="wait">
         <motion.div
           key={featuredProject.slug}
@@ -82,7 +79,7 @@ export default function Projects() {
         >
           {/* ── ฝั่งข้อมูลเนื้อหา (40%) ── */}
           <div className="flex flex-col lg:col-span-4 w-full min-w-0 order-2 lg:order-1">
-            <span className="text-xs uppercase tracking-[0.2em] text-[#334FAE] font-bold">
+            <span className="text-xs text-uppercase tracking-[0.2em] text-[#334FAE] font-bold">
               Now Viewing
             </span>
 
@@ -139,7 +136,7 @@ export default function Projects() {
           {/* ── ฝั่งรูปภาพผลงานหลัก (60%) ── */}
           {/* บน Mobile จะสลับขึ้นมาอยู่ด้านบน (order-1) เพื่อให้เห็นเด่นชัดเวลากดสลับภาพ */}
           <div className="relative aspect-[16/11] lg:col-span-6 w-full min-w-0 order-1 lg:order-2">
-            <div className="overflow-hidden rounded-2xl lg:rounded-3xl w-full h-full shadow-xs relative">
+            <div className="overflow-hidden w-full h-full relative">
               <Image
                 src={featuredProject.coverImage}
                 alt={featuredProject.title}
@@ -160,7 +157,7 @@ export default function Projects() {
       <div className="mt-16 lg:mt-24">
         {/* Header row */}
         <div className="flex items-center justify-between mb-6 lg:mb-10">
-          <h3 className="text-2xl lg:text-3xl font-bold tracking-tight text-stone-800">
+          <h3 className="text-2xl text-[#334FAE] lg:text-3xl font-medium tracking-tight text-stone-800 ">
             All Projects
           </h3>
           <span className="text-xs font-mono text-stone-400">

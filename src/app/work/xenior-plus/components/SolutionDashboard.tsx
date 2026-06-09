@@ -67,12 +67,12 @@ export default function SolutionDashboard() {
         <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-2xs w-full flex flex-col gap-4">
           
           {/* Framer Motion Layout Animation Row */}
-          <div className="flex border-b border-stone-100 relative">
+          <div className="flex border-b border-stone-100 relative gap-2">
             {(["instructor", "student", "admin"] as Role[]).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2.5 text-xs font-bold uppercase tracking-wider relative transition-colors ${
+                className={`px-4 py-3 text-xs font-bold uppercase tracking-wider relative transition-colors ${
                   activeTab === tab ? "text-[#081F5C]" : "text-stone-400"
                 }`}
               >

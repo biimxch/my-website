@@ -33,8 +33,8 @@ export default function XeniorPlusCaseStudy() {
         <div className="flex flex-col gap-6">
           <ProcessSection />
           
-          <div className="mt-20 border-t border-stone-300/60 pt-16 flex flex-col gap-3 relative">
-            <span className="font-pinyon text-5xl text-[#334EAC] absolute -top-4 left-0 select-none opacity-40">
+          <div className="mt-24 border-t border-stone-300/60 pt-20 flex flex-col gap-4 relative">
+            <span className="font-pinyon text-5xl text-[#334EAC] absolute -top-6 left-0 select-none opacity-40">
               Deep Dive
             </span>
             <span className="text-[10px] font-mono font-bold text-[#081F5C] uppercase tracking-widest pt-4">
