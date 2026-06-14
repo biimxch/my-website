@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SubProject } from "@/types/portfolio";
+import Lightbox from "@/components/ui/Lightbox";
 
 interface ProjectSliderProps {
   items: SubProject[];
@@ -11,6 +12,7 @@ interface ProjectSliderProps {
 export default function ProjectSlider({ items }: ProjectSliderProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(1); // 1 = Next, -1 = Prev
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const nextSlide = () => {
     setDirection(1);
@@ -122,12 +124,24 @@ export default function ProjectSlider({ items }: ProjectSliderProps) {
                   : `/images/${items[currentIndex].image}`
               }
               alt={items[currentIndex].title}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center cursor-zoom-in"
+              onClick={() => setLightboxOpen(true)}
             />
           </AnimatePresence>
         </div>
 
       </div>
-    </div>
-  );
+        <Lightbox
+          src={
+            items[currentIndex].image.startsWith("/")
+              ? items[currentIndex].image
+              : `/images/${items[currentIndex].image}`
+          }
+          alt={items[currentIndex].title}
+          isOpen={lightboxOpen}
+          onClose={() => setLightboxOpen(false)}
+        />
+      </div>
+    );
 }
+

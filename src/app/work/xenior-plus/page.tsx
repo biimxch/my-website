@@ -1,60 +1,39 @@
 "use client";
 
-import Hero from "./components/Hero";
-import ProblemSection from "./components/ProblemSection";
-import ProcessSection from "./components/ProcessSection";
-import SolutionForm from "./components/SolutionForm";
-import SolutionSearch from "./components/SolutionSearch";
-import SolutionDashboard from "./components/SolutionDashboard";
-import MetricsSection from "./components/MetricsSection";
-import FeedbackSection from "./components/FeedbackSection";
-import ReflectionSection from "./components/ReflectionSection";
+import React from "react";
+import XeniorOverview from "./components/XeniorOverview";
+import XeniorDiscoveryExecution from "./components/XeniorDiscoveryExecution";
+import XeniorValidationSummary from "./components/XeniorValidationSummary";
 import Link from "next/link";
 
 export default function XeniorPlusCaseStudy() {
   return (
-    <main className="bg-[#FFFFFF] min-h-screen text-stone-800 antialiased selection:bg-[#081F5C]/10 selection:text-[#081F5C] pt-24 pb-32">
-      {/* โหลดฟอนต์ลายมือ Pinyon Script ให้สอดคล้องกับหน้าหลัก */}
+    <main className="bg-[#FFFFFF] min-h-screen text-stone-800 antialiased selection:bg-[#081F5C]/10 selection:text-[#081F5C]  pb-16">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
         .font-pinyon { font-family: 'Pinyon Script', cursive; }
       `}</style>
 
-      <div className="max-w-6xl mx-auto px-6 flex flex-col gap-24">
-        
-        {/* Phase 1: Context & Core Statistics */}
-        <Hero />
-        <MetricsSection />
-
-        {/* Phase 2: System Challenges */}
-        <ProblemSection />
-
-        {/* Phase 3: UX Architecture Breakdown */}
-        <div className="flex flex-col gap-6">
-          <ProcessSection />
-          
-          <div className="mt-24 border-t border-stone-300/60 pt-20 flex flex-col gap-4 relative">
-            <span className="font-pinyon text-5xl text-[#334EAC] absolute -top-6 left-0 select-none opacity-40">
-              Deep Dive
-            </span>
-            <span className="text-[10px] font-mono font-bold text-[#081F5C] uppercase tracking-widest pt-4">
-              Phase 3 · Operational Execution
-            </span>
-            <h2 className="text-4xl font-black tracking-tight text-[#081F5C]">
-              The Redesigned Core Modules
-            </h2>
-          </div>
-          
-          <div className="flex flex-col gap-24 mt-12">
-            <SolutionForm />
-            <SolutionSearch />
-            <SolutionDashboard />
-          </div>
+      <div className="w-full px-16 pt-8 pb-24 flex flex-col">
+        <div className="flex justify-between items-center">
+        <Link 
+          href="/#work" 
+          className="inline-flex items-center text-xs uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors duration-300"
+        >
+          ← Back to Work
+        </Link>
+          <span className="text-xs uppercase tracking-widest font-medium text-gray-500 font-sans">
+            Case Study · Visual Identity & Apparel Design
+          </span>
         </div>
+        {/* COMPONENT 1: HEADER & OVERVIEW */}
+        <XeniorOverview />
 
-        {/* Phase 4 & 5: Validation & Retrospective */}
-        <FeedbackSection />
-        <ReflectionSection />
+        {/* COMPONENT 2: DETAIL, DISCOVERY & EXECUTION */}
+        <XeniorDiscoveryExecution />
+
+        {/* COMPONENT 3: SUMMARY, VALIDATION & RETROSPECTIVE */}
+        <XeniorValidationSummary />
 
         {/* Closing Signature Section */}
         <div className="pt-20 border-t border-stone-300/60 text-center flex flex-col items-center max-w-3xl mx-auto gap-8">

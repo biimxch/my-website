@@ -58,7 +58,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="pt-20 max-w-6xl mx-auto px-6 py-24 border-t border-[#CCCCCC]"
+      className="w-full px-16 pt-8 pb-24 border-t border-[#CCCCCC]"
     >
       {/* ── Section Title ── */}
       {/* 🎯 ปักหมุด Ref ไว้ตรงหัวข้อนี้ เพื่อให้หน้าจอเลื่อนกลับมาตรงจุดนี้เวลาคลิกบนมือถือ */}

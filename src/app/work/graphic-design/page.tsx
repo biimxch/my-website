@@ -80,7 +80,7 @@ export default function CreativeProject() {
 
   return (
     <FadeIn delay={0}>
-      <div className="max-w-6xl mx-auto px-6 pt-32 pb-24 text-[#1a1a1a]">
+      <div className="w-full px-16 pt-8 pb-24 text-[#1a1a1a]">
         
         <ProjectHeader 
           title="GRAPHIC"

@@ -35,7 +35,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="pt-20 max-w-6xl mx-auto px-6 py-24 border-t border-[#e5e5e0]"
+      className="w-full px-16 pt-8 pb-24 border-t border-[#e5e5e0]"
     >
       {/* 📦 เริ่มต้น 2-Column Grid ตั้งแต่ด้านบน */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">

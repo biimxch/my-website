@@ -60,7 +60,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="pt-32 max-w-6xl mx-auto px-6 py-24 border-t border-[#e2e0da]"
+      className="w-full px-16 pt-8 pb-24 border-t border-[#e2e0da]"
     >
       <FadeIn delay={0}>
         <div className="mb-14">

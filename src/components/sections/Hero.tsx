@@ -12,31 +12,26 @@ export default function Hero() {
 
       <section
         id="contact"
-        className="pt-48 pb-24 max-w-6xl mx-auto px-6"
+        className="min-h-screen flex flex-col justify-center w-full px-16 pt-38 pb-24"
       >
         {/* Name Block */}
         <FadeIn delay={0}>
-          <div className="relative mb-2">
-            {/* "Chompunuch" — large, bold, blue */}
-            <h1 className="text-[clamp(4rem,9vw,7rem)] font-medium text-[#334FAE] leading-[0.9] tracking-tight">
+          <div className="relative h-[clamp(8rem,20vw,22rem)] w-full">
+            <h1 className="text-[clamp(3.5rem,11vw,10rem)] font-medium text-[#334FAE] leading-[0.9] tracking-tight absolute top-0 left-0">
               Chompunuch
             </h1>
-
-            {/* "Auttnam" — Pinyon Script, right-aligned, overlapping slightly */}
-            <div className="flex justify-end -mt-4">
-              <span
-                className="font-pinyon text-[clamp(4rem,11vw,8.5rem)] text-[#334FAE] leading-none"
-                style={{ letterSpacing: "0.01em" }}
-              >
-                Auttnam
-              </span>
-            </div>
+            <span
+              className="font-pinyon text-[clamp(4rem,13vw,12rem)] text-[#334FAE] leading-none absolute top-[clamp(3rem,6vw,6rem)] right-0"
+              style={{ letterSpacing: "0.01em" }}
+            >
+              Auttnam
+            </span>
           </div>
         </FadeIn>
 
         {/* Bottom row: Contact left / Location right */}
         <FadeIn delay={0.2}>
-          <div className="flex items-start justify-between mt-12 pt-6 ">
+          <div className="flex items-start justify-between mt-12 pt-2 ">
 
             {/* Left: Contact */}
             <div>

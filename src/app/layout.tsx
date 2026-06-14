@@ -30,13 +30,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="th" className={cn("scroll-smooth", montserrat.variable, prompt.variable, "font-sans", geist.variable)}>
-      <body 
-        className="bg-[#fafaf8] text-gray-900 antialiased"
+    <html
+      lang="th"
+      className={cn(
+        "scroll-smooth h-full",
+        montserrat.variable,
+        prompt.variable,
+        "font-sans",
+        geist.variable
+      )}
+    >
+      <body
+        className="h-full bg-[#fafaf8] text-gray-900 antialiased"
         // 💡 เราใช้ style กำหนดลำดับฟอนต์ตรงนี้แทนการตั้งค่าใน config ไปเลยครับ
         style={{ fontFamily: 'var(--font-montserrat), var(--font-prompt), sans-serif' }}
       >
-        {children}
+        <main className="min-h-screen flex flex-col">{children}</main>
       </body>
     </html>
   );
