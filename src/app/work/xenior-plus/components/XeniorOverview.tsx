@@ -6,126 +6,123 @@ import { motion } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { 
-      duration: 0.8, 
-      ease: [0.16, 1, 0.3, 1] as [number, number, number, number] 
-    } 
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number]
+    }
   }
 };
 
 export default function XeniorOverview() {
   return (
-    <div 
-      className="bg-[#FFFFFF] text-[#081F5C] selection:bg-[#D0E3FF] w-full px-16 pt-8 pb-24 flex flex-col gap-32"
-      style={{ fontFamily: "'Montserrat', sans-serif" }}
-    >
-      {/* Sub-section: Hero */}
-      <motion.section 
-        initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
-        className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center"
-      >
-        {/* Left Panel */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-[#081F5C] leading-none">
-            Xenior+ <br/>
-            <span className="font-pinyon text-[#7096D1] text-6xl md:text-7xl lg:text-8xl mt-2 block">Showcase</span>
-          </h1>
+    <div className="flex flex-col gap-8 md:gap-8">
 
-          <p className="text-lg text-[#081F5C]/90 font-medium leading-relaxed mt-4">
-            Redesigning Academic Project Management for Computer Engineering Faculties.
-          </p>
-          <p className="text-base text-[#081F5C]/70 leading-relaxed font-medium">
+      {/* Hero Title */}
+      <motion.div
+        initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
+        className="relative pt-4 md:pt-8"
+      >
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight text-[#334EAC] leading-none">
+          Xenior+{" "}
+          <span className="font-pinyon text-[clamp(2.5rem,8vw,6.5rem)] text-[#334EAC] leading-none">
+            Showcase
+          </span>
+        </h1>
+      </motion.div>
+
+      {/* Subtitle + Meta */}
+      <motion.div
+        initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
+        className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end border-b border-[#BAD6EB] pb-8 md:pb-10"
+      >
+        <div className="lg:col-span-7 space-y-3 md:space-y-4">
+          <h2 className="text-lg md:text-xl lg:text-2xl font-normal text-[#081F5C] leading-snug">
+            Redesigning Academic Project Management for Computer Engineering Faculties
+          </h2>
+          <p className="text-sm md:text-base text-stone-500 font-light leading-relaxed">
             From fragmented Excel-based grading to a centralized, role-aware platform — eliminating manual workflows and increasing academic search speed by 8.04x.
           </p>
-
-          {/* Metadata Grid */}
-          <div className="grid grid-cols-3 gap-6 mt-8 pt-8 border-t border-[#BAD6EB]/40">
-            <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#334EAC] block mb-2">My Role</span>
-              <span className="text-sm text-[#081F5C] font-bold block">UXR · UI · Code</span>
-            </div>
-            <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#334EAC] block mb-2">Timeline</span>
-              <span className="text-sm text-[#081F5C] font-bold block">2 Semesters</span>
-            </div>
-            <div>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-[#334EAC] block mb-2">Core Tech</span>
-              <span className="text-sm text-[#081F5C] font-bold block">Next.js · Tailwind</span>
-            </div>
-          </div>
         </div>
 
-        {/* Right Panel */}
-        <div className="lg:col-span-7">
-          <div className="aspect-[16/11] w-full overflow-hidden rounded-none border border-[#BAD6EB]/30 bg-[#F7F2EB]  relative group">
-            <Image
-              src="/images/xenior_plus.png"
-              alt="Xenior+ Academic Project Management Platform"
-              fill
-              sizes="(max-width: 1024px) 100vw, 750px"
-              className="w-full h-full object-cover "
-              priority
-            />
-          </div>
+        <div className="lg:col-span-5 flex flex-wrap gap-x-6 gap-y-4 lg:justify-end">
+          {[
+            { label: "My Role", value: "UXR · UI · Code" },
+            { label: "Timeline", value: "2 Semesters" },
+            { label: "Core Tech", value: "Next.js · Tailwind" },
+          ].map((item, idx) => (
+            <div key={idx}>
+              <p className="text-[10px] uppercase tracking-widest text-[#7096D1] font-bold mb-1">
+                {item.label}
+              </p>
+              <p className="text-sm font-medium text-[#081F5C]">{item.value}</p>
+            </div>
+          ))}
         </div>
-      </motion.section>
+      </motion.div>
 
-      {/* Sub-section: Metrics */}
-      <motion.section 
+      {/* Hero Image */}
+      <motion.div
         initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
-        className="flex flex-col gap-12"
+        className="w-full aspect-[4/3] sm:aspect-[16/9] overflow-hidden border border-[#BAD6EB]/30 bg-[#F7F2EB] relative"
       >
-        <div className="flex flex-col gap-2">
-          <span className="text-[10px] font-bold tracking-widest uppercase text-[#334EAC]">00 / Impact</span>
-          <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-[#081F5C] flex flex-wrap items-baseline gap-x-3">
-            Measurable 
-            <span className="font-serif italic text-[#7096D1] text-4xl md:text-5xl">& Outcomes</span>
-          </h2>
-        </div>
+        <Image
+          src="/images/xenior_plus.png"
+          alt="Xenior+ Academic Project Management Platform"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
+      </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 border-t border-[#BAD6EB]/40">
-          
-          {/* Metric 1 */}
-          <div className="py-10 md:pr-10 md:border-r border-[#BAD6EB]/40 flex flex-col gap-4 group">
-            <div className="text-[#334EAC] text-[10px] font-bold uppercase tracking-widest">Search Latency Optimization</div>
-            <div className="flex items-baseline gap-3 my-2">
-              <span className="text-sm line-through text-[#081F5C]/40">10.16s</span>
-              <span className="text-5xl md:text-6xl font-serif italic text-[#334EAC] group-hover:text-[#7096D1] transition-colors duration-500">1.26s</span>
+      {/* Metrics */}
+      <motion.div
+        initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
+        className="grid grid-cols-1 md:grid-cols-3 border-t border-b border-[#BAD6EB]/40"
+      >
+        {[
+          {
+            label: "Search Latency Optimization",
+            before: "10.16s",
+            value: "1.26s",
+            desc: <><strong className="font-bold text-[#081F5C]">8.04x Faster</strong> full-catalog data rendering via Meilisearch backend integration.</>
+          },
+          {
+            label: "Spreadsheet Dependency",
+            before: "Manual",
+            value: "0%",
+            desc: <>Removed <strong className="font-bold text-[#081F5C]">100% of external grading workflows</strong> by digitizing calculation rubrics.</>
+          },
+          {
+            label: "Validation Satisfaction",
+            before: "UAT Scale",
+            value: "High",
+            desc: <>Confirmed by <strong className="font-bold text-[#081F5C]">Expert Evaluators</strong> across Instructors, TAs, and Students.</>
+          },
+        ].map((metric, idx) => (
+          <div
+            key={idx}
+            className={`py-8 md:py-10 flex flex-col gap-3 md:gap-4 group border-b md:border-b-0 border-[#BAD6EB]/40
+              ${idx === 0 ? "md:pr-10 md:border-r border-[#BAD6EB]/40" : ""}
+              ${idx === 1 ? "md:px-10 md:border-r border-[#BAD6EB]/40" : ""}
+              ${idx === 2 ? "md:pl-10 border-b-0" : ""}
+            `}
+          >
+            <div className="text-[#334EAC] text-[10px] font-bold uppercase tracking-widest">{metric.label}</div>
+            <div className="flex items-baseline gap-3 my-1">
+              <span className="text-sm line-through text-[#081F5C]/40">{metric.before}</span>
+              <span className="text-4xl sm:text-5xl md:text-6xl font-serif italic text-[#334EAC] group-hover:text-[#7096D1] transition-colors duration-500">
+                {metric.value}
+              </span>
             </div>
-            <p className="text-base font-medium text-[#081F5C]/80 leading-relaxed">
-              <strong className="font-bold text-[#081F5C]">8.04x Faster</strong> full-catalog data rendering via Meilisearch backend integration.
-            </p>
+            <p className="text-sm md:text-base font-medium text-[#081F5C]/80 leading-relaxed">{metric.desc}</p>
           </div>
+        ))}
+      </motion.div>
 
-          {/* Metric 2 */}
-          <div className="py-10 md:px-10 md:border-r border-t md:border-t-0 border-[#BAD6EB]/40 flex flex-col gap-4 group">
-            <div className="text-[#334EAC] text-[10px] font-bold uppercase tracking-widest">Spreadsheet Dependency</div>
-            <div className="flex items-baseline gap-3 my-2">
-              <span className="text-sm line-through text-[#081F5C]/40">Manual</span>
-              <span className="text-5xl md:text-6xl font-serif italic text-[#334EAC] group-hover:text-[#7096D1] transition-colors duration-500">0%</span>
-            </div>
-            <p className="text-base font-medium text-[#081F5C]/80 leading-relaxed">
-              Removed <strong className="font-bold text-[#081F5C]">100% of external grading workflows</strong> by digitizing calculation rubrics.
-            </p>
-          </div>
-
-          {/* Metric 3 */}
-          <div className="py-10 md:pl-10 border-t md:border-t-0 border-[#BAD6EB]/40 flex flex-col gap-4 group">
-            <div className="text-[#334EAC] text-[10px] font-bold uppercase tracking-widest">Validation Satisfaction</div>
-            <div className="flex items-baseline gap-3 my-2">
-              <span className="text-sm text-[#081F5C]/40">UAT Scale</span>
-              <span className="text-5xl md:text-6xl font-serif italic text-[#334EAC] group-hover:text-[#7096D1] transition-colors duration-500">High</span>
-            </div>
-            <p className="text-base font-medium text-[#081F5C]/80 leading-relaxed">
-              Confirmed by <strong className="font-bold text-[#081F5C]">Expert Evaluators</strong> across Instructors, TAs, and Students.
-            </p>
-          </div>
-          
-        </div>
-      </motion.section>
     </div>
   );
 }
