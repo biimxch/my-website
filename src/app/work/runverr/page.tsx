@@ -1,66 +1,59 @@
+"use client";
+
+import RunverrOverview from "./components/RunverrOverview";
+import RunverrProcess from "./components/RunverrProcess";
 import Link from "next/link";
-import { projects } from "@/lib/data";
-import FadeIn from "@/components/ui/FadeIn";
 
 export default function RunverrProject() {
-  const project = projects.find(p => p.slug === 'runverr');
-
   return (
-    <FadeIn delay={0}>
-      <div className="max-w-5xl mx-auto px-6 pt-40 pb-24 animate-fade-in">
-        
-        <Link 
-          href="/#work" 
-          className="inline-flex items-center text-xs uppercase tracking-widest text-gray-400 hover:text-gray-900 mb-12 transition-colors duration-300"
-        >
-          ← Back to Work
-        </Link>
+    <main 
+      className="bg-[#FFFFFF] min-h-screen text-[#081F5C] antialiased selection:bg-[#D0E3FF]"
+      style={{ fontFamily: "'Montserrat', sans-serif" }}
+    >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Pinyon+Script&display=swap');
+        .font-pinyon { font-family: 'Pinyon Script', cursive; }
+      `}</style>
 
-        <h1 className="text-6xl font-light tracking-tight text-gray-900 mb-6">
-          {project?.title || "RUNVERR"}
-        </h1>
-        
-        <div className="flex flex-wrap gap-x-12 gap-y-6 border-t border-b border-[#e2e0da] py-6 mb-16 text-sm text-gray-900">
-          <div>
-            <p className="text-[10px] font-mono uppercase tracking-wider text-stone-400 mb-1">Role</p>
-            <p>Game Developer Intern</p>
-          </div>
-          <div>
-            <p className="text-[10px] font-mono uppercase tracking-wider text-stone-400 mb-1">Timeline</p>
-            <p>{project?.duration}</p>
-          </div>
-          <div>
-            <p className="text-[10px] font-mono uppercase tracking-wider text-stone-400 mb-1">Year</p>
-            <p>{project?.year}</p>
-          </div>
-          <div>
-            <p className="text-[10px] font-mono uppercase tracking-wider text-stone-400 mb-1">Category</p>
-            <p>{project?.category}</p>
-          </div>
+      <div className="w-full px-6 md:px-16 pt-6 md:pt-8 pb-24 flex flex-col">
+        {/* Top Nav */}
+        <div className="flex justify-between items-center mb-8 md:mb-12">
+          <Link
+            href="/#work"
+            className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-[#7096D1] hover:text-[#334EAC] transition-colors duration-300"
+          >
+            ← Back to Work
+          </Link>
+          <span className="text-xs font-bold uppercase tracking-widest text-[#334EAC]">
+            Game Development · Internship
+          </span>
         </div>
 
-        <div className="w-full aspect-[21/9] bg-[#e2e0da] mb-16 relative overflow-hidden flex items-center justify-center rounded-xl">
-           <span className="text-xs tracking-widest uppercase text-gray-500">Runverr Gameplay Image</span>
-        </div>
+        <div className="flex flex-col gap-20 md:gap-32">
+          <RunverrOverview />
+          <RunverrProcess />
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 text-gray-900">
-          <div className="md:col-span-4">
-            <h2 className="text-xs uppercase tracking-widest text-gray-400 mb-4 sticky top-24">
-              Overview
-            </h2>
-          </div>
-          <div className="md:col-span-8 space-y-8 text-lg font-light leading-relaxed">
-            <p>{project?.description}</p>
-            <p className="text-gray-500">
-              ความท้าทายของโปรเจกต์นี้คือการออกแบบ Core Game Loop ให้ผู้เล่นรู้สึกสนุกและท้าทายอยู่ตลอดเวลา 
-              ผมรับหน้าที่พัฒนา Logic หลักของเกมผ่าน Unreal Engine 5 Blueprints 
-              เช่น ระบบ High-score, การคำนวณหลอดพลังงาน (Energy), และการเพิ่มระดับความยาก (Progressive Difficulty) 
-              รวมไปถึงการจัดการ 3D UX/UI ให้ผู้เล่นมองเห็นไอเทมและสิ่งกีดขวางได้ชัดเจนแม้สภาพแวดล้อมในเกมจะเปลี่ยนไป
+          {/* Closing */}
+          <div className="pt-16 md:pt-20 border-t border-[#BAD6EB]/40 text-center flex flex-col items-center max-w-3xl mx-auto gap-6 md:gap-8">
+            <span className="font-pinyon text-6xl md:text-7xl text-[#BAD6EB] hover:text-[#334EAC] transition-colors duration-500 leading-none block">
+              Fin.
+            </span>
+            <p className="text-base md:text-lg text-[#081F5C]/80 leading-relaxed font-medium -mt-4">
+              Runverr was my first experience developing a complete game from start to finish — from the initial concept and core game loop, all the way to a fully functional PC build.
             </p>
+            <Link
+              href="/#work"
+              className="inline-flex items-center gap-3 bg-[#081F5C] text-[#FFF9F0] px-8 py-4 mt-4 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-[#334EAC] hover:shadow-lg transition-all duration-300"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Back to Work
+            </Link>
           </div>
         </div>
-        
       </div>
-    </FadeIn>
+    </main>
   );
 }
