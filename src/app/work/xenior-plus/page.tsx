@@ -2,8 +2,7 @@
 
 import React from "react";
 import XeniorOverview from "./components/XeniorOverview";
-import XeniorDiscoveryExecution from "./components/XeniorDiscoveryExecution";
-import XeniorValidationSummary from "./components/XeniorValidationSummary";
+import XeniorCaseStudy from "./components/XeniorCaseStudy";
 import Link from "next/link";
 
 export default function XeniorPlusCaseStudy() {
@@ -30,10 +29,7 @@ export default function XeniorPlusCaseStudy() {
         <XeniorOverview />
 
         {/* COMPONENT 2: DETAIL, DISCOVERY & EXECUTION */}
-        <XeniorDiscoveryExecution />
-
-        {/* COMPONENT 3: SUMMARY, VALIDATION & RETROSPECTIVE */}
-        <XeniorValidationSummary />
+        <XeniorCaseStudy />
 
         {/* Closing Signature Section */}
         <div className="pt-20 border-t border-stone-300/60 text-center flex flex-col items-center max-w-3xl mx-auto gap-8">

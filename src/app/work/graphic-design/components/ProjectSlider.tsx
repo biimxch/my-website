@@ -10,138 +10,121 @@ interface ProjectSliderProps {
 }
 
 export default function ProjectSlider({ items }: ProjectSliderProps) {
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [direction, setDirection] = useState<number>(1); // 1 = Next, -1 = Prev
-  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<number>(0);
+  const [lightboxData, setLightboxData] = useState<{ src: string; alt: string } | null>(null);
 
-  const nextSlide = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % items.length);
-  };
-
-  const prevSlide = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
-  };
-
-  // แอนิเมชันตอนเปลี่ยนรูปและข้อความแบบคลีน ๆ
-  const cubicEase = [0.25, 1, 0.5, 1] as const;
-  const slideVariants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 30 : -30,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      transition: { duration: 0.4, ease: cubicEase },
-    },
-    exit: (dir: number) => ({
-      x: dir > 0 ? -30 : 30,
-      opacity: 0,
-      transition: { duration: 0.3, ease: cubicEase },
-    }),
+  const getImageUrl = (imgStr: string) => {
+    return imgStr.startsWith("/") ? imgStr : `/images/${imgStr}`;
   };
 
   return (
-    <div className="relative">
-      {/* Slider Controls */}
-      <div className="flex justify-between items-center mb-8">
-        <div className="text-xs font-mono tracking-widest text-gray-400">
-          COLLECTION /{" "}
-          <span className="text-[#2b5a9e] font-bold">
-            {String(currentIndex + 1).padStart(2, "0")}
-          </span>{" "}
-          – {String(items.length).padStart(2, "0")}
-        </div>
-        <div className="flex gap-4">
-          <button
-            onClick={prevSlide}
-            className="w-10 h-10 border border-[#e2e0da] rounded-full flex items-center justify-center text-gray-400 hover:text-black hover:border-black transition-all duration-300 active:scale-95"
-            aria-label="Previous project"
+    <div className="relative flex flex-col lg:flex-row items-start w-full">
+      
+      {/* 🟢 LEFT SIDE: Sticky Sidebar (Desktop Only) - เท่ากันกับหน้าอื่น 100% */}
+      <div className="hidden lg:flex lg:w-5/12 sticky top-0 h-screen flex-col justify-start pt-20 pr-12 border-r border-[#e2e0da]/60">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeSection}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="flex flex-col gap-4"
           >
-            ←
-          </button>
-          <button
-            onClick={nextSlide}
-            className="w-10 h-10 border border-[#e2e0da] rounded-full flex items-center justify-center text-gray-400 hover:text-black hover:border-black transition-all duration-300 active:scale-95"
-            aria-label="Next project"
-          >
-            →
-          </button>
-        </div>
-      </div>
+            <div className="text-[10px] font-bold tracking-[0.3em] uppercase text-gray-400">
+              COLLECTION /{" "}
+              <span className="text-[#2b5a9e]">
+                {String(activeSection + 1).padStart(2, "0")}
+              </span>{" "}
+              – {String(items.length).padStart(2, "0")}
+            </div>
 
-      {/* Active Project Card Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start min-h-[480px]">
-        
-        {/* Left Column: Dynamic Text Details */}
-        <div className="md:col-span-6 overflow-hidden">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={currentIndex}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="space-y-6"
-            >
-              <h3 className="text-4xl md:text-5xl font-medium tracking-tight text-[#2b5a9e] leading-none">
-                {items[currentIndex].title}
-              </h3>
-              <div className="space-y-4 text-sm md:text-base font-light leading-relaxed text-gray-700">
+            <h2 className="text-5xl lg:text-6xl font-light tracking-tight text-[#2b5a9e] leading-none">
+              {items[activeSection]?.title}
+            </h2>
+
+            <div className="space-y-4 text-sm xl:text-base font-light leading-relaxed text-gray-700 mt-2">
+              {items[activeSection]?.concept && (
                 <p>
                   <strong className="block font-medium text-black mb-1">Concept:</strong>{" "}
-                  {items[currentIndex].concept}
+                  {items[activeSection].concept}
                 </p>
+              )}
+              {items[activeSection]?.front && (
                 <p>
                   <strong className="block font-medium text-black mb-1">Front:</strong>{" "}
-                  {items[currentIndex].front}
+                  {items[activeSection].front}
                 </p>
+              )}
+              {items[activeSection]?.back && (
                 <p>
                   <strong className="block font-medium text-black mb-1">Back:</strong>{" "}
-                  {items[currentIndex].back}
+                  {items[activeSection].back}
                 </p>
+              )}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* 🔵 RIGHT SIDE: Scrollable Content - ขยับเป็น 8/12 พร้อม pl-16 เท่าหน้าอื่น */}
+      <div className="w-full lg:w-7/12 flex flex-col lg:pl-16 pb-16 gap-16 lg:gap-28">
+        {items.map((item, idx) => {
+          const imgSrc = getImageUrl(item.image);
+
+          return (
+            <motion.section
+              key={idx}
+              onViewportEnter={() => setActiveSection(idx)}
+              viewport={{ margin: "-50% 0px -50% 0px" }}
+              className="flex flex-col gap-6 min-h-[50vh] lg:min-h-[80vh] justify-center py-10 border-b border-[#e2e0da]/40 lg:border-none last:border-none"
+            >
+              {/* Mobile Header */}
+              <div className="lg:hidden flex flex-col gap-4 border-b border-[#e2e0da]/40 pb-6">
+                <div className="text-[10px] font-bold tracking-[0.3em] uppercase text-gray-400">
+                  COLLECTION /{" "}
+                  <span className="text-[#2b5a9e]">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>{" "}
+                  – {String(items.length).padStart(2, "0")}
+                </div>
+                <h2 className="text-4xl font-light tracking-tight text-[#2b5a9e]">
+                  {item.title}
+                </h2>
+                <div className="space-y-3 text-sm font-light leading-relaxed text-gray-700 mt-2">
+                  {item.concept && (
+                    <p><strong className="font-medium text-black">Concept:</strong> {item.concept}</p>
+                  )}
+                  {item.front && (
+                    <p><strong className="font-medium text-black">Front:</strong> {item.front}</p>
+                  )}
+                  {item.back && (
+                    <p><strong className="font-medium text-black">Back:</strong> {item.back}</p>
+                  )}
+                </div>
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
 
-        {/* Right Column: Image Container */}
-        <div className="md:col-span-6 w-full aspect-square bg-[#f4f3ef]  relative shadow-sm border border-black/5">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.img
-              key={currentIndex}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              src={
-                items[currentIndex].image.startsWith("/")
-                  ? items[currentIndex].image
-                  : `/images/${items[currentIndex].image}`
-              }
-              alt={items[currentIndex].title}
-              className="w-full h-full object-cover object-center cursor-zoom-in"
-              onClick={() => setLightboxOpen(true)}
-            />
-          </AnimatePresence>
-        </div>
+              {/* Showcase Image Container */}
+              <div className="ww-full max-w-[600px] mx-auto aspect-square bg-[#f4f3ef] relative shadow-sm border border-black/5 rounded-none overflow-hidden group">
+                <img
+                  src={imgSrc}
+                  alt={item.title}
+                  className="w-full h-full object-cover object-center cursor-zoom-in transition-transform duration-500 group-hover:scale-[1.015]"
+                  onClick={() => setLightboxData({ src: imgSrc, alt: item.title })}
+                />
+              </div>
+            </motion.section>
+          );
+        })}
+      </div>
 
-      </div>
-        <Lightbox
-          src={
-            items[currentIndex].image.startsWith("/")
-              ? items[currentIndex].image
-              : `/images/${items[currentIndex].image}`
-          }
-          alt={items[currentIndex].title}
-          isOpen={lightboxOpen}
-          onClose={() => setLightboxOpen(false)}
-        />
-      </div>
-    );
+      {/* Lightbox Module */}
+      <Lightbox
+        src={lightboxData?.src || ""}
+        alt={lightboxData?.alt || ""}
+        isOpen={!!lightboxData}
+        onClose={() => setLightboxData(null)}
+      />
+    </div>
+  );
 }
-
