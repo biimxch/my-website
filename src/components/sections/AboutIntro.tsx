@@ -5,14 +5,14 @@ import FadeIn from "@/components/ui/FadeIn";
 export default function AboutIntro() {
   return (
     <section className="section-container pb-24">
-      <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-12 md:gap-16 items-start">
-        <FadeIn className="md:self-center">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 items-start">
+        <FadeIn className="lg:self-center">
           <div>
-            <h2 className="text-7xl md:text-7xl font-medium font-['Montserrat'] text-black leading-tight mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium font-['Montserrat'] text-black leading-tight mb-6">
               Hello,I&apos;m<br />
               {personal.name}.
             </h2>
-            <p className="text-base font-normal font-['Montserrat'] text-black leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base font-normal font-['Montserrat'] text-black leading-relaxed max-w-xl">
               I bridge the gap between aesthetics and functionality. With a
               background in computer engineering, I don&apos;t just design
               interfaces — I understand how they are built. From user-centered
@@ -30,7 +30,7 @@ export default function AboutIntro() {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="relative w-full max-w-sm ml-auto mr-0 aspect-[428/581] overflow-hidden">
+          <div className="relative w-full max-w-xs sm:max-w-sm lg:max-w-md mx-auto lg:ml-auto lg:mr-0 aspect-[428/581] overflow-hidden">
             <img
               src="/images/profile.jpg"
               alt={personal.name}

@@ -61,7 +61,7 @@ export default function CreativeProject() {
         {/* ================= TITLE + MENU BAR ================= */}
         <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-8">
           <h1 className="text-8xl md:text-8xl font-medium font-['Montserrat'] text-black leading-tight">
-            Other Interests{" "}
+            Other Works{" "}
           </h1>
 
           <nav className="border-t border-black/10">

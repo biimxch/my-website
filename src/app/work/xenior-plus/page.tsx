@@ -6,7 +6,7 @@ import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 
 const gallery = {
-  hero: "/images/xenior+/hero.jpg",
+  hero: "/images/xenior+/hero.png",
   full: "/images/xenior+/full-screen.svg",
   half1: "/images/xenior+/detail-1.jpg",
   half2: "/images/xenior+/detail-2.jpg",
