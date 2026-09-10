@@ -47,26 +47,100 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Type scale — ตาม Figma style guide (T1/H1/H2/H3/N1/P1/P2/P3) */
+  --font-size-p2: var(--fs-p2);
+  --font-size-p1: var(--fs-p1);
+  --font-size-h3: var(--fs-h3);
+  --font-size-p3: var(--fs-p3);
+  --font-size-h2: var(--fs-h2);
+  --font-size-n1: var(--fs-n1);
+  --font-size-h1: var(--fs-h1);
+  --font-size-t1: var(--fs-t1);
+  --font-size-logo: var(--fs-logo);
 }
 
 :root {
-  --background: #FFF9F0;
-  --foreground: #081F5C;
-  --card: #FFFFFF;
-  --card-foreground: #081F5C;
-  --primary: #334EAC;
-  --primary-foreground: #FFF9F0;
-  --secondary: #BAD6EB;
-  --secondary-foreground: #081F5C;
-  --muted: #F7F2EB;
-  --muted-foreground: #7096D1;
-  --accent: #D0E3FF;
-  --accent-foreground: #081F5C;
-  --border: #BAD6EB;
-  --input: #BAD6EB;
-  --ring: #334EAC;
-  --destructive: oklch(0.577 0.245 27.325);
-  --radius: 0.625rem;
+  --fs-p2: 14px;
+  --fs-p1: 16px;
+  --fs-p3: 20px;
+
+  --fs-h1: 40px;
+  --fs-h2: 24px;
+  --fs-h3: 16px;
+  --fs-n1: 24px;
+  --fs-t1: 60px;
+  --fs-logo: 48px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --fs-p2: 13px;
+    --fs-p1: 15px;
+    --fs-p3: 17px;
+
+    --fs-h1: 28px;
+    --fs-h2: 20px;
+    --fs-h3: 15px;
+    --fs-n1: 20px;
+    --fs-t1: 40px;
+    --fs-logo: 32px;
+  }
+}
+
+.section-container {
+  width: min(1120px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: 384px 640px;
+  column-gap: 96px;
+  align-items: start;
+}
+
+.project-image {
+  width: 640px;
+  height: 384px;
+  position: relative;
+  overflow: hidden;
+  background: #666;
+}
+
+@media (max-width: 1200px) {
+  .section-container {
+    width: min(1120px, calc(100% - 64px));
+  }
+
+  .project-grid {
+    grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr);
+    column-gap: clamp(32px, 6vw, 96px);
+  }
+
+  .project-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-container {
+    width: min(100% - 40px, 600px);
+  }
+
+  .project-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .project-image {
+    width: 100%;
+    aspect-ratio: 5 / 3;
+    height: auto;
+  }
 }
 
 @layer base {
@@ -112,4 +186,3 @@
     background-color: var(--color-brand-muted);
   }
 }
-
