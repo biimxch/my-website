@@ -1,70 +1,61 @@
-import Image from "next/image";
-import { projects } from "@/lib/data";
+"use client";
 
-type Project = (typeof projects)[number];
+import { motion } from "framer-motion";
+import { projects } from "@/lib/data";
+import { CardsParallax, type iCardItem } from "@/components/ui/scroll-card";
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Projects() {
+  const cardItems: iCardItem[] = projects.map((project) => ({
+    title: project.title,
+    description:
+      project.description ||
+      "A focused collection of work and creative experiment.",
+    tag: project.category,
+    year: project.year,
+    src:
+      project.coverImage ||
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe",
+    link: `/work/${project.slug}`,
+    color: "#18181b",
+    textColor: "white",
+  }));
+
   return (
-    <section id="projects" className="px-5 py-12">
-      <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-2">
-        <div className="flex items-center justify-between mb-12">
-          <h2 className="text-4xl sm:text-5xl font-medium font-['Montserrat'] text-black">
-            work.
-          </h2>
+    <section id="projects" className="relative bg-white py-32">
+      <div className="mx-auto w-full max-w-[1200px] px-8">
+        {/* Big WORK */}
+        <motion.h2
+          className="font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease }}
+        >
+          work.
+        </motion.h2>
 
-          <button
-            type="button"
-            className="bg-[#f1f1f1] px-8 py-5 text-base font-medium font-['Montserrat'] text-black transition-opacity hover:opacity-70"
-          >
-            Show More
-          </button>
-        </div>
+        {/* Description */}
+        <motion.div
+          className="mt-24 flex justify-end"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, delay: 0.15, ease }}
+        >
+          <p className="max-w-2xl font-['Montserrat'] text-base leading-relaxed text-neutral-500 md:text-lg">
+            A focused collection of work spanning brand identity, web design,
+            and technical experiments. Each project starts with a question
+            about people — and ends with something built to be understood.
+          </p>
+        </motion.div>
+      </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
+      {/* Projects */}
+      <div className="mt-10">
+        <CardsParallax items={cardItems} />
       </div>
     </section>
-  );
-}
-
-function ProjectCard({ project }: { project: Project }) {
-  return (
-    <a
-      href={`/work/${project.slug}`}
-      className="group relative flex aspect-[4/3] w-full overflow-hidden bg-zinc-100 shadow-lg"
-    >
-      {/* รูปภาพ */}
-      {project.coverImage && (
-        <Image
-          src={project.coverImage}
-          alt={project.title}
-          fill
-          sizes="(max-width: 640px) 100vw, 522px"
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.08]"
-        />
-      )}
-
-      {/* Gradient Overlay (จะค่อยๆ ปรากฏขึ้นเมื่อ Hover) */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
-
-      {/* ส่วนของตัวหนังสือ (จะค่อยๆ ปรากฏขึ้นเมื่อ Hover และเปลี่ยนสีเป็นสีขาว) */}
-      <div className="absolute inset-x-0 bottom-0 flex w-full items-end justify-between gap-4 p-6 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 z-10">
-        <div className="flex flex-col gap-1">
-          <h3 className="font-['Montserrat'] text-2xl font-medium text-white">
-            {project.title}
-          </h3>
-          <span className="font-['Montserrat'] text-sm font-base text-gray-200">
-            {project.year}
-          </span>
-        </div>
-
-        <p className="font-['Montserrat'] text-right text-base font-normal text-gray-200">
-          {project.category}
-        </p>
-      </div>
-    </a>
   );
 }

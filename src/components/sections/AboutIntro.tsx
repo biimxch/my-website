@@ -1,50 +1,80 @@
-import Link from "next/link";
-import { personal } from "@/lib/data";
-import FadeIn from "@/components/ui/FadeIn";
+"use client";
+
+import { motion } from "framer-motion";
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function AboutIntro() {
   return (
-    <section className="section-container pb-24">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-12">
-        <h2 className="text-4xl sm:text-5xl font-medium font-['Montserrat'] text-black">
-          about.
-        </h2>
-
-        <button
-          type="button"
-          className="bg-[#f1f1f1] px-8 py-5 text-base font-medium font-['Montserrat'] text-black transition-opacity hover:opacity-70"
+    <section className="min-h-screen bg-white py-32">
+      <div className="mx-auto flex min-h-[70vh] w-full max-w-[1200px] px-8 flex-col justify-between">
+        
+        {/* Big HELLO */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease }}
         >
-          Show More
-        </button>
-      </div>
+          <h2 className="font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
+            Hello.
+          </h2>
+        </motion.div>
 
-      {/* Original layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 items-start">
-        <FadeIn className="lg:self-center">
-          <div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium font-['Montserrat'] text-black leading-tight mb-6">
-              Hello,I&apos;m
-              <br />
-              {personal.name}.
-            </h2>
-
-            <p className="text-sm sm:text-base font-normal font-['Montserrat'] text-black leading-relaxed max-w-xl">
-              I bridge design and technology to create intuitive, engaging digital experiences. With a background in computer engineering, I combine UX/UI design with frontend development using React and Next.js.
+        {/* Intro */}
+        <div className="mt-24 grid grid-cols-1 gap-12 md:grid-cols-[1fr_1.5fr] md:items-end">
+          
+          {/* Small label */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, delay: 0.15, ease }}
+            className="border-l border-neutral-300 pl-4"
+          >
+            <p className="font-['Montserrat'] text-xs uppercase tracking-[0.25em] text-neutral-400">
+              A little about me
             </p>
-          </div>
-        </FadeIn>
+          </motion.div>
 
-        {/* รูปใช้โค้ดเดิมทุกอย่าง */}
-        <FadeIn delay={0.1}>
-          <div className="relative w-full max-w-xs sm:max-w-sm lg:max-w-md mx-auto lg:ml-auto lg:mr-0 aspect-[428/581] overflow-hidden">
-            <img
-              src="/images/profile.jpg"
-              alt={personal.name}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </FadeIn>
+          {/* Bio */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, delay: 0.25, ease }}
+          >
+            <p className="max-w-3xl font-['Montserrat'] text-xl font-normal leading-relaxed text-neutral-800 md:text-2xl">
+              I&apos;m a Computer Engineering graduate who enjoys turning
+              complex ideas into clear, intuitive digital experiences.
+            </p>
+
+            <p className="mt-6 max-w-2xl font-['Montserrat'] text-base leading-relaxed text-neutral-500 md:text-lg">
+              I work across UX/UI design and frontend development, with an
+              interest in creating digital products that are both thoughtful
+              and functional.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Bottom metadata */}
+        {/* <motion.div
+          className="mt-20 flex flex-col gap-4 border-t border-black/10 pt-6 font-['Montserrat'] text-xs uppercase tracking-[0.18em] text-neutral-400 md:flex-row md:items-center md:justify-between"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.4, ease }}
+        >
+          <span>UX/UI · Frontend · Product Thinking</span>
+          <span>Thailand · 2026</span>
+        </motion.div> */}
       </div>
     </section>
   );
