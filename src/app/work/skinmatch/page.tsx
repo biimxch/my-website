@@ -16,9 +16,9 @@ const gallery = {
 };
 
 const moreProjects = [
-  { name: "Xenior+", image: "/images/projects/xenior-thumb.jpg", href: "/work/xenior-plus" },
-  { name: "Runverr", image: "/images/projects/runverr-thumb.jpg", href: "/work/runverr" },
-  { name: "Portfolio Site", image: "/images/projects/portfolio-thumb.jpg", href: "/work/portfolio-site" },
+  { name: "Xenior+", image: "/images/xenior+/xenior_thump.png", href: "/work/xenior-plus" },
+  { name: "Runverr", image: "/images/runverr/runrun.png", href: "/work/runverr" },
+  { name: "Graphic Design", image: "/images/projects/graphic-thumb.jpg", href: "/work/otherwork" },
 ];
 
 const meta = [
@@ -153,6 +153,24 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
+// ---------------------------------------------------------
+// Component สำหรับทำ Fade-in ตอน Scroll
+// ---------------------------------------------------------
+function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.7, ease: "easeOut", delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+// ---------------------------------------------------------
+
 export default function SkinMatchProject() {
   const [activeFlow, setActiveFlow] = useState<FlowType>("user");
 
@@ -166,13 +184,9 @@ export default function SkinMatchProject() {
       <Navbar />
 
       <div className="section-container pt-[clamp(6rem,10vw,9rem)] pb-24">
-        {/* ================= HERO BANNER =================
-        <div className="w-full aspect-[1120/549] bg-[#f5f5f5] overflow-hidden mb-20">
-          <img src={gallery.hero} alt="SkinMatch hero" className="w-full h-full object-cover" />
-        </div> */}
-
+        
         {/* ================= TITLE + DESCRIPTION ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-12">
+        <FadeIn className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-12">
           <h1 className="text-8xl md:text-8xl font-medium font-['Montserrat'] text-black leading-tight">
             SkinMatch{" "}
           </h1>
@@ -183,24 +197,24 @@ export default function SkinMatchProject() {
             elegant, user-friendly, and actionable compatibility resolution
             engine.
           </p>
-        </div>
+        </FadeIn>
 
         {/* ================= META INFO ================= */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-32 pb-12 border-b border-[#bdbdbd]/40">
           {meta.map((m, i) => (
-            <div key={i}>
+            <FadeIn key={i} delay={i * 0.1}>
               <p className="text-xs uppercase tracking-widest text-[#666666] font-['Montserrat'] mb-2">
                 {m.label}
               </p>
               <p className="text-sm text-[#111111] font-['Montserrat'] leading-relaxed">
                 {m.value}
               </p>
-            </div>
+            </FadeIn>
           ))}
         </div>
 
         {/* ================= MEDIA GALLERY ================= */}
-        <div className="flex flex-col gap-16 md:gap-20 mb-32">
+        <FadeIn className="flex flex-col gap-16 md:gap-20 mb-32">
           <div className="w-full aspect-[1124/629] bg-[#f5f5f5] overflow-hidden">
             <img src={gallery.full} alt="SkinMatch design system" className="w-full h-full object-cover" />
           </div>
@@ -212,148 +226,188 @@ export default function SkinMatchProject() {
               <img src={gallery.half2} alt="SkinMatch supplier flow" className="w-full h-full object-cover" />
             </div>
           </div>
-        </div>
+        </FadeIn>
 
         {/* ================= MARKET INSIGHT & DISCOVERY ================= */}
         <div className="mb-32">
-          <SectionHeading>Market Insight &amp; Discovery</SectionHeading>
-          <p className="pl-8 md:pl-24 text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
-            The primary objective of this project was to design a structured
-            and highly legible data model for complex skincare products. I
-            dedicated the majority of my time to Requirement Elicitation as a
-            Business Analyst, while simultaneously functioning as the UX/UI
-            Designer to establish a clear visual hierarchy. This culminated
-            in a high-fidelity Figma prototype tailored for real-world
-            e-commerce usability.
-          </p>
+          <FadeIn>
+            <SectionHeading>Market Insight &amp; Discovery</SectionHeading>
+          </FadeIn>
+          <FadeIn>
+            <p className="pl-8 md:pl-24 text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
+              The primary objective of this project was to design a structured
+              and highly legible data model for complex skincare products. I
+              dedicated the majority of my time to Requirement Elicitation as a
+              Business Analyst, while simultaneously functioning as the UX/UI
+              Designer to establish a clear visual hierarchy. This culminated
+              in a high-fidelity Figma prototype tailored for real-world
+              e-commerce usability.
+            </p>
+          </FadeIn>
         </div>
 
         {/* ================= STRATEGIC PRIORITIZATION (PAIN POINTS) ================= */}
         <div className="mb-32">
-          <SectionHeading>Strategic Prioritization</SectionHeading>
+          <FadeIn>
+            <SectionHeading>Strategic Prioritization</SectionHeading>
+          </FadeIn>
           <div className="pl-8 md:pl-24 space-y-8">
             {painPoints.map((p, i) => (
-              <div key={i} className="flex gap-4">
-                <span className="text-xl font-semibold font-['Montserrat'] text-[#333333] shrink-0">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-1">
-                    {p.title}
-                  </p>
-                  <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
-                    {p.detail}
-                  </p>
+              <FadeIn key={i} delay={0.1}>
+                <div className="flex gap-4">
+                  <span className="text-xl font-semibold font-['Montserrat'] text-[#333333] shrink-0">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-1">
+                      {p.title}
+                    </p>
+                    <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
+                      {p.detail}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
 
         {/* ================= UI DESIGN SYSTEM ================= */}
         <div className="mb-32">
-          <SectionHeading>UI Design System</SectionHeading>
+          <FadeIn>
+            <SectionHeading>UI Design System</SectionHeading>
+          </FadeIn>
           <div className="pl-8 md:pl-24 space-y-8">
             {designSystem.map((d, i) => (
-              <div key={i}>
+              <FadeIn key={i} delay={0.1}>
                 <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-1">
                   {d.title}
                 </p>
                 <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
                   {d.detail}
                 </p>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
 
         {/* ================= CORE USER FLOWS ================= */}
         <div className="mb-32">
-          <SectionHeading>Core User Flows</SectionHeading>
+          <FadeIn>
+            <SectionHeading>Core User Flows</SectionHeading>
+          </FadeIn>
           <div className="pl-8 md:pl-24">
-            <div className="flex gap-6 border-b border-[#bdbdbd]/40 pb-4 mb-6">
-              {(["user", "supplier"] as FlowType[]).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveFlow(tab)}
-                  className={`text-xs uppercase tracking-[0.2em] transition-colors duration-300 pb-1 border-b-2 ${
-                    activeFlow === tab
-                      ? "text-[#111111] font-bold border-[#333333]"
-                      : "text-[#666666] hover:text-[#333333] border-transparent"
-                  }`}
-                >
-                  {tab === "user" ? "User Perspective" : "Supplier Portal"}
-                </button>
-              ))}
-            </div>
-            <div className="min-h-[140px] bg-[#f5f5f5]/40 p-6 rounded-2xl border border-[#bdbdbd]/30">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeFlow}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {flowViews[activeFlow]}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+            <FadeIn>
+              <div className="flex gap-6 border-b border-[#bdbdbd]/40 pb-4 mb-6">
+                {(["user", "supplier"] as FlowType[]).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveFlow(tab)}
+                    className={`text-xs uppercase tracking-[0.2em] transition-colors duration-300 pb-1 border-b-2 ${
+                      activeFlow === tab
+                        ? "text-[#111111] font-bold border-[#333333]"
+                        : "text-[#666666] hover:text-[#333333] border-transparent"
+                    }`}
+                  >
+                    {tab === "user" ? "User Perspective" : "Supplier Portal"}
+                  </button>
+                ))}
+              </div>
+            </FadeIn>
+            <FadeIn>
+              <div className="min-h-[140px] bg-[#f5f5f5]/40 p-6 rounded-2xl border border-[#bdbdbd]/30">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeFlow}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {flowViews[activeFlow]}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </FadeIn>
           </div>
         </div>
 
         {/* ================= TRADE-OFFS & DELIVERY ================= */}
         <div className="mb-32">
-          <SectionHeading>Trade-offs &amp; Delivery</SectionHeading>
+          <FadeIn>
+            <SectionHeading>Trade-offs &amp; Delivery</SectionHeading>
+          </FadeIn>
           <div className="pl-8 md:pl-24">
             <div className="space-y-8 mb-10">
               {technicalCompromises.map((t, i) => (
-                <div key={i} className="flex gap-4">
-                  <span className="text-xl font-semibold font-['Montserrat'] text-[#333333] shrink-0">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-1">
-                      {t.title}
-                    </p>
-                    <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
-                      {t.detail}
-                    </p>
+                <FadeIn key={i} delay={0.1}>
+                  <div className="flex gap-4">
+                    <span className="text-xl font-semibold font-['Montserrat'] text-[#333333] shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-1">
+                        {t.title}
+                      </p>
+                      <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
+                        {t.detail}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </FadeIn>
               ))}
             </div>
-            <div className="pl-6 md:pl-8 border-l-2 border-[#bdbdbd] py-2">
-              <p className="text-lg md:text-xl text-[#111111]/90 font-light leading-relaxed italic">
-                Simplifying the UI design to align with the development
-                team's time constraints demonstrated strong adaptability and
-                effective cross-functional collaboration between Design and
-                Engineering.
-                <span className="block font-['Montserrat'] font-bold text-[10px] text-[#666666] uppercase tracking-[0.3em] mt-4 not-italic">
-                  — Reflection Takeaway
-                </span>
-              </p>
-            </div>
+            <FadeIn>
+              <div className="pl-6 md:pl-8 border-l-2 border-[#bdbdbd] py-2">
+                <p className="text-lg md:text-xl text-[#111111]/90 font-light leading-relaxed italic">
+                  Simplifying the UI design to align with the development
+                  team's time constraints demonstrated strong adaptability and
+                  effective cross-functional collaboration between Design and
+                  Engineering.
+                  <span className="block font-['Montserrat'] font-bold text-[10px] text-[#666666] uppercase tracking-[0.3em] mt-4 not-italic">
+                    — Reflection Takeaway
+                  </span>
+                </p>
+              </div>
+            </FadeIn>
           </div>
         </div>
 
         {/* ================= MORE PROJECTS ================= */}
         <div>
-          <SectionHeading>More Projects</SectionHeading>
+          <FadeIn>
+            <SectionHeading>More Projects</SectionHeading>
+          </FadeIn>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
             {moreProjects.map((project, i) => (
-              <Link key={i} href={project.href} className="group block">
-                <div className="w-full aspect-[341/246] bg-[#f5f5f5] overflow-hidden mb-3">
+              <FadeIn key={i} delay={i * 0.15}>
+                {/* 
+                  แก้ปัญหาเด้งไปบนสุด: เติม scroll={false} ใน Link 
+                  เพื่อให้ตอนกดเปลี่ยนหน้า มันจะไม่เด้งขึ้นบน แล้วรอให้ template.tsx ตัวใหม่เฟดขึ้นมา
+                */}
+                <Link
+                  href={project.href}
+                  scroll={false}
+                  className="group relative block aspect-[341/246] w-full overflow-hidden bg-stone-200 shadow-lg"
+                >
+                  {/* รูปภาพ */}
                   <img
                     src={project.image}
                     alt={project.name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.08]"
                   />
-                </div>
-                <p className="text-base font-normal font-['Montserrat'] text-[#111111]">
-                  {project.name}
-                </p>
-              </Link>
+
+                  {/* Gradient Overlay (ค่อยๆ ปรากฏตอน Hover) */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
+
+                  {/* ชื่อโปรเจกต์ (ปรากฏพร้อม gradient ตอน Hover เปลี่ยนเป็นสีขาว) */}
+                  <div className="absolute inset-x-0 bottom-0 flex w-full items-end justify-between gap-4 p-5 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 z-10">
+                    <p className="font-['Montserrat'] text-base font-normal text-white">
+                      {project.name}
+                    </p>
+                  </div>
+                </Link>
+              </FadeIn>
             ))}
           </div>
         </div>

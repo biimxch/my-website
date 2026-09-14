@@ -108,6 +108,47 @@
   background: #666;
 }
 
+.scroll-image-reveal > :first-child {
+  grid-column: 1 / -1;
+}
+
+.scroll-reveal-container {
+  min-width: 0;
+}
+
+.scroll-reveal-mask {
+  width: 100%;
+  overflow: hidden;
+  clip-path: inset(12% 12% 12% 12% round 20px);
+  transition: clip-path 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-reveal-mask img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.12);
+  transition: opacity 700ms ease, transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-reveal-container.is-visible .scroll-reveal-mask {
+  clip-path: inset(0 round 0px);
+}
+
+.scroll-reveal-container.is-visible .scroll-reveal-mask img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal-mask,
+  .scroll-reveal-mask img {
+    transition-duration: 1ms;
+  }
+}
+
 @media (max-width: 1200px) {
   .section-container {
     width: min(1120px, calc(100% - 64px));

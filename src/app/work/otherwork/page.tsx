@@ -102,18 +102,28 @@ export default function CreativeProject() {
       <AnimatePresence mode="wait">
         <motion.div
           key={selectedSector}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          // ถอด initial/animate ของ parent ออก ให้มันจัดการแค่จังหวะ exit พอ
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: 0.2 }}
           className="columns-2 md:columns-3 gap-4 md:gap-6 pt-4 pb-16 md:pb-24 px-4 md:px-8"
         >
           {displayedItems.map((item) => {
             const imgSrc = getImageUrl(item.image);
+            
+            // 🎲 สร้าง Delay แบบสุ่มเทียมด้วยสมการ Modulo
+            // (เลข 6 คือค่าช่วง delay สูงสุด ยิ่งเยอะ ยิ่งมีความห่างเวลาสุ่ม)
+            const randomDelay = (item.id % 6) * 0.1;
 
             return (
-              <div
+              <motion.div
                 key={item.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: randomDelay, // ใส่ค่า delay ที่สุ่มได้
+                  ease: "easeOut" 
+                }}
                 className="break-inside-avoid relative group cursor-zoom-in mb-4 md:mb-6"
                 onClick={() => setLightboxData({ src: imgSrc, alt: item.title })}
               >
@@ -127,7 +137,7 @@ export default function CreativeProject() {
                     {item.title}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </motion.div>

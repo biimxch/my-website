@@ -2,20 +2,24 @@
 
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion"; // เพิ่มการ import framer-motion
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 
 const gallery = {
   hero: "/images/runverr/hero.jpg",
   full: "/images/runverr/runrun.png",
-  half1: "/images/runverr/demo-day.jpg",
-  half2: "/images/runverr/ui-detail.jpg",
+  half1: "/images/runverr/runver_ipad.png",
+  half2: "/images/runverr/run_night.png",
+  workflow: "/images/runverr/runverr_flow.jpg",
+  fivecore: "/images/runverr/fivecore.png",
+  UE5: "/images/runverr/UE5.jpg",
 };
 
 const moreProjects = [
-  { name: "Xenior+", image: "/images/projects/xenior-thumb.jpg", href: "/work/xenior-plus" },
-  { name: "Graphic Design", image: "/images/projects/graphic-thumb.jpg", href: "/work/graphic-design" },
-  { name: "Portfolio Site", image: "/images/projects/portfolio-thumb.jpg", href: "/work/portfolio-site" },
+  { name: "Xenior+", image: "/images/xenior+/xenior_thump.png", href: "/work/xenior-plus" },
+  { name: "Skinmatch", image: "/images/skinmatch/skinm1.png", href: "/work/skinmatch" },
+  { name: "Graphic Design", image: "/images/projects/graphic-thumb.jpg", href: "/work/otherwork" },
 ];
 
 const meta = [
@@ -98,6 +102,24 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
+// ---------------------------------------------------------
+// Component สำหรับทำ Fade-in ตอน Scroll (เหมือนหน้าก่อนๆ)
+// ---------------------------------------------------------
+function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.7, ease: "easeOut", delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+// ---------------------------------------------------------
+
 export default function RunverrProject() {
   return (
     <main className="bg-white min-h-screen text-[#111111] antialiased selection:bg-[#e5e5e5]">
@@ -109,13 +131,9 @@ export default function RunverrProject() {
       <Navbar />
 
       <div className="section-container pt-[clamp(6rem,10vw,9rem)] pb-24">
-        {/* ================= HERO BANNER =================
-        <div className="w-full aspect-[1120/549] bg-[#F7F2EB] overflow-hidden mb-20">
-          <img src={gallery.hero} alt="Runverr hero" className="w-full h-full object-cover" />
-        </div> */}
-
+        
         {/* ================= TITLE + DESCRIPTION ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-12">
+        <FadeIn className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-12">
           <h1 className="text-8xl md:text-8xl font-medium font-['Montserrat'] text-black leading-tight">
             Runverr{" "}
           </h1>
@@ -126,24 +144,24 @@ export default function RunverrProject() {
             Energy, Items, Day/Night Cycle, and High Score functionality,
             built for PC.
           </p>
-        </div>
+        </FadeIn>
 
         {/* ================= META INFO ================= */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-32 pb-12 border-b border-[#bdbdbd]/40">
           {meta.map((m, i) => (
-            <div key={i}>
+            <FadeIn key={i} delay={i * 0.1}>
               <p className="text-xs uppercase tracking-widest text-[#666666] font-['Montserrat'] mb-2">
                 {m.label}
               </p>
               <p className="text-sm text-[#111111] font-['Montserrat'] leading-relaxed">
                 {m.value}
               </p>
-            </div>
+            </FadeIn>
           ))}
         </div>
 
         {/* ================= MEDIA GALLERY ================= */}
-        <div className="flex flex-col gap-16 md:gap-20 mb-32">
+        <FadeIn className="flex flex-col gap-16 md:gap-20 mb-32">
           <div className="w-full aspect-[1124/629] bg-[#F7F2EB] overflow-hidden">
             <img src={gallery.full} alt="Runverr gameplay" className="w-full h-full object-cover" />
           </div>
@@ -155,165 +173,228 @@ export default function RunverrProject() {
               <img src={gallery.half2} alt="Runverr UI detail" className="w-full h-full object-cover" />
             </div>
           </div>
-        </div>
+        </FadeIn>
 
         {/* ================= THE STORY BEHIND THE RUN ================= */}
         <div className="mb-32">
-          <SectionHeading>The Story Behind the Run</SectionHeading>
+          <FadeIn>
+            <SectionHeading>The Story Behind the Run</SectionHeading>
+          </FadeIn>
           <div className="pl-8 md:pl-24">
-            <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed mb-10">
-              The character is a university freshman — experiencing growth
-              while facing obstacles like difficult lessons and life
-              challenges, which can be overcome with perseverance.
-            </p>
+            <FadeIn>
+              <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed mb-10">
+                The character is a university freshman — experiencing growth
+                while facing obstacles like difficult lessons and life
+                challenges, which can be overcome with perseverance.
+              </p>
+            </FadeIn>
             <div className="space-y-8">
               {storyPoints.map((p, i) => (
-                <div key={i} className="flex gap-4">
+                <FadeIn key={i} delay={0.1}>
+                  <div className="flex gap-4">
+                    <span className="text-xl font-semibold font-['Montserrat'] text-[#333333] shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-1">
+                        {p.title}
+                      </p>
+                      <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
+                        {p.detail}
+                      </p>
+                    </div>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ================= UE5 ================= */}
+        <FadeIn className="flex flex-col gap-16 md:gap-20 mb-32">
+          <div className="w-full aspect-[1124/629] bg-[#F7F2EB] overflow-hidden">
+            <img src={gallery.UE5} alt="RunverrUE5" className="w-full h-full object-cover" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-[0.9fr_1.1fr] items-stretch gap-8 md:gap-10">
+            <div className="w-full aspect-[3/2] bg-[#f2f2f2] overflow-hidden ">
+              <img src={gallery.workflow} alt="Runverr workflow" className="w-full h-full object-contain" />
+            </div>
+            <div className="flex w-full aspect-[3/2] md:aspect-auto items-center justify-center bg-[#ff4f10] overflow-hidden">
+              <img src={gallery.fivecore} alt="Runverr FiveCore" className="w-full h-full object-contain" />
+            </div>
+          </div>
+        </FadeIn>
+
+        {/* ================= WHAT I BUILT ================= */}
+        <div className="mb-32">
+          <FadeIn>
+            <SectionHeading>What I Built</SectionHeading>
+          </FadeIn>
+          <ul className="pl-8 md:pl-24 space-y-3">
+            {features.map((f, i) => (
+              <FadeIn key={i} delay={i * 0.1}>
+                <li className="flex items-start gap-3 text-base font-normal font-['Montserrat'] text-[#111111] leading-relaxed">
+                  <span className="mt-2.5 w-1 h-1 rounded-full bg-[#111111] shrink-0" />
+                  {f}
+                </li>
+              </FadeIn>
+            ))}
+          </ul>
+        </div>
+        
+        
+        
+
+
+        {/* ================= DEMO DAY & DELIVERY ================= */}
+        <div className="mb-32">
+          <FadeIn>
+            <SectionHeading>Demo Day &amp; Delivery</SectionHeading>
+          </FadeIn>
+          <div className="pl-8 md:pl-24">
+            <FadeIn>
+              <p className="text-base font-normal font-['Montserrat'] text-[#111111]/90 leading-relaxed mb-6">
+                On July 25, 2025, the completed Runverr mini-game was presented
+                to professors from both the Media Arts and Computer Engineering
+                faculties — the game was successfully built and playable as a
+                PC Package.
+              </p>
+            </FadeIn>
+            <div className="space-y-3">
+              {demoChecklist.map((item, i) => (
+                <FadeIn key={i} delay={i * 0.1}>
+                  <div className="flex items-start gap-3">
+                    <span className="font-serif italic text-[#666666] text-lg leading-none shrink-0">✓</span>
+                    <p className="text-base font-normal font-['Montserrat'] text-[#111111]/80 leading-relaxed">
+                      {item}
+                    </p>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ================= WORK VIDEO ================= */}
+        <div className="mb-32">
+          <FadeIn>
+            <video
+              src="/images/runverr/runverr-demo.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full aspect-video object-cover rounded-lg shadow-md"
+            />
+          </FadeIn>
+        </div>
+        
+        {/* ================= WHAT WAS HARD ================= */}
+        <div className="mb-32">
+          <FadeIn>
+            <SectionHeading>What Was Hard</SectionHeading>
+          </FadeIn>
+          <div className="pl-8 md:pl-24 space-y-8">
+            {challenges.map((c, i) => (
+              <FadeIn key={i} delay={0.1}>
+                <div className="flex gap-4">
                   <span className="text-xl font-semibold font-['Montserrat'] text-[#333333] shrink-0">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
                     <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-1">
-                      {p.title}
+                      {c.title}
                     </p>
                     <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
-                      {p.detail}
+                      {c.detail}
                     </p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ================= WHAT I BUILT ================= */}
-        <div className="mb-32">
-          <SectionHeading>What I Built</SectionHeading>
-          <ul className="pl-8 md:pl-24 space-y-3">
-            {features.map((f, i) => (
-              <li key={i} className="flex items-start gap-3 text-base font-normal font-['Montserrat'] text-[#111111] leading-relaxed">
-                <span className="mt-2.5 w-1 h-1 rounded-full bg-[#111111] shrink-0" />
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* ================= METRICS ================= */}
-        <div className="mb-32">
-          <SectionHeading>Development Metrics</SectionHeading>
-          <div className="pl-8 md:pl-24 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {metrics.map((m, i) => (
-              <div key={i} className="pt-6 border-t border-[#bdbdbd]/40">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#333333] mb-3">
-                  {m.keyword}
-                </p>
-                <div className="flex items-baseline gap-3">
-                  <span className="text-sm line-through text-[#111111]/30">{m.before}</span>
-                  <span className="text-4xl font-serif italic text-[#333333]">{m.value}</span>
-                </div>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
-
-        {/* ================= DEMO DAY & DELIVERY ================= */}
-        <div className="mb-32">
-          <SectionHeading>Demo Day &amp; Delivery</SectionHeading>
-          <div className="pl-8 md:pl-24">
-            <p className="text-base font-normal font-['Montserrat'] text-[#111111]/90 leading-relaxed mb-6">
-              On July 25, 2025, the completed Runverr mini-game was presented
-              to professors from both the Media Arts and Computer Engineering
-              faculties — the game was successfully built and playable as a
-              PC Package.
-            </p>
-            <div className="space-y-3">
-              {demoChecklist.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="font-serif italic text-[#666666] text-lg leading-none shrink-0">✓</span>
-                  <p className="text-base font-normal font-['Montserrat'] text-[#111111]/80 leading-relaxed">
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ================= WHAT WAS HARD ================= */}
-        <div className="mb-32">
-          <SectionHeading>What Was Hard</SectionHeading>
-          <div className="pl-8 md:pl-24 space-y-8">
-            {challenges.map((c, i) => (
-              <div key={i} className="flex gap-4">
-                <span className="text-xl font-semibold font-['Montserrat'] text-[#333333] shrink-0">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-1">
-                    {c.title}
-                  </p>
-                  <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
-                    {c.detail}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        
 
         {/* ================= WHAT I LEARNED ================= */}
         <div className="mb-32">
-          <SectionHeading>What I Learned</SectionHeading>
+          <FadeIn>
+            <SectionHeading>What I Learned</SectionHeading>
+          </FadeIn>
           <div className="pl-8 md:pl-24">
-            <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-4">
-              Skills Gained
-            </p>
+            <FadeIn>
+              <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-4">
+                Skills Gained
+              </p>
+            </FadeIn>
             <div className="space-y-3 mb-10">
               {skillsGained.map((s, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="font-serif italic text-[#666666] text-lg leading-none shrink-0">✓</span>
-                  <p className="text-base font-normal font-['Montserrat'] text-[#111111]/80 leading-relaxed">
-                    {s}
-                  </p>
-                </div>
+                <FadeIn key={i} delay={i * 0.1}>
+                  <div className="flex items-start gap-3">
+                    <span className="font-serif italic text-[#666666] text-lg leading-none shrink-0">✓</span>
+                    <p className="text-base font-normal font-['Montserrat'] text-[#111111]/80 leading-relaxed">
+                      {s}
+                    </p>
+                  </div>
+                </FadeIn>
               ))}
             </div>
 
-            <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-4">
-              Key Insight
-            </p>
-            <div className="pl-6 md:pl-8 border-l-2 border-[#bdbdbd] py-2">
-              <p className="text-lg md:text-xl text-[#111111]/90 font-light leading-relaxed italic">
-                Overcoming complex system challenges required proactive
-                research and guidance. This experience was instrumental in
-                developing vital self-learning skills and the resilience to
-                manage work pressure effectively.
-                <span className="block font-['Montserrat'] font-bold text-[10px] text-[#7096D1] uppercase tracking-[0.3em] mt-4 not-italic">
-                  — Bim, Game Development Intern
-                </span>
+            <FadeIn>
+              <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-4">
+                Key Insight
               </p>
-            </div>
+              <div className="pl-6 md:pl-8 border-l-2 border-[#bdbdbd] py-2">
+                <p className="text-lg md:text-xl text-[#111111]/90 font-light leading-relaxed italic">
+                  Overcoming complex system challenges required proactive
+                  research and guidance. This experience was instrumental in
+                  developing vital self-learning skills and the resilience to
+                  manage work pressure effectively.
+                  <span className="block font-['Montserrat'] font-bold text-[10px] text-[#7096D1] uppercase tracking-[0.3em] mt-4 not-italic">
+                    — Bim, Game Development Intern
+                  </span>
+                </p>
+              </div>
+            </FadeIn>
           </div>
         </div>
 
+
         {/* ================= MORE PROJECTS ================= */}
         <div>
-          <SectionHeading>More Projects</SectionHeading>
+          <FadeIn>
+            <SectionHeading>More Projects</SectionHeading>
+          </FadeIn>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
             {moreProjects.map((project, i) => (
-              <Link key={i} href={project.href} className="group block">
-                <div className="w-full aspect-[341/246] bg-[#F7F2EB] overflow-hidden mb-3">
+              <FadeIn key={i} delay={i * 0.15}>
+                {/* 
+                  แก้ปัญหาเด้งไปบนสุด: เติม scroll={false} ใน Link 
+                  เพื่อให้ตอนกดเปลี่ยนหน้า มันจะไม่เด้งขึ้นบน แล้วรอให้ template.tsx ตัวใหม่เฟดขึ้นมา
+                */}
+                <Link
+                  href={project.href}
+                  scroll={false}
+                  className="group relative block aspect-[341/246] w-full overflow-hidden bg-stone-200 shadow-lg"
+                >
+                  {/* รูปภาพ */}
                   <img
                     src={project.image}
                     alt={project.name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.08]"
                   />
-                </div>
-                <p className="text-base font-normal font-['Montserrat'] text-[#111111]">
-                  {project.name}
-                </p>
-              </Link>
+
+                  {/* Gradient Overlay (ค่อยๆ ปรากฏตอน Hover) */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
+
+                  {/* ชื่อโปรเจกต์ (ปรากฏพร้อม gradient ตอน Hover เปลี่ยนเป็นสีขาว) */}
+                  <div className="absolute inset-x-0 bottom-0 flex w-full items-end justify-between gap-4 p-5 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 z-10">
+                    <p className="font-['Montserrat'] text-base font-normal text-white">
+                      {project.name}
+                    </p>
+                  </div>
+                </Link>
+              </FadeIn>
             ))}
           </div>
         </div>

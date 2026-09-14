@@ -72,11 +72,11 @@ export const projects: Project[] = [
     figmaUrl: "",
   },
   {
-    slug: "graphic-design",
-    title: "GRAPHIC DESIGN",
-    year: "2023–2025",
+    slug: "otherwork",
+    title: "OTHER WORK",
+    year: "2022–2025",
     duration: "Ongoing",
-    category: "Graphic Design",
+    category: "Graphic Design & Drawing",
     tags: ["Jersey Design", "Poster", "Vinyl", "Branding"],
     description:
       "A collection of graphic design work including sports jersey patterns, event posters, vinyl wraps, and branding materials created for various organizations and personal projects.",

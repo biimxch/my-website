@@ -41,7 +41,7 @@ export default function RootLayout({
       )}
     >
       <body
-        className="h-full bg-[#fafaf8] text-gray-900 antialiased"
+        className="h-full bg-[#FFFFFF] text-gray-900 antialiased"
         // 💡 เราใช้ style กำหนดลำดับฟอนต์ตรงนี้แทนการตั้งค่าใน config ไปเลยครับ
         style={{ fontFamily: 'var(--font-montserrat), var(--font-prompt), sans-serif' }}
       >
