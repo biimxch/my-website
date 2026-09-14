@@ -30,6 +30,7 @@ export default function Navbar() {
       {/* Staggered Menu */}
       <div className="pointer-events-none fixed inset-0 z-50">
         <StaggeredMenu
+          isFixed={true}
           position="right"
           items={menuItems}
           socialItems={socialItems}
