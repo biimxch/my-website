@@ -156,7 +156,7 @@ export default function About() {
 
         {/* ================= SKILLS ================= */}
         <FadeIn delay={0.4}>
-          <div>
+          <div className="mb-24">
             <h2 className="text-3xl md:text-4xl font-semibold font-['Montserrat'] text-black mb-10">
               Skills
             </h2>
@@ -181,6 +181,73 @@ export default function About() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </FadeIn>
+
+        {/* ================= CONTACT ================= */}
+        <FadeIn delay={0.5}>
+          <div>
+            <h2 className="text-3xl md:text-4xl font-semibold font-['Montserrat'] text-black mb-10">
+              Contact
+            </h2>
+            <div className="pl-8 md:pl-24 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-7">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
+                  Email
+                </p>
+                <a
+                  href={`mailto:${personal.email}`}
+                  className="text-base font-normal font-['Montserrat'] text-black transition-opacity hover:opacity-60"
+                >
+                  {personal.email}
+                </a>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
+                  Phone
+                </p>
+                <a
+                  href={`tel:${personal.phone.replace(/\s/g, "")}`}
+                  className="text-base font-normal font-['Montserrat'] text-black transition-opacity hover:opacity-60"
+                >
+                  {personal.phone}
+                </a>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
+                  LinkedIn
+                </p>
+                <a
+                  href={personal.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-base font-normal font-['Montserrat'] text-black transition-opacity hover:opacity-60"
+                >
+                  linkedin.com/in/chompunuch-auttnam
+                </a>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
+                  GitHub
+                </p>
+                <a
+                  href={personal.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-base font-normal font-['Montserrat'] text-black transition-opacity hover:opacity-60"
+                >
+                  github.com/biimxch
+                </a>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
+                  Address
+                </p>
+                <p className="text-base font-normal font-['Montserrat'] text-black">
+                  {personal.location}
+                </p>
+              </div>
             </div>
           </div>
         </FadeIn>

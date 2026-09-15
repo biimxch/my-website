@@ -7,7 +7,7 @@ export default function WorkPage() {
 		<>
 			<Navbar />
 			<main className="section-container pt-[clamp(6rem,10vw,9rem)]">
-				<Projects />
+				<Projects showSeeAll={false} />
 			</main>
 			<Footer />
 		</>

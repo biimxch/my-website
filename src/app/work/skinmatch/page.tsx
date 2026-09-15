@@ -6,11 +6,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 
+
 type FlowType = "user" | "supplier";
 
 const gallery = {
   hero: "/images/skinmatch/hero.jpg",
-  full: "/images/skinmatch/design-system.jpg",
+  full: "/images/skinmatch/skinm1.png",
   half1: "/images/skinmatch/flow-user.jpg",
   half2: "/images/skinmatch/flow-supplier.jpg",
 };
@@ -18,7 +19,7 @@ const gallery = {
 const moreProjects = [
   { name: "Xenior+", image: "/images/xenior+/xenior_thump.png", href: "/work/xenior-plus" },
   { name: "Runverr", image: "/images/runverr/runrun.png", href: "/work/runverr" },
-  { name: "Graphic Design", image: "/images/projects/graphic-thumb.jpg", href: "/work/otherwork" },
+  { name: "Graphic Design", image: "/images/interest/thumbnail.jpg", href: "/work/otherwork" },
 ];
 
 const meta = [
@@ -43,24 +44,6 @@ const painPoints = [
     title: "Unoptimized Monetization",
     detail:
       "Skincare brands lacked a localized, contextual platform to advertise products directly to consumers at the exact moment of high purchasing intent.",
-  },
-];
-
-const designSystem = [
-  {
-    title: "Soft Pink & Clean White",
-    detail:
-      "Evokes a sense of cleanliness, dermatological safety, and warmth, reducing interface intimidation.",
-  },
-  {
-    title: "Inter & Font Readability",
-    detail:
-      "Enforced structural sans-serif font weights to isolate dense chemical terms with pristine legibility.",
-  },
-  {
-    title: "Figma UI Kit Automation",
-    detail:
-      "Designed localized, repeatable cards, status badges, and slider variants to fast-track front-end handoff.",
   },
 ];
 
@@ -187,15 +170,11 @@ export default function SkinMatchProject() {
         
         {/* ================= TITLE + DESCRIPTION ================= */}
         <FadeIn className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-12">
-          <h1 className="text-8xl md:text-8xl font-medium font-['Montserrat'] text-black leading-tight">
-            SkinMatch{" "}
+          <h1 className="font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
+            SkinMatch
           </h1>
           <p className="text-lg md:text-base font-normal font-['Montserrat'] text-[#111111] leading-relaxed">
-            An intelligent web platform resolving chemical cross-reactions in
-            skincare management. Designing a highly readable visual hierarchy
-            to transform dense, complex skincare ingredient matrices into an
-            elegant, user-friendly, and actionable compatibility resolution
-            engine.
+            An intelligent skincare platform designed to simplify complex ingredient compatibility, transforming dense ingredient data into clear, actionable insights.
           </p>
         </FadeIn>
 
@@ -215,15 +194,13 @@ export default function SkinMatchProject() {
 
         {/* ================= MEDIA GALLERY ================= */}
         <FadeIn className="flex flex-col gap-16 md:gap-20 mb-32">
-          <div className="w-full aspect-[1124/629] bg-[#f5f5f5] overflow-hidden">
-            <img src={gallery.full} alt="SkinMatch design system" className="w-full h-full object-cover" />
-          </div>
           <div className="grid grid-cols-1 md:grid-cols-[603fr_438fr] gap-8 md:gap-20">
-            <div className="w-full aspect-[603/571] bg-[#f5f5f5] overflow-hidden">
-              <img src={gallery.half1} alt="SkinMatch user flow" className="w-full h-full object-cover" />
-            </div>
-            <div className="w-full aspect-[438/571] bg-[#f5f5f5] overflow-hidden">
-              <img src={gallery.half2} alt="SkinMatch supplier flow" className="w-full h-full object-cover" />
+            <div className="md:col-span-2 w-full">
+              <img
+                src={gallery.full}
+                alt="SkinMatch full screen"
+                className="block w-full h-auto"
+              />
             </div>
           </div>
         </FadeIn>
@@ -267,25 +244,6 @@ export default function SkinMatchProject() {
                     </p>
                   </div>
                 </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-
-        {/* ================= UI DESIGN SYSTEM ================= */}
-        <div className="mb-32">
-          <FadeIn>
-            <SectionHeading>UI Design System</SectionHeading>
-          </FadeIn>
-          <div className="pl-8 md:pl-24 space-y-8">
-            {designSystem.map((d, i) => (
-              <FadeIn key={i} delay={0.1}>
-                <p className="text-lg font-semibold font-['Montserrat'] text-[#111111] mb-1">
-                  {d.title}
-                </p>
-                <p className="text-base font-normal font-['Montserrat'] text-[#111111]/70 leading-relaxed">
-                  {d.detail}
-                </p>
               </FadeIn>
             ))}
           </div>
@@ -381,13 +339,8 @@ export default function SkinMatchProject() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
             {moreProjects.map((project, i) => (
               <FadeIn key={i} delay={i * 0.15}>
-                {/* 
-                  แก้ปัญหาเด้งไปบนสุด: เติม scroll={false} ใน Link 
-                  เพื่อให้ตอนกดเปลี่ยนหน้า มันจะไม่เด้งขึ้นบน แล้วรอให้ template.tsx ตัวใหม่เฟดขึ้นมา
-                */}
                 <Link
                   href={project.href}
-                  scroll={false}
                   className="group relative block aspect-[341/246] w-full overflow-hidden bg-stone-200 shadow-lg"
                 >
                   {/* รูปภาพ */}

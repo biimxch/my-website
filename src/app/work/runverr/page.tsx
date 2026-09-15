@@ -6,6 +6,7 @@ import { motion } from "framer-motion"; // เพิ่มการ import frame
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 
+
 const gallery = {
   hero: "/images/runverr/hero.jpg",
   full: "/images/runverr/runrun.png",
@@ -19,7 +20,7 @@ const gallery = {
 const moreProjects = [
   { name: "Xenior+", image: "/images/xenior+/xenior_thump.png", href: "/work/xenior-plus" },
   { name: "Skinmatch", image: "/images/skinmatch/skinm1.png", href: "/work/skinmatch" },
-  { name: "Graphic Design", image: "/images/projects/graphic-thumb.jpg", href: "/work/otherwork" },
+  { name: "Graphic Design", image: "/images/interest/thumbnail.jpg", href: "/work/otherwork" },
 ];
 
 const meta = [
@@ -134,15 +135,11 @@ export default function RunverrProject() {
         
         {/* ================= TITLE + DESCRIPTION ================= */}
         <FadeIn className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-12">
-          <h1 className="text-8xl md:text-8xl font-medium font-['Montserrat'] text-black leading-tight">
-            Runverr{" "}
+          <h1 className="font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
+            Runverr
           </h1>
           <p className="text-lg md:text-base font-normal font-['Montserrat'] text-[#111111] leading-relaxed">
-            Endless Runner Mini-Game developed with Unreal Engine 5 for the
-            Mediatier Project at KMUTT. A coin-collecting endless runner
-            featuring a complete Core Game Loop — including Score System,
-            Energy, Items, Day/Night Cycle, and High Score functionality,
-            built for PC.
+            An Unreal Engine 5 Endless Runner developed for KMUTT’s Mediatier Project, featuring scoring, energy, items, a day/night cycle, and high score system.
           </p>
         </FadeIn>
 
@@ -368,13 +365,8 @@ export default function RunverrProject() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
             {moreProjects.map((project, i) => (
               <FadeIn key={i} delay={i * 0.15}>
-                {/* 
-                  แก้ปัญหาเด้งไปบนสุด: เติม scroll={false} ใน Link 
-                  เพื่อให้ตอนกดเปลี่ยนหน้า มันจะไม่เด้งขึ้นบน แล้วรอให้ template.tsx ตัวใหม่เฟดขึ้นมา
-                */}
                 <Link
                   href={project.href}
-                  scroll={false}
                   className="group relative block aspect-[341/246] w-full overflow-hidden bg-stone-200 shadow-lg"
                 >
                   {/* รูปภาพ */}

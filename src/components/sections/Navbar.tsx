@@ -6,19 +6,26 @@ const menuItems = [
   { label: "Home", ariaLabel: "Go to home page", link: "/" },
   { label: "Project", ariaLabel: "View projects", link: "/work" },
   { label: "About", ariaLabel: "Learn about me", link: "/about" },
+  {
+    label: "Resume",
+    ariaLabel: "View resume",
+    link: "https://wooded-saturn-fcb.notion.site/Portfolio-3dc0b93d1225809cb093dc58d9d0a9c2?source=copy_link",
+    target: "_blank",
+    rel: "noopener noreferrer",
+  },
 ];
 
 const socialItems = [
-  { label: "GitHub", link: "https://github.com" },
-  { label: "LinkedIn", link: "https://linkedin.com" },
-  { label: "Resume", link: "/resume.pdf" },
+  { label: "GitHub", link: "https://github.com/biimxch" },
+  { label: "LinkedIn", link: "https://www.linkedin.com/in/chompunuch-auttnam/" },
+  { label: "Email", link: "mailto:chompunuch.autt@gmail.com" },
 ];
 
 export default function Navbar() {
   return (
     <>
       {/* Logo */}
-      <header className="pointer-events-none fixed left-0 top-0 z-50 px-6 py-5 md:px-10">
+      <header className="pointer-events-none fixed left-0 top-0 z-50 w-full bg-white px-6 py-5 md:px-10">
         <a
           href="/"
           className="pointer-events-auto inline-block font-['Montserrat'] text-2xl font-semibold tracking-wide text-black transition-opacity hover:opacity-80"
@@ -39,8 +46,8 @@ export default function Navbar() {
           menuButtonColor="#000000"
           openMenuButtonColor="#000000"
           changeMenuColorOnOpen={true}
-          colors={["#334EAC", "#081F5C"]}
-          accentColor="#334EAC"
+          colors={["#999999", "#000000"]}
+          accentColor="#999999"
           onMenuOpen={() => console.log("Menu opened")}
           onMenuClose={() => console.log("Menu closed")}
         />

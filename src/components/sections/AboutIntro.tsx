@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -11,7 +13,7 @@ const fadeUp = {
 
 export default function AboutIntro() {
   return (
-    <section className="min-h-screen bg-white py-32">
+    <section className="relative z-10 min-h-screen bg-white py-32">
       <div className="mx-auto flex min-h-[70vh] w-full max-w-[1200px] px-8 flex-col justify-between">
         
         {/* Big HELLO */}
@@ -27,20 +29,30 @@ export default function AboutIntro() {
         </motion.div>
 
         {/* Intro */}
-        <div className="mt-24 grid grid-cols-1 gap-12 md:grid-cols-[1fr_1.5fr] md:items-end">
+        <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-[1fr_1.5fr] md:items-end">
           
-          {/* Small label */}
+          {/* More about me button */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, delay: 0.15, ease }}
-            className="border-l border-neutral-300 pl-4"
           >
-            <p className="font-['Montserrat'] text-xs uppercase tracking-[0.25em] text-neutral-400">
-              A little about me
-            </p>
+            <Link
+              href="/about"
+              className="group inline-flex items-center gap-3  border-2 border-black px-6 py-3 transition-colors duration-300 hover:bg-black"
+            >
+              <span className="font-['Montserrat'] text-sm font-medium uppercase tracking-[0.15em] text-black transition-colors duration-300 group-hover:text-white">
+                More about me
+              </span>
+              <span className="flex h-7 w-7 items-center justify-center text-black transition-colors duration-300 group-hover: group-hover:text-white">
+                <ArrowUpRight
+                  size={16}
+                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </span>
+            </Link>
           </motion.div>
 
           {/* Bio */}

@@ -9,6 +9,7 @@ export default function Hero() {
       subtitle="UX/UI Designer"
       startScale={0.25}
       enableAnimations={true}
+      className="relative z-10 bg-white"
     />
   );
 }

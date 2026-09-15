@@ -33,7 +33,7 @@ export default function RootLayout({
     <html
       lang="th"
       className={cn(
-        "scroll-smooth h-full",
+        "h-full",
         montserrat.variable,
         prompt.variable,
         "font-sans",
@@ -45,7 +45,9 @@ export default function RootLayout({
         // 💡 เราใช้ style กำหนดลำดับฟอนต์ตรงนี้แทนการตั้งค่าใน config ไปเลยครับ
         style={{ fontFamily: 'var(--font-montserrat), var(--font-prompt), sans-serif' }}
       >
-        <main className="min-h-screen flex flex-col">{children}</main>
+        <main className="relative z-10 min-h-screen flex flex-col bg-white">
+          {children}
+        </main>
       </body>
     </html>
   );

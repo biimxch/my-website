@@ -6,6 +6,7 @@ import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import Lightbox from "@/components/ui/Lightbox";
 
+
 type Sector = "graphic-design" | "art" | "commission";
 
 interface GalleryItem {
@@ -18,17 +19,17 @@ interface GalleryItem {
 
 const galleryItems: GalleryItem[] = [
   { id: 1, title: "Bangmod Begins", image: "/images/interest/jerseys/VIDVA.png", sector: "graphic-design", featured: true },
-  { id: 2, title: "I wonder if you know", image: "/images/interest/jerseys/E-game2025.png", sector: "graphic-design" },
-  { id: 3, title: "Celestial Unity", image: "/images/interest/jerseys/3K.png", sector: "graphic-design" },
-  { id: 4, title: "Into the Wild", image: "/images/interest/jerseys/E-game2026.png", sector: "graphic-design" },
-  { id: 5, title: "Apollo's Ascent", image: "/images/interest/jerseys/RC_Egame2025.png", sector: "graphic-design", featured: true },
-  { id: 6, title: "Dark Eagle", image: "/images/interest/jerseys/RC_Egame2026.png", sector: "graphic-design" },
+  { id: 2, title: "I wonder if you know", image: "/images/interest/jerseys/E-game2025.png", sector: "graphic-design", featured: true },
+  { id: 3, title: "Celestial Unity", image: "/images/interest/jerseys/3K.png", sector: "graphic-design"},
+  { id: 4, title: "Into the Wild", image: "/images/interest/jerseys/E-game2026.png", sector: "graphic-design", featured: true },
+  { id: 5, title: "Apollo's Ascent", image: "/images/interest/jerseys/RC_Egame2025.png", sector: "graphic-design" },
+  { id: 6, title: "Dark Eagle", image: "/images/interest/jerseys/RC_Egame2026.png", sector: "graphic-design", featured: true },
   { id: 7, title: "Shadow Crow", image: "/images/interest/jerseys/CPE_Egame.png", sector: "graphic-design", featured: true },
   { id: 8, title: "Stellar Vanguard", image: "/images/interest/jerseys/RC_game.png", sector: "graphic-design" },
   // ตัวอย่างงานวาด — เพิ่มจริงแล้วติด featured: true ให้ 2 อันโชว์หน้าแรก
   { id: 9, title: "", image: "/images/interest/art/1.jpg", sector: "art", featured: true },
   { id: 10, title: "", image: "/images/interest/art/2.jpg", sector: "art", featured: true },
-  { id: 11, title: "", image: "/images/interest/art/3.jpg", sector: "art" },
+  { id: 11, title: "", image: "/images/interest/art/3.jpg", sector: "art",featured: true  },
 
   { id: 12, title: "", image: "/images/interest/commission/1.jpg", sector: "commission", featured: true },
   { id: 13, title: "", image: "/images/interest/commission/2.jpg", sector: "commission", featured: true },
@@ -60,8 +61,8 @@ export default function CreativeProject() {
       <div className="section-container pt-[clamp(6rem,10vw,9rem)] pb-8">
         {/* ================= TITLE + MENU BAR ================= */}
         <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-8">
-          <h1 className="text-8xl md:text-8xl font-medium font-['Montserrat'] text-black leading-tight">
-            Other Works{" "}
+          <h1 className="font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
+            Other Works
           </h1>
 
           <nav className="border-t border-black/10">

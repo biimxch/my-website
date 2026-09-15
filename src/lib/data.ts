@@ -80,7 +80,7 @@ export const projects: Project[] = [
     tags: ["Jersey Design", "Poster", "Vinyl", "Branding"],
     description:
       "A collection of graphic design work including sports jersey patterns, event posters, vinyl wraps, and branding materials created for various organizations and personal projects.",
-    coverImage: "/images/graphic/cover.jpg",
+    coverImage: "/images/interest/thumbnail.jpg",
     figmaUrl: "",
   },
 ];

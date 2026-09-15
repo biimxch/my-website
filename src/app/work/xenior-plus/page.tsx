@@ -5,19 +5,20 @@ import Link from "next/link";
 import { motion } from "framer-motion"; // เพิ่ม import framer-motion
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
-import ScrollImageReveal from "@/components/ui/ScrollImageReveal";
 
 const gallery = {
   hero: "/images/xenior+/hero.png",
-  full: "/images/xenior+/full-screen.svg",
+  full: "/images/xenior+/xenior_thump.png",
   half1: "/images/xenior+/xenior_thump.png",
   half2: "/images/xenior+/xenior.png",
+  LowWF: "/images/xenior+/LowWF-figure-15.jpg",
+  HighWF: "/images/xenior+/HighWF-figure-15.png",
 };
 
 const moreProjects = [
   { name: "Runverr", image: "/images/runverr/runrun.png", href: "/work/runverr" },
   { name: "Skinmatch", image: "/images/skinmatch/skinm1.png", href: "/work/skinmatch" },
-  { name: "Graphic Design", image: "/images/projects/graphic-thumb.jpg", href: "/work/otherwork" },
+  { name: "Graphic Design", image: "/images/interest/thumbnail.jpg", href: "/work/otherwork" },
 ];
 
 const meta = [
@@ -29,12 +30,7 @@ const meta = [
 
 const problems = [
   {
-    title: "Fragmented evaluation",
-    detail:
-      "Instructors couldn't complete assessments inside Xenior itself. Scoring happened in a separate Excel file shared across many project groups, so evaluators had to manually scroll and search for the right group before scoring — a slow, error-prone process disconnected from the platform.",
-  },
-  {
-    title: "Rigid search",
+    title: "Inefficient project search",
     detail:
       "The legacy search couldn't filter by specific conditions (advisor, year, keyword), so instructors and students often couldn't retrieve the project records they were actually looking for.",
   },
@@ -81,11 +77,6 @@ const designStages = [
       "Rough layout and information hierarchy, prioritizing speed of iteration and shared understanding within the team before investing in detail.",
   },
   {
-    stage: "Mid-fidelity wireframes (Canva)",
-    detail:
-      "Closer-to-real proportions and grouping for the key screens: landing page, search, role-based home dashboards, and the evaluation flow (both the form-builder and form-filling views).",
-  },
-  {
     stage: "High-fidelity wireframes & interactive prototype (Figma)",
     detail:
       "Final color scheme, typography, and UI principles applied, then linked together into a clickable prototype that simulated real navigation and interaction before development began.",
@@ -103,20 +94,6 @@ const formFeatures = [
   "Group and member identification built into the form, so evaluators always know who they're scoring",
   "Report viewing side-by-side with the evaluation form — no more switching screens — with version history to compare current submissions against earlier drafts",
   "Inline comments per criterion, draft-saving, submission locking after deadlines, form duplication across subjects/years, and CSV import",
-];
-
-const searchResults = [
-  { keyword: "project", sql: "2.67", meili: "1.24", speedup: "2.14×" },
-  { keyword: "database", sql: "1.40", meili: "0.41", speedup: "3.41×" },
-  { keyword: "web application", sql: "2.82", meili: "1.25", speedup: "2.25×" },
-  { keyword: "ai", sql: "5.29", meili: "1.23", speedup: "4.30×" },
-  { keyword: "(empty string)", sql: "10.17", meili: "1.26", speedup: "8.04×" },
-];
-
-const loadTesting = [
-  "1–20 concurrent users: 100% success rate, response time scaling from ~1.0s to ~4.2s",
-  "50 concurrent users: success rate dropped to 24.7% as the system hit a resource bottleneck",
-  "100 concurrent users: complete failure (0% success), consistent with connection-pool exhaustion",
 ];
 
 const uatWorked = [
@@ -172,17 +149,11 @@ export default function XeniorPlusCaseStudy() {
         
         {/* ================= TITLE + DESCRIPTION ================= */}
         <FadeIn className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-12">
-          <h1 className="text-8xl md:text-8xl font-medium font-['Montserrat'] text-black leading-tight">
+          <h1 className="font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
             Xenior+
           </h1>
           <p className="text-lg md:text-base font-normal font-['Montserrat'] text-black leading-relaxed">
-            A role-based web platform extending the Computer Engineering
-            Department's original Xenior system, built to manage senior
-            projects and work-integrated learning at KMUTT. It gives
-            instructors, teaching assistants, and students one place to
-            evaluate projects, search past project archives, and track
-            progress — through three integrated modules: Xenior Form,
-            Xenior Search, and Xenior Interface.
+            An enhanced redesign of KMUTT’s Xenior system, with new features for project evaluation, search, and progress tracking across three integrated modules.
           </p>
         </FadeIn>
 
@@ -201,15 +172,16 @@ export default function XeniorPlusCaseStudy() {
         </div>
 
         {/* ================= MEDIA GALLERY ================= */}
-        <FadeIn className="flex flex-col gap-16 md:gap-20 mb-32">
-          <ScrollImageReveal
-            images={[
-              { src: gallery.full, alt: "Xenior+ full screen", aspectRatio: "1124 / 629", className: "md:col-span-2" },
-              { src: gallery.half1, alt: "Xenior+ detail 1", aspectRatio: "603 / 571" },
-              { src: gallery.half2, alt: "Xenior+ detail 2", aspectRatio: "438 / 571" },
-            ]}
-            className="grid grid-cols-1 md:grid-cols-[603fr_438fr] gap-8 md:gap-20"
-          />
+       <FadeIn className="flex flex-col gap-16 md:gap-20 mb-32">
+          <div className="grid grid-cols-1 md:grid-cols-[603fr_438fr] gap-8 md:gap-20">
+            <div className="md:col-span-2 w-full">
+              <img
+                src={gallery.full}
+                alt="Xenior+ full screen"
+                className="block w-full h-auto"
+              />
+            </div>
+          </div>
         </FadeIn>
 
         {/* ================= PROBLEM STATEMENT ================= */}
@@ -221,7 +193,7 @@ export default function XeniorPlusCaseStudy() {
             {problems.map((p, i) => (
               <FadeIn key={i} delay={0.1}>
                 <div className="flex gap-4">
-                  <span className="text-xl font-semibold font-['Montserrat'] text-[#334EAC] shrink-0">
+                  <span className="text-xl font-semibold font-['Montserrat'] text-black shrink-0">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
@@ -281,20 +253,53 @@ export default function XeniorPlusCaseStudy() {
           <FadeIn>
             <SectionHeading>Design Process</SectionHeading>
           </FadeIn>
-          <div className="pl-8 md:pl-24 space-y-8 mb-10">
-            {designStages.map((s, i) => (
-              <FadeIn key={i} delay={0.1}>
-                <p className="text-lg font-semibold font-['Montserrat'] text-black mb-1">
-                  {s.stage}
+
+          <div className="pl-8 md:pl-24 mb-10 flex flex-col gap-16 md:gap-20">
+            {/* Stage 1 */}
+            <FadeIn>
+              <div className="mb-6">
+                <p className="mb-3 text-lg font-semibold font-['Montserrat'] text-black">
+                  {designStages[0].stage}
                 </p>
-                <p className="text-base font-normal font-['Montserrat'] text-stone-600 leading-relaxed">
-                  {s.detail}
+                <p className="text-base font-normal font-['Montserrat'] leading-relaxed text-stone-600">
+                  {designStages[0].detail}
                 </p>
-              </FadeIn>
-            ))}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-[603fr_438fr] gap-8 md:gap-20">
+                <div className="md:col-span-2 w-full">
+                  <img
+                    src={gallery.LowWF}
+                    alt="Low-fidelity wireframe"
+                    className="block h-auto w-full"
+                  />
+                </div>
+              </div>
+            </FadeIn>
+
+            {/* Stage 2 */}
+            <FadeIn delay={0.1}>
+              <div className="mb-6">
+                <p className="mb-3 text-lg font-semibold font-['Montserrat'] text-black">
+                  {designStages[1].stage}
+                </p>
+                <p className="text-base font-normal font-['Montserrat'] leading-relaxed text-stone-600">
+                  {designStages[1].detail}
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-[603fr_438fr] gap-8 md:gap-20">
+                <div className="md:col-span-2 w-full">
+                  <img
+                    src={gallery.HighWF}
+                    alt="High-fidelity wireframe"
+                    className="block h-auto w-full"
+                  />
+                </div>
+              </div>
+            </FadeIn>
           </div>
+
           <FadeIn delay={0.2}>
-            <p className="pl-8 md:pl-24 text-base font-normal font-['Montserrat'] text-stone-600 leading-relaxed ">
+            <p className="pl-8 md:pl-24 text-base font-normal font-['Montserrat'] text-stone-600 leading-relaxed">
               Two design principles anchored the visual system:{" "}
               <strong className="font-semibold text-black">Gestalt principles</strong>{" "}
               (grouping related elements, using size/color contrast for
@@ -305,6 +310,8 @@ export default function XeniorPlusCaseStudy() {
             </p>
           </FadeIn>
         </div>
+
+        
 
         {/* ================= KEY FEATURE: SEARCH ================= */}
         <div className="mb-32">
@@ -365,58 +372,55 @@ export default function XeniorPlusCaseStudy() {
           </div>
         </div>
 
-        {/* ================= RESULTS ================= */}
+        {/* ================= KEY FEATURE: INTERFACE ================= */}
         <div className="mb-32">
           <FadeIn>
-            <SectionHeading>Results</SectionHeading>
+            <SectionHeading>Key Feature: Xenior Interface</SectionHeading>
           </FadeIn>
+
           <div className="pl-8 md:pl-24">
             <FadeIn>
-              <p className="text-lg font-semibold font-['Montserrat'] text-black mb-4">
-                Search performance (SQL vs. Meilisearch)
-              </p>
-              <div className="overflow-x-auto mb-6">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-stone-300">
-                      <th className="py-2 pr-4 text-xs uppercase tracking-widest text-stone-400 font-['Montserrat'] font-normal">Keyword</th>
-                      <th className="py-2 pr-4 text-xs uppercase tracking-widest text-stone-400 font-['Montserrat'] font-normal">SQL (s)</th>
-                      <th className="py-2 pr-4 text-xs uppercase tracking-widest text-stone-400 font-['Montserrat'] font-normal">Meilisearch (s)</th>
-                      <th className="py-2 text-xs uppercase tracking-widest text-stone-400 font-['Montserrat'] font-normal">Speedup</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {searchResults.map((row, i) => (
-                      <tr key={i} className="border-b border-stone-100">
-                        <td className="py-3 pr-4 text-base font-['Montserrat'] text-black">{row.keyword}</td>
-                        <td className="py-3 pr-4 text-base font-['Montserrat'] text-stone-600">{row.sql}</td>
-                        <td className="py-3 pr-4 text-base font-['Montserrat'] text-stone-600">{row.meili}</td>
-                        <td className="py-3 text-base font-['Montserrat'] text-[#334EAC] font-semibold">{row.speedup}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <p className="text-base font-normal font-['Montserrat'] text-stone-600 leading-relaxed mb-10">
-                <strong className="font-semibold text-black">Average speedup: 4.14×</strong>{" "}
-                — most pronounced on broad, unfiltered queries, where
-                Meilisearch returned results in 1.26s versus 10.17s for direct SQL.
+              <p className="text-base font-normal font-['Montserrat'] text-black leading-relaxed mb-6">
+                The interface redesign focused on making the system easier to
+                navigate across different roles. Instead of giving every user
+                the same generic dashboard, I structured the interface around
+                the information and actions most relevant to each workflow.
               </p>
             </FadeIn>
 
-            <FadeIn delay={0.2}>
-              <p className="text-lg font-semibold font-['Montserrat'] text-black mb-4">
-                Load testing
-              </p>
-              <ul className="space-y-3">
-                {loadTesting.map((l, i) => (
-                  <li key={i} className="flex items-start gap-3 text-base font-normal font-['Montserrat'] text-stone-600 leading-relaxed">
-                    <span className="mt-2.5 w-1 h-1 rounded-full bg-black shrink-0" />
-                    {l}
-                  </li>
-                ))}
-              </ul>
-            </FadeIn>
+            <ul className="space-y-3">
+              <FadeIn>
+                <li className="flex items-start gap-3 text-base font-normal font-['Montserrat'] text-stone-600 leading-relaxed">
+                  <span className="mt-2.5 w-1 h-1 rounded-full bg-black shrink-0" />
+                  Role-based dashboards with different information priorities for
+                  Subject Owners, Advisors, Committee members, Students, and Admins
+                </li>
+              </FadeIn>
+
+              <FadeIn delay={0.1}>
+                <li className="flex items-start gap-3 text-base font-normal font-['Montserrat'] text-stone-600 leading-relaxed">
+                  <span className="mt-2.5 w-1 h-1 rounded-full bg-black shrink-0" />
+                  Clearer navigation and information hierarchy to make key actions
+                  easier to find
+                </li>
+              </FadeIn>
+
+              <FadeIn delay={0.2}>
+                <li className="flex items-start gap-3 text-base font-normal font-['Montserrat'] text-stone-600 leading-relaxed">
+                  <span className="mt-2.5 w-1 h-1 rounded-full bg-black shrink-0" />
+                  Upcoming Deadlines and progress information to help users see what
+                  needs attention at a glance
+                </li>
+              </FadeIn>
+
+              <FadeIn delay={0.3}>
+                <li className="flex items-start gap-3 text-base font-normal font-['Montserrat'] text-stone-600 leading-relaxed">
+                  <span className="mt-2.5 w-1 h-1 rounded-full bg-black shrink-0" />
+                  A public landing page that introduces the system and guides users
+                  toward project discovery
+                </li>
+              </FadeIn>
+            </ul>
           </div>
         </div>
 
@@ -450,7 +454,7 @@ export default function XeniorPlusCaseStudy() {
                     <p className="w-full sm:w-96 shrink-0 text-base font-['Montserrat'] text-black">
                       {row.issue}
                     </p>
-                    <p className="text-base font-['Montserrat'] text-[#334EAC] font-medium">
+                    <p className="text-base font-['Montserrat'] text-stone-600 font-medium">
                       {row.resolution}
                     </p>
                   </div>
@@ -500,13 +504,8 @@ export default function XeniorPlusCaseStudy() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
             {moreProjects.map((project, i) => (
               <FadeIn key={i} delay={i * 0.15}>
-                {/* 
-                  แก้ปัญหาเด้งไปบนสุด: เติม scroll={false} ใน Link 
-                  เพื่อให้ตอนกดเปลี่ยนหน้า มันจะไม่เด้งขึ้นบน แล้วรอให้ template.tsx ตัวใหม่เฟดขึ้นมา
-                */}
                 <Link
                   href={project.href}
-                  scroll={false}
                   className="group relative block aspect-[341/246] w-full overflow-hidden bg-stone-200 shadow-lg"
                 >
                   {/* รูปภาพ */}
