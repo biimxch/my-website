@@ -9,7 +9,7 @@ const menuItems = [
   {
     label: "Resume",
     ariaLabel: "View resume",
-    link: "https://wooded-saturn-fcb.notion.site/Portfolio-3dc0b93d1225809cb093dc58d9d0a9c2?source=copy_link",
+    link: "https://wooded-saturn-fcb.notion.site/Hi-I-m-Chompunuch-bce0b93d122583e390b181b9d9d335bc?source=copy_link",
     target: "_blank",
     rel: "noopener noreferrer",
   },
