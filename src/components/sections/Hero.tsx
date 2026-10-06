@@ -1,15 +1,10 @@
-import { VideoScrollHero } from "@/components/ui/video-scroll-hero";
+import { GlyphPortalHero } from "@/components/ui/glyph-portal-hero";
+import AboutIntro from "@/components/sections/AboutIntro";
 
 export default function Hero() {
   return (
-    <VideoScrollHero
-      imageSrc="/images/profile.jpg"
-      label="Portfolio"
-      title="Chompunuch Auttnam"
-      subtitle="UX/UI Designer"
-      startScale={0.25}
-      enableAnimations={true}
-      className="relative z-10 bg-white"
-    />
+    <>
+      <GlyphPortalHero />
+    </>
   );
 }

@@ -6,7 +6,7 @@ export const personal = {
   email: "chompunuch.autt@gmail.com",
   phone: "+66 967760894",
   location: "Bangkok, Thailand",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "https://wooded-saturn-fcb.notion.site/Hi-I-m-Chompunuch-bce0b93d122583e390b181b9d9d335bc?source=copy_link",
   github: "https://github.com/biimxch",
   linkedin: "https://www.linkedin.com/in/chompunuch-auttnam/",
   facebook: "https://www.facebook.com/chompunuch.auttnam",

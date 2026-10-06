@@ -1,13 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
-
-.font-pinyon {
-  font-family: 'Pinyon Script', cursive;
-}
 
 @theme inline {
   /* Brand colors */
@@ -93,6 +88,42 @@
   margin-inline: auto;
 }
 
+.work-case-study {
+  font-family: var(--font-montserrat), sans-serif;
+}
+
+img,
+video {
+  border-radius: 16px;
+}
+
+.work-case-study [class*="overflow-hidden"],
+.work-case-study [class*="border-"][class*="bg-"] {
+  border-radius: 16px;
+}
+
+.work-case-study :is(a, button)[class*="border-"] {
+  border-radius: 12px;
+}
+
+.case-study-image-carousel {
+  scrollbar-width: none;
+  cursor: grab;
+}
+
+.case-study-image-carousel:active {
+  cursor: grabbing;
+}
+
+.case-study-image-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.case-study-image-carousel-slide {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: 384px 640px;
@@ -105,6 +136,7 @@
   height: 384px;
   position: relative;
   overflow: hidden;
+  border-radius: 16px;
   background: #666;
 }
 
@@ -134,7 +166,7 @@
 }
 
 .scroll-reveal-container.is-visible .scroll-reveal-mask {
-  clip-path: inset(0 round 0px);
+  clip-path: inset(0 round 16px);
 }
 
 .scroll-reveal-container.is-visible .scroll-reveal-mask img {

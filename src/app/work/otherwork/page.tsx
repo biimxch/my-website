@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import Lightbox from "@/components/ui/Lightbox";
+import { CaseStudyMoreProjects } from "@/components/work/CaseStudy";
 
 
 type Sector = "graphic-design" | "art" | "commission";
@@ -41,6 +42,12 @@ const sectors: { id: Sector; number: string; label: string }[] = [
   { id: "commission", number: "03", label: "Commission" },
 ];
 
+const moreProjects = [
+  { name: "Xenior+", image: "/images/xenior+/xenior_thump.png", href: "/work/xenior-plus" },
+  { name: "Runverr", image: "/images/runverr/runrun.png", href: "/work/runverr" },
+  { name: "Skinmatch", image: "/images/skinmatch/skinm1.png", href: "/work/skinmatch" },
+];
+
 function getImageUrl(imgStr: string) {
   return imgStr.startsWith("/") ? imgStr : `/images/${imgStr}`;
 }
@@ -55,21 +62,25 @@ export default function CreativeProject() {
       : galleryItems.filter((item) => item.sector === selectedSector);
 
   return (
-    <main className="bg-white min-h-screen text-[#111111] antialiased selection:bg-[#e5e5e5]">
+    <main className="work-case-study min-h-screen bg-white text-[#111111] antialiased selection:bg-[#e5e5e5] selection:text-[#111111]">
       <Navbar />
 
       <div className="section-container pt-[clamp(6rem,10vw,9rem)] pb-8">
         {/* ================= TITLE + MENU BAR ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-[2fr_4fr] gap-10 md:gap-24 mb-8">
-          <h1 className="font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
-            Other Works
-          </h1>
+        <div className="grid grid-cols-1 items-end gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
+          <div>
+            <p className="font-['Montserrat'] text-xs tracking-[0.1em] text-[#585858]">Gallery</p>
+            <h1 className="mt-3 font-['Montserrat'] text-[clamp(2.25rem,5vw,3.25rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[#111111]">
+              Other Works
+            </h1>
+          </div>
 
-          <nav className="border-t border-black/10">
+          <nav aria-label="Filter work by category" className="border-t border-[#dedede]">
             <button
               onClick={() => setSelectedSector("all")}
+              aria-pressed={selectedSector === "all"}
               className={`w-full flex items-center gap-8 px-2 py-4 md:py-5 border-b border-black/10 transition-colors duration-200 text-left ${
-                selectedSector === "all" ? "bg-black/5" : "hover:bg-black/5"
+                selectedSector === "all" ? "border-b-2 border-black" : "hover:border-black/40"
               }`}
             >
               <span className="text-sm font-normal font-['Montserrat'] text-[#666666] w-6 shrink-0">
@@ -83,8 +94,9 @@ export default function CreativeProject() {
               <button
                 key={s.id}
                 onClick={() => setSelectedSector(s.id)}
+                aria-pressed={selectedSector === s.id}
                 className={`w-full flex items-center gap-8 px-2 py-4 md:py-5 border-b border-black/10 transition-colors duration-200 text-left ${
-                  selectedSector === s.id ? "bg-black/5" : "hover:bg-black/5"
+                  selectedSector === s.id ? "border-b-2 border-black" : "hover:border-black/40"
                 }`}
               >
                 <span className="text-sm font-normal font-['Montserrat'] text-[#666666] w-6 shrink-0">
@@ -125,7 +137,7 @@ export default function CreativeProject() {
                   delay: randomDelay, // ใส่ค่า delay ที่สุ่มได้
                   ease: "easeOut" 
                 }}
-                className="break-inside-avoid relative group cursor-zoom-in mb-4 md:mb-6"
+                className="break-inside-avoid relative group cursor-zoom-in mb-4 overflow-hidden rounded-2xl md:mb-6"
                 onClick={() => setLightboxData({ src: imgSrc, alt: item.title })}
               >
                 <img
@@ -143,6 +155,8 @@ export default function CreativeProject() {
           })}
         </motion.div>
       </AnimatePresence>
+
+      <CaseStudyMoreProjects projects={moreProjects} />
 
       <Footer />
 

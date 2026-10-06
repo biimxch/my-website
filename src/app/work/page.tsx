@@ -6,8 +6,8 @@ export default function WorkPage() {
 	return (
 		<>
 			<Navbar />
-			<main className="section-container pt-[clamp(6rem,10vw,9rem)]">
-				<Projects showSeeAll={false} />
+			<main className="work-case-study min-h-screen bg-white text-[#111111] antialiased">
+				<Projects showSeeAll={false} caseStudyStyle />
 			</main>
 			<Footer />
 		</>
