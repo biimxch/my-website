@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import React from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import { CaseStudyMoreProjects } from "@/components/work/CaseStudy";
@@ -16,10 +16,13 @@ const tokens = {
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-type FlowType = "user" | "supplier";
-
 const gallery = {
   full: "/images/skinmatch/skinm1.png",
+  // ใส่ path รูปที่นี่ ถ้าเว้นว่างไว้ ("") จะแสดงกรอบ placeholder
+  showcase: [
+    { src: "/images/skinmatch/figma1.png", alt: "SkinMatch screen 1" },
+    { src: "/images/skinmatch/figma2.png", alt: "SkinMatch screen 2" },
+  ],
 };
 
 const moreProjects = [
@@ -70,50 +73,6 @@ const technicalCompromises = [
       "Version control sync overlaps threatened production timeline consistency during parallel feature deployments. Resolution: established strict module branch boundaries and centralized pull request reviews to safeguard system integrity.",
   },
 ];
-
-const flows: Record<
-  FlowType,
-  { tab: string; groups: { title: string; rows: { name: string; value: string }[] }[] }
-> = {
-  user: {
-    tab: "User Perspective",
-    groups: [
-      {
-        title: "Search & Match Core",
-        rows: [
-          { name: "Incompatible Detection", value: "Auto-Alert" },
-          { name: "Safe Alternative System", value: "Recommended" },
-        ],
-      },
-      {
-        title: "User Features",
-        rows: [
-          { name: "Ingredient Glossary Explorer", value: "MongoDB Node" },
-          { name: "Personal Skin Identity Profile", value: "Active" },
-        ],
-      },
-    ],
-  },
-  supplier: {
-    tab: "Supplier Portal",
-    groups: [
-      {
-        title: "B2B Ad Architecture",
-        rows: [
-          { name: "Banner Ad Slot Bidding", value: "Weekly/Monthly" },
-          { name: "Targeted Product Placement", value: "Dynamic" },
-        ],
-      },
-      {
-        title: "Payment Gateway Loop",
-        rows: [
-          { name: "Credit / Debit Processing", value: "Secure REST" },
-          { name: "Automated Receipt Emission", value: "Instant" },
-        ],
-      },
-    ],
-  },
-};
 
 /* ---------- building blocks ---------- */
 
@@ -207,10 +166,21 @@ function Numbered({ items }: { items: { title: string; detail: string }[] }) {
   );
 }
 
+// กรอบรูปเต็มความกว้าง ถ้าไม่มี src จะแสดง placeholder เว้นที่ไว้
 function Shot({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-[var(--hair)] bg-white p-4 md:p-8">
-      <img src={src} alt={alt} className="block h-auto w-full" />
+      {src ? (
+        <img src={src} alt={alt} className="block h-auto w-full" />
+      ) : (
+        <div
+          role="img"
+          aria-label={`${alt} (placeholder)`}
+          className="flex aspect-[16/10] w-full items-center justify-center rounded-xl bg-neutral-100 text-xs tracking-[0.1em] text-[#585858]"
+        >
+          IMAGE PLACEHOLDER
+        </div>
+      )}
     </div>
   );
 }
@@ -218,9 +188,6 @@ function Shot({ src, alt }: { src: string; alt: string }) {
 /* ---------- page ---------- */
 
 export default function SkinMatchProject() {
-  const [activeFlow, setActiveFlow] = useState<FlowType>("user");
-  const current = flows[activeFlow];
-
   return (
     <main
       style={tokens}
@@ -271,71 +238,19 @@ export default function SkinMatchProject() {
         <Numbered items={painPoints} />
       </Section>
 
-      <Section label="Feature" title="Core User Flows" tone="warm">
-        <div role="group" aria-label="Choose a user flow" className="mb-6 flex flex-wrap gap-3">
-          {(Object.keys(flows) as FlowType[]).map((key) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setActiveFlow(key)}
-              aria-pressed={activeFlow === key}
-              className={`inline-flex min-h-12 items-center rounded-full border-2 border-black px-4 py-3 text-xs font-medium uppercase tracking-[0.1em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black sm:px-5 ${
-                activeFlow === key
-                  ? "bg-black text-white"
-                  : "bg-white text-black hover:bg-black hover:text-white"
-              }`}
-            >
-              {flows[key].tab}
-            </button>
+      {/* พื้นที่สำหรับรูป 2 รูป เต็มความกว้างเหมือนรูปปก */}
+      <section className="bg-[var(--canvas)]">
+        <div className={`${wrap} space-y-8 pb-12 sm:pb-16 lg:space-y-12 lg:pb-24`}>
+          {gallery.showcase.map((shot, index) => (
+            <FadeIn key={index}>
+              <Shot src={shot.src} alt={shot.alt} />
+            </FadeIn>
           ))}
         </div>
+      </section>
 
-        <div className="rounded-2xl border border-[var(--hair)] bg-white p-6">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeFlow}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 gap-8 sm:grid-cols-2"
-            >
-              {current.groups.map((group) => (
-                <div key={group.title}>
-                  <p className="mb-2 border-b border-[var(--ink)] pb-3 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)]">
-                    {group.title}
-                  </p>
-                  <ul>
-                    {group.rows.map((row) => (
-                      <li
-                        key={row.name}
-                        className="flex flex-col gap-2 border-b border-[var(--hair)] py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
-                      >
-                        <span className={body}>{row.name}</span>
-                        <span className="w-fit shrink-0 rounded-full border border-[var(--hair)] bg-white px-3 py-1 text-xs tracking-[0.1em] text-[var(--ink)]">
-                          {row.value}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </Section>
-
-      <Section label="Reflection" title="Trade-offs & Delivery">
-        <div className="mb-12">
-          <Numbered items={technicalCompromises} />
-        </div>
-
-        <blockquote className={`border-l-2 border-[var(--hair)] pl-6 ${body}`}>
-          Simplifying the UI design to align with the development team&apos;s time constraints demonstrated strong adaptability and effective cross-functional collaboration between Design and Engineering.
-          <cite className="mt-4 block text-xs not-italic tracking-[0.1em] text-[#585858]">
-            — Reflection Takeaway
-          </cite>
-        </blockquote>
+      <Section label="Reflection" title="Trade-offs & Delivery" tone="warm">
+        <Numbered items={technicalCompromises} />
       </Section>
 
       <CaseStudyMoreProjects projects={moreProjects} />

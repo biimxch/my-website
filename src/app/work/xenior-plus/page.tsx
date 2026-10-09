@@ -23,9 +23,9 @@ const gallery = {
   LowWF: `${dir}LowWF-figure-15.jpg`,
   HighWF: `${dir}HighWF-figure-15.png`,
   form: [
-    `${dir}Xenior Form  Screen 1.png`,
-    `${dir}Xenior Form  Screen 2.png`,
-    `${dir}Xenior Form  Screen 3.png`,
+    `${dir}XeniorF_Screen1.png`,
+    `${dir}XeniorF_Screen2.png`,
+    `${dir}XeniorF_Screen3.png`,
   ],
   interface: [
     {
@@ -33,11 +33,11 @@ const gallery = {
       alt: "Xenior+ homepage displayed on a laptop mockup",
     },
     {
-      src: `${dir}thumpnail (1).jpg`,
+      src: `${dir}thumpnail_(1).jpg`,
       alt: "Xenior project assessment report interface",
     },
     {
-      src: `${dir}thumpnail (2).jpg`,
+      src: `${dir}thumpnail_(2).jpg`,
       alt: "Overview of the Xenior+ website interface",
     },
   ],
@@ -418,22 +418,7 @@ export default function XeniorPlusCaseStudy() {
         }
       />
 
-      <Section
-        label="Feature"
-        title="Key Feature: Xenior Form"
-        wideContent={
-          <ImageCarousel
-            label="Xenior Form screens"
-            images={gallery.form.map((src, index) => ({
-              src,
-              alt: `Xenior Form screen ${index + 1}`,
-            }))}
-          />
-        }
-      >
-        <p className={`${body} mb-5 text-[var(--ink)]`}>Xenior Form digitizes the evaluation process end-to-end:</p>
-        <Bullets items={formFeatures} />
-      </Section>
+      
 
       <Section
         label="Feature"
@@ -450,6 +435,23 @@ export default function XeniorPlusCaseStudy() {
           The interface redesign focused on making the system easier to navigate across different roles. Instead of giving every user the same generic dashboard, I structured the interface around the information and actions most relevant to each workflow.
         </p>
         <Bullets items={interfaceFeatures} />
+      </Section>
+
+      <Section
+        label="Feature"
+        title="Key Feature: Xenior Form"
+        wideContent={
+          <ImageCarousel
+            label="Xenior Form screens"
+            images={gallery.form.map((src, index) => ({
+              src,
+              alt: `Xenior Form screen ${index + 1}`,
+            }))}
+          />
+        }
+      >
+        <p className={`${body} mb-5 text-[var(--ink)]`}>Xenior Form digitizes the evaluation process end-to-end:</p>
+        <Bullets items={formFeatures} />
       </Section>
 
       <Section label="Testing" title="Usability Testing & Iteration">
