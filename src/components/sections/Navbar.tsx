@@ -3,19 +3,18 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import StaggeredMenu from "@/components/ui/StaggeredMenu";
-import { personal } from "@/lib/data";
 
-const menuItems = [
+type MenuItem = {
+  label: string;
+  ariaLabel: string;
+  link: string;
+  target?: string;
+};
+
+const menuItems: MenuItem[] = [
   { label: "Home", ariaLabel: "Go to home page", link: "/" },
-  { label: "Project", ariaLabel: "View projects", link: "/work" },
+  { label: "Work", ariaLabel: "View work", link: "/work" },
   { label: "About", ariaLabel: "Learn about me", link: "/about" },
-  {
-    label: "Resume",
-    ariaLabel: "View resume",
-    link: personal.resumeUrl,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  },
 ];
 
 const socialItems = [
@@ -27,6 +26,13 @@ const socialItems = [
 export default function Navbar() {
   const pathname = usePathname();
   const [darkSurface, setDarkSurface] = useState(() => pathname === "/");
+
+  // หน้าปัจจุบัน: /work/xenior-plus จะนับเป็น Project, Resume (เปิดแท็บใหม่) ไม่นับ
+  const activeLink = menuItems.find((item) =>
+    item.link === "/"
+      ? pathname === "/"
+      : !item.target && pathname.startsWith(item.link)
+  )?.link;
 
   useEffect(() => {
     const readSurface = () => {
@@ -67,6 +73,25 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Current page stays grey in the menu */}
+      {activeLink && (
+        <style>{`
+          .sm-scope .sm-panel-item[href="${activeLink}"],
+          .sm-scope .sm-panel-item[href="${activeLink}"] .sm-panel-itemLabel {
+            color: #999999 !important;
+            cursor: default;
+          }
+        `}</style>
+      )}
+
+      {/* Backdrop bar: แสดงเฉพาะจอเล็ก (ต่ำกว่า md) กันข้อความทับโลโก้/ปุ่มเมนู */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none fixed left-0 top-0 z-40 h-[72px] w-full backdrop-blur-md transition-colors duration-300 md:hidden ${
+          darkSurface ? "bg-black/50" : "bg-white/80"
+        }`}
+      />
+
       {/* Logo */}
       <header className="pointer-events-none fixed left-0 top-0 z-50 w-full px-6 py-5 md:px-10">
         <a

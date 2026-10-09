@@ -1,26 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
-import {
-  CaseStudyIntro,
-  CaseStudyMeta,
-  CaseStudyMoreProjects,
-  CaseStudySection,
-  CaseStudyShot,
-  CaseStudySubheading,
-} from "@/components/work/CaseStudy";
+import { CaseStudyMoreProjects } from "@/components/work/CaseStudy";
 
+const tokens = {
+  "--ink": "#111111",
+  "--canvas": "#ffffff",
+  "--warm": "#ffffff",
+  "--stone": "#ffffff",
+  "--hair": "#dedede",
+} as React.CSSProperties;
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 type FlowType = "user" | "supplier";
 
 const gallery = {
-  hero: "/images/skinmatch/hero.jpg",
   full: "/images/skinmatch/skinm1.png",
-  half1: "/images/skinmatch/flow-user.jpg",
-  half2: "/images/skinmatch/flow-supplier.jpg",
 };
 
 const moreProjects = [
@@ -33,7 +32,7 @@ const meta = [
   { label: "Role", value: "Business Analyst & UX/UI" },
   { label: "Timeline", value: "3 Months" },
   { label: "Category", value: "Web App / E-Commerce" },
-  { label: "Tech Stack", value: "React, Node.js, MongoDB" },
+  { label: "Tools", value: "React, Node.js, MongoDB" },
 ];
 
 const painPoints = [
@@ -72,122 +71,226 @@ const technicalCompromises = [
   },
 ];
 
-const flowViews = {
-  user: (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-      <div>
-        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#666666] block mb-4 border-b border-[#bdbdbd]/30 pb-2">
-          Search &amp; Match Core
-        </span>
-        <div className="flex justify-between py-2 gap-4">
-          <span className="text-[#111111] font-medium">Incompatible Detection</span>
-          <span className="text-gray-700 text-sm shrink-0">Auto-Alert</span>
-        </div>
-        <div className="flex justify-between py-2 gap-4">
-          <span className="text-[#111111] font-medium">Safe Alternative System</span>
-          <span className="text-[#333333] text-sm shrink-0">Recommended</span>
-        </div>
-      </div>
-      <div>
-        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#666666] block mb-4 border-b border-[#bdbdbd]/30 pb-2">
-          User Features
-        </span>
-        <div className="flex justify-between py-2 gap-4">
-          <span className="text-[#111111] font-medium">Ingredient Glossary Explorer</span>
-          <span className="text-[#111111]/70 text-xs shrink-0">MongoDB Node</span>
-        </div>
-        <div className="flex justify-between py-2 gap-4">
-          <span className="text-[#111111] font-medium">Personal Skin Identity Profile</span>
-          <span className="text-[#111111]/70 text-xs shrink-0">Active</span>
-        </div>
-      </div>
-    </div>
-  ),
-  supplier: (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-      <div>
-        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#666666] block mb-4 border-b border-[#bdbdbd]/30 pb-2">
-          B2B Ad Architecture
-        </span>
-        <div className="flex justify-between py-2 gap-4">
-          <span className="text-[#111111] font-medium">Banner Ad Slot Bidding</span>
-          <span className="text-[#333333] text-sm shrink-0">Weekly/Monthly</span>
-        </div>
-        <div className="flex justify-between py-2 gap-4">
-          <span className="text-[#111111] font-medium">Targeted Product Placement</span>
-          <span className="text-[#111111]/70 text-xs shrink-0">Dynamic</span>
-        </div>
-      </div>
-      <div>
-        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#666666] block mb-4 border-b border-[#bdbdbd]/30 pb-2">
-          Payment Gateway Loop
-        </span>
-        <div className="flex justify-between py-2 gap-4">
-          <span className="text-[#111111] font-medium">Credit / Debit Processing</span>
-          <span className="text-[#111111]/70 text-xs shrink-0">Secure REST</span>
-        </div>
-        <div className="flex justify-between py-2 gap-4">
-          <span className="text-[#111111] font-medium">Automated Receipt Emission</span>
-          <span className="text-gray-700 text-sm shrink-0">Instant</span>
-        </div>
-      </div>
-    </div>
-  ),
+const flows: Record<
+  FlowType,
+  { tab: string; groups: { title: string; rows: { name: string; value: string }[] }[] }
+> = {
+  user: {
+    tab: "User Perspective",
+    groups: [
+      {
+        title: "Search & Match Core",
+        rows: [
+          { name: "Incompatible Detection", value: "Auto-Alert" },
+          { name: "Safe Alternative System", value: "Recommended" },
+        ],
+      },
+      {
+        title: "User Features",
+        rows: [
+          { name: "Ingredient Glossary Explorer", value: "MongoDB Node" },
+          { name: "Personal Skin Identity Profile", value: "Active" },
+        ],
+      },
+    ],
+  },
+  supplier: {
+    tab: "Supplier Portal",
+    groups: [
+      {
+        title: "B2B Ad Architecture",
+        rows: [
+          { name: "Banner Ad Slot Bidding", value: "Weekly/Monthly" },
+          { name: "Targeted Product Placement", value: "Dynamic" },
+        ],
+      },
+      {
+        title: "Payment Gateway Loop",
+        rows: [
+          { name: "Credit / Debit Processing", value: "Secure REST" },
+          { name: "Automated Receipt Emission", value: "Instant" },
+        ],
+      },
+    ],
+  },
 };
+
+/* ---------- building blocks ---------- */
+
+// Same container width as the Work / About sections so left edges align
+const wrap = "mx-auto max-w-[1120px] px-5";
+// Single body style used everywhere (16px / 1.5 / #414141)
+const body = "text-base leading-[1.5] tracking-[-0.01em] text-[#414141]";
+const tones = { canvas: "bg-[var(--canvas)]", warm: "bg-[var(--warm)]", stone: "bg-[var(--stone)]" };
+
+function FadeIn({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      initial={reduce ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.8, delay, ease }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function Label({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <p className={`text-xs leading-[1.4] tracking-[0.1em] text-[#585858] ${className}`}>{children}</p>;
+}
+
+function Section({
+  label, title, tone = "canvas", children, wideContent,
+}: {
+  label: string;
+  title: string;
+  tone?: keyof typeof tones;
+  children?: React.ReactNode;
+  wideContent?: React.ReactNode;
+}) {
+  const hasSideContent = children != null;
+
+  return (
+    <section className={tones[tone]}>
+      <FadeIn
+        className={`${wrap} grid gap-8 py-12 sm:py-16 lg:gap-16 lg:py-24 ${
+          hasSideContent ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]" : "lg:grid-cols-1"
+        }`}
+      >
+        <div>
+          <Label>{label}</Label>
+          <h2 className="mt-3 text-[clamp(2.25rem,5vw,3.25rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[var(--ink)]">
+            {title}
+          </h2>
+        </div>
+        {hasSideContent && <div>{children}</div>}
+      </FadeIn>
+      {wideContent && <FadeIn className="pb-16 lg:pb-24">{wideContent}</FadeIn>}
+    </section>
+  );
+}
+
+function H3({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <h3 className={`text-xl font-semibold leading-tight tracking-[-0.02em] text-[var(--ink)] ${className}`}>
+      {children}
+    </h3>
+  );
+}
+
+function Numbered({ items }: { items: { title: string; detail: string }[] }) {
+  return (
+    <div className="space-y-6">
+      {items.map((p, index) => (
+        <div key={p.title} className="flex gap-4">
+          <span className="text-sm font-semibold tabular-nums text-[#585858]">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <div>
+            <H3 className="mb-2">{p.title}</H3>
+            <p className={body}>{p.detail}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Shot({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-[var(--hair)] bg-white p-4 md:p-8">
+      <img src={src} alt={alt} className="block h-auto w-full" />
+    </div>
+  );
+}
+
+/* ---------- page ---------- */
 
 export default function SkinMatchProject() {
   const [activeFlow, setActiveFlow] = useState<FlowType>("user");
+  const current = flows[activeFlow];
 
   return (
-    <main className="work-case-study min-h-screen bg-white text-[#111111] antialiased selection:bg-[#e5e5e5] selection:text-[#111111]">
+    <main
+      style={tokens}
+      className="work-case-study min-h-screen bg-white font-['Montserrat'] text-[var(--ink)] antialiased selection:bg-black selection:text-white"
+    >
       <Navbar />
-      <CaseStudyIntro
-        title="SkinMatch"
-        description="An intelligent skincare platform designed to simplify complex ingredient compatibility, transforming dense ingredient data into clear, actionable insights."
-      />
-      <CaseStudyShot src={gallery.full} alt="SkinMatch full screen" />
-      <CaseStudyMeta items={meta} />
 
-      <CaseStudySection label="Research" title="Market Insight &amp; Discovery">
-        <p className="text-base leading-[1.5] tracking-[-0.01em] text-[#414141]">
+      {/* Hero: title → summary → meta → cover image */}
+      <section className="bg-[var(--canvas)]">
+        <div className={`${wrap} pb-16 pt-[clamp(7rem,12vw,10rem)] md:pb-24`}>
+          {/* Title: identical style to "Work." and "About." */}
+          <FadeIn>
+            <h1 className="text-left font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
+              SkinMatch
+            </h1>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <p className={`mt-10 max-w-full ${body}`}>
+              An intelligent skincare platform designed to simplify complex ingredient compatibility, transforming dense ingredient data into clear, actionable insights.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+            <dl className="mt-10 grid grid-cols-1 gap-x-8 gap-y-6 pt-6 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
+              {meta.map((m) => (
+                <div key={m.label} className="flex flex-col gap-2">
+                  <dt className="text-xs font-semibold leading-[1.4] tracking-[0.1em] text-[var(--ink)]">{m.label}</dt>
+                  <dd className="text-sm leading-snug text-[var(--ink)]">{m.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </FadeIn>
+
+          <FadeIn delay={0.3} className="mt-12 md:mt-16">
+            <Shot src={gallery.full} alt="SkinMatch full screen" />
+          </FadeIn>
+        </div>
+      </section>
+
+      <Section label="Research" title="Market Insight & Discovery" tone="warm">
+        <p className={body}>
           The primary objective of this project was to design a structured and highly legible data model for complex skincare products. I dedicated the majority of my time to Requirement Elicitation as a Business Analyst, while simultaneously functioning as the UX/UI Designer to establish a clear visual hierarchy. This culminated in a high-fidelity Figma prototype tailored for real-world e-commerce usability.
         </p>
-      </CaseStudySection>
+      </Section>
 
-      <CaseStudySection label="Context" title="Strategic Prioritization">
-        <div className="space-y-6">
-          {painPoints.map((point, index) => (
-            <div key={point.title} className="flex gap-4">
-              <span className="text-sm font-semibold tabular-nums text-[#585858]">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <CaseStudySubheading className="mb-2 text-xl">{point.title}</CaseStudySubheading>
-                <p className="text-base leading-[1.5] text-[#414141]">{point.detail}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </CaseStudySection>
+      <Section label="Context" title="Strategic Prioritization">
+        <Numbered items={painPoints} />
+      </Section>
 
-      <CaseStudySection label="Feature" title="Core User Flows">
-        <div className="mb-6 flex gap-6 border-b border-[#dedede]">
-          {(["user", "supplier"] as FlowType[]).map((tab) => (
+      <Section label="Feature" title="Core User Flows" tone="warm">
+        <div role="group" aria-label="Choose a user flow" className="mb-6 flex flex-wrap gap-3">
+          {(Object.keys(flows) as FlowType[]).map((key) => (
             <button
-              key={tab}
-              onClick={() => setActiveFlow(tab)}
-              aria-pressed={activeFlow === tab}
-              className={`border-b-2 pb-3 text-xs font-medium uppercase tracking-[0.15em] transition-colors ${
-                activeFlow === tab
-                  ? "border-[#111111] text-[#111111]"
-                  : "border-transparent text-[#585858] hover:text-[#111111]"
+              key={key}
+              type="button"
+              onClick={() => setActiveFlow(key)}
+              aria-pressed={activeFlow === key}
+              className={`inline-flex min-h-12 items-center rounded-full border-2 border-black px-4 py-3 text-xs font-medium uppercase tracking-[0.1em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black sm:px-5 ${
+                activeFlow === key
+                  ? "bg-black text-white"
+                  : "bg-white text-black hover:bg-black hover:text-white"
               }`}
             >
-              {tab === "user" ? "User Perspective" : "Supplier Portal"}
+              {flows[key].tab}
             </button>
           ))}
         </div>
-        <div className="border border-[#dedede] bg-white p-4 md:p-6">
+
+        <div className="rounded-2xl border border-[var(--hair)] bg-white p-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeFlow}
@@ -195,36 +298,48 @@ export default function SkinMatchProject() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 gap-8 sm:grid-cols-2"
             >
-              {flowViews[activeFlow]}
+              {current.groups.map((group) => (
+                <div key={group.title}>
+                  <p className="mb-2 border-b border-[var(--ink)] pb-3 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--ink)]">
+                    {group.title}
+                  </p>
+                  <ul>
+                    {group.rows.map((row) => (
+                      <li
+                        key={row.name}
+                        className="flex flex-col gap-2 border-b border-[var(--hair)] py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+                      >
+                        <span className={body}>{row.name}</span>
+                        <span className="w-fit shrink-0 rounded-full border border-[var(--hair)] bg-white px-3 py-1 text-xs tracking-[0.1em] text-[var(--ink)]">
+                          {row.value}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </motion.div>
           </AnimatePresence>
         </div>
-      </CaseStudySection>
+      </Section>
 
-      <CaseStudySection label="Reflection" title="Trade-offs &amp; Delivery">
-        <div className="mb-10 space-y-6">
-          {technicalCompromises.map((tradeoff, index) => (
-            <div key={tradeoff.title} className="flex gap-4">
-              <span className="text-sm font-semibold tabular-nums text-[#585858]">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <CaseStudySubheading className="mb-2 text-xl">{tradeoff.title}</CaseStudySubheading>
-                <p className="text-base leading-[1.5] text-[#414141]">{tradeoff.detail}</p>
-              </div>
-            </div>
-          ))}
+      <Section label="Reflection" title="Trade-offs & Delivery">
+        <div className="mb-12">
+          <Numbered items={technicalCompromises} />
         </div>
-        <blockquote className="border-l-2 border-[#dedede] pl-6 text-base leading-[1.5] text-[#414141]">
+
+        <blockquote className={`border-l-2 border-[var(--hair)] pl-6 ${body}`}>
           Simplifying the UI design to align with the development team&apos;s time constraints demonstrated strong adaptability and effective cross-functional collaboration between Design and Engineering.
           <cite className="mt-4 block text-xs not-italic tracking-[0.1em] text-[#585858]">
             — Reflection Takeaway
           </cite>
         </blockquote>
-      </CaseStudySection>
+      </Section>
 
       <CaseStudyMoreProjects projects={moreProjects} />
+
       <Footer />
     </main>
   );

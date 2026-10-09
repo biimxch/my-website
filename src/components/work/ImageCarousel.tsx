@@ -136,7 +136,7 @@ export default function ImageCarousel({
             role="group"
             aria-roledescription="slide"
             aria-label={`${index + 1} of ${images.length}`}
-            className={`case-study-image-carousel-slide shrink-0 snap-center overflow-hidden rounded-2xl bg-[#eeeeee] motion-safe:transition-[opacity,transform] motion-safe:duration-300 ${
+            className={`case-study-image-carousel-slide shrink-0 snap-center overflow-hidden rounded-2xl border border-[#dedede] bg-white p-3 sm:p-4 md:p-6 motion-safe:transition-[opacity,transform] motion-safe:duration-300 ${
               activeIndex === index ? "scale-100 opacity-100" : "scale-[0.94] opacity-60"
             }`}
             style={{

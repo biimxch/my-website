@@ -35,15 +35,15 @@ export default function Footer() {
       className="overflow-hidden bg-black text-white"
       style={{ borderTopLeftRadius: 24, borderTopRightRadius: 24 }}
     >
-      <div className="mx-auto w-full max-w-[1440px] px-4 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
-        <div className="grid min-w-0 grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-12">
+      <div className="mx-auto w-full max-w-[1440px] px-4 pt-10 pb-8 sm:px-8 sm:pt-14 sm:pb-10 lg:px-12 lg:pt-16 lg:pb-12">
+        <div className="grid min-w-0 grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12">
           <div className="min-w-0 max-w-xl">
             <p className="mb-3 font-['Montserrat'] text-xs font-medium uppercase tracking-[0.16em] text-neutral-400">
               Contact me
             </p>
             <a
               href={`mailto:${personal.email}`}
-              className="break-all font-['Montserrat'] text-[clamp(1.1rem,3vw,2.25rem)] font-medium leading-tight tracking-[-0.055em] transition-opacity hover:opacity-60"
+              className="break-words font-['Montserrat'] text-[clamp(1.1rem,3vw,2.25rem)] font-medium leading-tight tracking-[-0.055em] [overflow-wrap:anywhere] transition-opacity hover:opacity-60"
             >
               {personal.email}
             </a>
@@ -54,7 +54,7 @@ export default function Footer() {
 
           <nav
             aria-label="Footer navigation"
-            className="grid min-w-0 grid-cols-3 gap-4 sm:gap-10 md:gap-12"
+            className="grid min-w-0 grid-cols-3 gap-4 sm:gap-10 lg:gap-12"
           >
             {linkColumns.map((column) => (
               <div key={column.title} className="flex min-w-0 flex-col items-start gap-2">

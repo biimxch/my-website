@@ -60,11 +60,11 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="relative z-10 w-full bg-white px-16 pt-8 pb-24 border-t border-[#e2e0da]"
+      className="relative z-10 w-full border-t border-[#e2e0da] bg-white px-5 pb-16 pt-8 sm:px-8 sm:pb-20 lg:px-16 lg:pb-24"
     >
       <FadeIn delay={0}>
-        <div className="mb-14">
-          <h2 className="text-6xl font-medium tracking-tight text-[#334FAE] leading-none mb-4">
+        <div className="mb-10 sm:mb-14">
+          <h2 className="mb-4 text-[clamp(2.5rem,8vw,3.75rem)] font-medium leading-none tracking-tight text-[#334FAE]">
             SKILLS
           </h2>
           <p className="text-base text-stone-600 leading-relaxed max-w-2xl">
@@ -95,7 +95,7 @@ export default function Skills() {
                   {cat}
                 </h3>
 
-                <div className="grid grid-cols-3 justify-items-center gap-y-8">
+                <div className="grid grid-cols-3 justify-items-center gap-x-2 gap-y-6 sm:gap-x-4 sm:gap-y-8">
                   {skills[cat]?.map((skill) => (
                     <div
                       key={skill}
@@ -140,7 +140,7 @@ export default function Skills() {
           </div>
 
           {/* Methodology */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 px-8 py-6 border-b border-[#e2e0da] bg-white">
+          <div className="flex flex-col gap-4 border-b border-[#e2e0da] bg-white px-5 py-6 sm:flex-row sm:items-center sm:gap-8 sm:px-8">
             <span className="text-[10px] font-bold uppercase tracking-widest text-[#334FAE]/60 min-w-[100px]">
               Process
             </span>
@@ -153,7 +153,7 @@ export default function Skills() {
           </div>
 
           {/* Soft Skills */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 px-8 py-6 bg-white">
+          <div className="flex flex-col gap-4 bg-white px-5 py-6 sm:flex-row sm:items-center sm:gap-8 sm:px-8">
             <span className="text-[10px] font-bold uppercase tracking-widest text-[#334FAE]/60 min-w-[100px]">
               Strengths
             </span>

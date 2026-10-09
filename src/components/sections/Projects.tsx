@@ -35,20 +35,9 @@ export default function Projects({
         {/* Section header */}
         <div className={`mb-12 flex items-end justify-between ${caseStudyStyle ? "md:mb-16" : ""}`}>
           {caseStudyStyle ? (
-            <div>
-              <p className="mb-3 font-['Montserrat'] text-xs tracking-[0.1em] text-[#585858]">
-                Selected Work
-              </p>
-              <motion.h2
-                className="font-['Montserrat'] text-[clamp(2.25rem,5vw,3.25rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[#111111]"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, ease }}
-              >
-                Projects
-              </motion.h2>
-            </div>
+            <h2 className="text-left font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
+              Work.
+            </h2>
           ) : (
             <motion.h2
               className="text-left font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black"
@@ -69,7 +58,7 @@ export default function Projects({
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, delay: 0.15, ease }}
             >
-              <Link
+              {/* <Link
                 href="/work"
                 className="group inline-flex items-center gap-3 rounded-full border-2 border-black bg-black px-6 py-3 transition-colors duration-300 hover:bg-white"
               >
@@ -82,7 +71,7 @@ export default function Projects({
                     className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   />
                 </span>
-              </Link>
+              </Link> */}
             </motion.div>
           )}
         </div>
@@ -185,16 +174,16 @@ function ProjectCard({
       {/* Keep project details visible on touch devices; reveal them on desktop hover. */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-100 transition-opacity duration-500 ease-out [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100" />
 
-      <div className="absolute inset-x-0 bottom-0 z-10 flex w-full items-end justify-between gap-4 p-6 opacity-100 transition-opacity duration-500 ease-out [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100">
-        <div className="flex flex-col gap-1">
-          <h3 className="font-['Montserrat'] text-2xl font-medium text-white">
+      <div className="absolute inset-x-0 bottom-0 z-10 flex w-full min-w-0 items-end justify-between gap-3 p-4 opacity-100 transition-opacity duration-500 ease-out sm:gap-4 sm:p-6 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100">
+        <div className="flex min-w-0 flex-col gap-1">
+          <h3 className="font-['Montserrat'] text-lg font-medium text-white sm:text-2xl">
             {project.title}
           </h3>
           <span className="font-['Montserrat'] text-sm font-base text-gray-200">
             {project.year}
           </span>
         </div>
-        <p className="font-['Montserrat'] text-right text-base font-normal text-gray-200">
+        <p className="max-w-[45%] break-words font-['Montserrat'] text-right text-xs font-normal leading-snug text-gray-200 sm:text-base">
           {project.category}
         </p>
       </div>

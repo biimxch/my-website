@@ -1,10 +1,22 @@
-import { personal } from "@/lib/data";
+"use client";
+
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Download, Mail } from "lucide-react";
-import FadeIn from "@/components/ui/FadeIn";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Eye, Mail } from "lucide-react";
+import { personal } from "@/lib/data";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
+
+const tokens = {
+  "--ink": "#111111",
+  "--canvas": "#ffffff",
+  "--warm": "#ffffff",
+  "--hair": "#dedede",
+} as React.CSSProperties;
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const experiences = [
   {
@@ -57,273 +69,259 @@ const skills = [
   },
 ];
 
+const info = [
+  { label: "Looking for", value: "UX/UI Designer roles" },
+  { label: "Education", value: "B.Eng. Computer Engineering, KMUTT, class of 2026" },
+  { label: "Based in", value: "Bangkok, Thailand" },
+];
+
+/* ---------- building blocks ---------- */
+
+// Same container width as the case studies so left edges align
+const wrap = "mx-auto max-w-[1120px] px-5";
+const body = "text-base leading-[1.5] tracking-[-0.01em] text-[#414141]";
+const btn =
+  "group inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-black px-4 py-3 text-xs font-medium uppercase tracking-[0.1em] transition-colors sm:px-5 sm:text-sm";
+
+function FadeIn({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      initial={reduce ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.8, delay, ease }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function Label({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <p className={`text-xs leading-[1.4] tracking-[0.1em] text-[#585858] ${className}`}>{children}</p>;
+}
+
+function Section({
+  label,
+  title,
+  children,
+}: {
+  label: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <FadeIn className={`${wrap} grid gap-8 py-12 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16 lg:py-24`}>
+        <div>
+          <Label>{label}</Label>
+          <h2 className="mt-3 text-[clamp(2.25rem,5vw,3.25rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[var(--ink)]">
+            {title}
+          </h2>
+        </div>
+        <div>{children}</div>
+      </FadeIn>
+    </section>
+  );
+}
+
+function H3({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <h3 className={`text-xl font-semibold leading-tight tracking-[-0.02em] text-[var(--ink)] ${className}`}>
+      {children}
+    </h3>
+  );
+}
+
+function Bullets({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-3">
+      {items.map((item) => (
+        <li key={item} className={`flex gap-3 ${body}`}>
+          <span aria-hidden className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--ink)]" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const linkClass = `${body} text-[var(--ink)] transition-opacity hover:opacity-60`;
+
+/* ---------- page ---------- */
+
 export default function About() {
   return (
-    <>
+    <main
+      style={tokens}
+      className="work-case-study min-h-screen bg-white font-['Montserrat'] text-[var(--ink)] antialiased selection:bg-black selection:text-white"
+    >
       <Navbar />
 
-      <section
-        id="about"
-        className="section-container pt-[clamp(6rem,10vw,9rem)] pb-24"
-      >
-        <div className="mb-32 grid grid-cols-1 items-center gap-12 md:grid-cols-[1.2fr_0.8fr] md:gap-16">
-          <FadeIn className="md:self-center">
-            <div>
-              <h1 className="mb-6 font-['Montserrat'] text-[clamp(3.5rem,7vw,6rem)] font-medium leading-[0.95] tracking-[-0.06em] text-black">
-                {personal.name}
-              </h1>
-              <p className="max-w-2xl font-['Montserrat'] text-lg leading-relaxed text-neutral-800 md:text-xl">
-                UX/UI designer who turns complex, role-based systems into clear interfaces, then builds them in Next.js.
-              </p>
+      <section className="relative z-10 bg-white px-5 pt-[clamp(6rem,10vw,9rem)]">
+        <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-2 pb-16 md:pb-24">
+          <div className="mb-12 flex items-end justify-between md:mb-16">
+            <h1 className="text-left font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
+              About.
+            </h1>
+          </div>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/work"
-                  className="group inline-flex min-h-12 items-center gap-3 rounded-full border-2 border-black bg-black px-5 py-3 font-['Montserrat'] text-sm font-medium uppercase tracking-[0.12em] text-white transition-colors hover:bg-white hover:text-black"
-                >
-                  View projects
-                  <ArrowUpRight size={16} aria-hidden="true" />
-                </Link>
-                <a
-                  href={personal.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex min-h-12 items-center gap-3 rounded-full border-2 border-black px-5 py-3 font-['Montserrat'] text-sm font-medium uppercase tracking-[0.12em] text-black transition-colors hover:bg-black hover:text-white"
-                >
-                  Download resume
-                  <Download size={16} aria-hidden="true" />
-                </a>
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="group inline-flex min-h-12 items-center gap-3 rounded-full border-2 border-black px-5 py-3 font-['Montserrat'] text-sm font-medium uppercase tracking-[0.12em] text-black transition-colors hover:bg-black hover:text-white"
-                >
-                  Email me
-                  <Mail size={16} aria-hidden="true" />
-                </a>
+          <div className="grid grid-cols-1 items-start gap-10 sm:gap-12 lg:grid-cols-2 lg:items-center lg:gap-x-20">
+            <div className="lg:self-center">
+              <FadeIn delay={0.1}>
+                <h2 className="font-['Montserrat'] text-[clamp(1.875rem,3.5vw,2.75rem)] font-medium leading-[1] tracking-[-0.05em] text-black">
+                  <span className="mb-2 block">Hello, I&apos;m</span>
+                  <span className="block">{personal.name}</span>
+                </h2>
+
+                <p className="mt-4 max-w-xl font-['Montserrat'] text-lg leading-relaxed tracking-tight text-neutral-800 md:text-xl">
+                  UX/UI designer who turns complex, role-based systems into clear interfaces, then builds them in Next.js.
+                </p>
+
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <Link
+                    href="/work"
+                    className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full border-2 border-black bg-black px-5 font-['Montserrat'] text-sm font-medium uppercase tracking-[0.1em] text-white transition-colors hover:bg-white hover:text-black"
+                  >
+                    See all work
+                    <ArrowUpRight size={16} aria-hidden="true" />
+                  </Link>
+
+                  <a
+                    href="/Resume_Chompunuch_UXUI.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full border-2 border-black px-5 font-['Montserrat'] text-sm font-medium uppercase tracking-[0.1em] text-black transition-colors hover:bg-black hover:text-white"
+                  >
+                    View resume
+                    <Eye size={16} aria-hidden="true" />
+                  </a>
+                </div>
+              </FadeIn>
+
+              <FadeIn delay={0.2}>
+                <ul className="mt-8 space-y-2 border-t border-black/15 pt-5 font-['Montserrat'] text-sm leading-relaxed text-neutral-700 md:text-base">
+                  <li><span className="font-medium text-black">Looking for:</span> UX/UI Designer roles</li>
+                  <li><span className="font-medium text-black">Education:</span> B.Eng. Computer Engineering, KMUTT, class of 2026</li>
+                  <li><span className="font-medium text-black">Based in:</span> {personal.location}</li>
+                </ul>
+              </FadeIn>
+            </div>
+
+            <FadeIn delay={0.3}>
+              <div className="relative order-2 w-full max-w-[460px] justify-self-center lg:justify-self-end">
+                <Image
+                  src="/images/profile.jpg"
+                  alt={personal.name}
+                  width={974}
+                  height={1230}
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 460px"
+                  className="block h-auto w-full object-contain"
+                />
               </div>
-
-              <ul className="mt-10 space-y-3 border-t border-black/15 pt-6 font-['Montserrat'] text-sm leading-relaxed text-neutral-700 md:text-base">
-                <li><span className="font-medium text-black">Looking for:</span> UX/UI Designer roles</li>
-                <li><span className="font-medium text-black">Education:</span> B.Eng. Computer Engineering, KMUTT, class of 2026</li>
-                <li><span className="font-medium text-black">Based in:</span> Bangkok, Thailand</li>
-              </ul>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.1}>
-            <div className="relative mx-auto w-full max-w-sm md:ml-auto">
-              <Image
-                src="/images/profile.jpg"
-                alt={personal.name}
-                width={974}
-                height={1230}
-                sizes="(max-width: 768px) 100vw, 384px"
-                className="h-auto w-full object-contain"
-              />
-            </div>
-          </FadeIn>
+            </FadeIn>
+          </div>
         </div>
-
-        <FadeIn delay={0.2}>
-          <section aria-labelledby="work-history-heading" className="mb-32">
-            <div className="mb-2 flex items-end justify-between border-b border-black pb-6">
-              <div>
-                <p className="mb-3 font-['Montserrat'] text-xs uppercase tracking-[0.24em] text-neutral-500">
-                  Experience
-                </p>
-                <h2
-                  id="work-history-heading"
-                  className="font-['Montserrat'] text-[clamp(3rem,8vw,6rem)] font-medium leading-[0.9] tracking-[-0.06em] text-black"
-                >
-                  Work History
-                </h2>
-              </div>
-              <span className="hidden pb-2 font-['Montserrat'] text-sm text-neutral-500 sm:block">
-                01 / 02
-              </span>
-            </div>
-
-            <div>
-              {experiences.map((exp, i) => (
-                <article
-                  key={exp.title}
-                  className="grid grid-cols-1 gap-4 border-b border-black/15 py-8 md:grid-cols-[220px_minmax(0,1fr)] md:gap-12 md:py-10"
-                >
-                  <p className="font-['Montserrat'] text-sm font-medium tabular-nums text-neutral-500">
-                    <span className="mr-3 text-neutral-300">0{i + 1}</span>
-                    {exp.period}
-                  </p>
-                  <div>
-                    <h3 className="font-['Montserrat'] text-2xl font-medium leading-snug tracking-tight text-black md:text-3xl">
-                      {exp.title}
-                    </h3>
-                    <p className="mt-2 font-['Montserrat'] text-sm leading-relaxed text-neutral-500 md:text-base">
-                      {exp.org}
-                    </p>
-                    <ul className="mt-5 space-y-2">
-                      {exp.bullets.map((bullet) => (
-                        <li
-                          key={bullet}
-                          className="flex items-start gap-3 font-['Montserrat'] text-sm leading-relaxed text-neutral-700 md:text-base"
-                        >
-                          <span
-                            aria-hidden="true"
-                            className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-black"
-                          />
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        </FadeIn>
-
-        <FadeIn delay={0.3}>
-          <section aria-labelledby="education-heading" className="mb-32">
-            <div className="mb-2 flex items-end justify-between border-b border-black pb-6">
-              <div>
-                <p className="mb-3 font-['Montserrat'] text-xs uppercase tracking-[0.24em] text-neutral-500">
-                  Academic Background
-                </p>
-                <h2
-                  id="education-heading"
-                  className="font-['Montserrat'] text-[clamp(3rem,8vw,6rem)] font-medium leading-[0.9] tracking-[-0.06em] text-black"
-                >
-                  Education
-                </h2>
-              </div>
-              <span className="hidden pb-2 font-['Montserrat'] text-sm text-neutral-500 sm:block">
-                02 / 02
-              </span>
-            </div>
-
-            {education.map((edu) => (
-              <article
-                key={edu.school}
-                className="grid grid-cols-1 gap-4 border-b border-black/15 py-8 md:grid-cols-[220px_minmax(0,1fr)] md:gap-12 md:py-10"
-              >
-                <p className="font-['Montserrat'] text-sm font-medium tabular-nums text-neutral-500">
-                  {edu.period}
-                </p>
-                <div>
-                  <h3 className="font-['Montserrat'] text-2xl font-medium leading-snug tracking-tight text-black md:text-3xl">
-                    {edu.school}
-                  </h3>
-                  <p className="mt-3 font-['Montserrat'] text-base font-medium leading-relaxed text-neutral-800 md:text-lg">
-                    {edu.degree}
-                  </p>
-                  <p className="mt-5 max-w-3xl font-['Montserrat'] text-sm leading-7 text-neutral-600 md:text-base">
-                    {edu.description}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </section>
-        </FadeIn>
-
-        {/* ================= SKILLS ================= */}
-        <FadeIn delay={0.4}>
-          <div className="mb-24">
-            <h2 className="text-3xl md:text-4xl font-semibold font-['Montserrat'] text-black mb-10">
-              Skills
-            </h2>
-            <div className="pl-8 md:pl-24 space-y-7">
-              {skills.map((group, i) => (
-                <div
-                  key={i}
-                  className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-20"
-                >
-                  <p className="w-full sm:w-48 shrink-0 text-xl md:text-2xl font-semibold font-['Montserrat'] text-neutral-900">
-                    {group.label}
-                  </p>
-                  <div className="flex flex-wrap gap-x-10 gap-y-2">
-                    {group.items.map((item, j) => (
-                      <span
-                        key={j}
-                        className="text-base font-normal font-['Montserrat'] text-neutral-900"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* ================= CONTACT ================= */}
-        <FadeIn delay={0.5}>
-          <div id="contact" className="scroll-mt-24">
-            <h2 className="text-3xl md:text-4xl font-semibold font-['Montserrat'] text-black mb-10">
-              Contact
-            </h2>
-            <div className="pl-8 md:pl-24 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-7">
-              <div>
-                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
-                  Email
-                </p>
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="text-base font-normal font-['Montserrat'] text-black transition-opacity hover:opacity-60"
-                >
-                  {personal.email}
-                </a>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
-                  Phone
-                </p>
-                <a
-                  href={`tel:${personal.phone.replace(/\s/g, "")}`}
-                  className="text-base font-normal font-['Montserrat'] text-black transition-opacity hover:opacity-60"
-                >
-                  {personal.phone}
-                </a>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
-                  LinkedIn
-                </p>
-                <a
-                  href={personal.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-base font-normal font-['Montserrat'] text-black transition-opacity hover:opacity-60"
-                >
-                  linkedin.com/in/chompunuch-auttnam
-                </a>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
-                  GitHub
-                </p>
-                <a
-                  href={personal.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-base font-normal font-['Montserrat'] text-black transition-opacity hover:opacity-60"
-                >
-                  github.com/biimxch
-                </a>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest text-neutral-400 font-['Montserrat'] mb-2">
-                  Address
-                </p>
-                <p className="text-base font-normal font-['Montserrat'] text-black">
-                  {personal.location}
-                </p>
-              </div>
-            </div>
-          </div>
-        </FadeIn>
       </section>
 
+      <Section label="Experience" title="Work History">
+        <div className="border-t border-[var(--hair)]">
+          {experiences.map((exp) => (
+            <article key={exp.title} className="border-b border-[var(--hair)] py-8 first:pt-6">
+              <Label>{exp.period}</Label>
+              <H3 className="mt-2">{exp.title}</H3>
+              <p className={`${body} mb-5 mt-2`}>{exp.org}</p>
+              <Bullets items={exp.bullets} />
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section label="Academic Background" title="Education">
+        {education.map((edu) => (
+          <article key={edu.school}>
+            <Label>{edu.period}</Label>
+            <H3 className="mt-2">{edu.school}</H3>
+            <p className="mt-2 text-base font-medium leading-[1.5] text-[var(--ink)]">{edu.degree}</p>
+            <p className={`${body} mt-5`}>{edu.description}</p>
+          </article>
+        ))}
+      </Section>
+
+      <Section label="Expertise" title="Skills">
+        <div className="border-t border-[var(--hair)]">
+          {skills.map((group) => (
+            <div key={group.label} className="border-b border-[var(--hair)] py-6 first:pt-6">
+              <H3 className="mb-4">{group.label}</H3>
+              <ul className="flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <li
+                    key={item}
+                    className="rounded-full border border-[var(--hair)] bg-white px-3 py-1 text-sm text-[var(--ink)]"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <div id="contact" className="scroll-mt-24">
+        <Section label="Get in touch" title="Contact">
+          <dl className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div className="flex flex-col gap-2">
+              <dt className="text-xs font-semibold leading-[1.4] tracking-[0.1em] text-[var(--ink)]">Email</dt>
+              <dd>
+                <a href={`mailto:${personal.email}`} className={linkClass}>
+                  {personal.email}
+                </a>
+              </dd>
+            </div>
+            <div className="flex flex-col gap-2">
+              <dt className="text-xs font-semibold leading-[1.4] tracking-[0.1em] text-[var(--ink)]">Phone</dt>
+              <dd>
+                <a href={`tel:${personal.phone.replace(/\s/g, "")}`} className={linkClass}>
+                  {personal.phone}
+                </a>
+              </dd>
+            </div>
+            <div className="flex flex-col gap-2">
+              <dt className="text-xs font-semibold leading-[1.4] tracking-[0.1em] text-[var(--ink)]">LinkedIn</dt>
+              <dd>
+                <a href={personal.linkedin} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                  linkedin.com/in/chompunuch-auttnam
+                </a>
+              </dd>
+            </div>
+            <div className="flex flex-col gap-2">
+              <dt className="text-xs font-semibold leading-[1.4] tracking-[0.1em] text-[var(--ink)]">GitHub</dt>
+              <dd>
+                <a href={personal.github} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                  github.com/biimxch
+                </a>
+              </dd>
+            </div>
+            <div className="flex flex-col gap-2">
+              <dt className="text-xs font-semibold leading-[1.4] tracking-[0.1em] text-[var(--ink)]">Address</dt>
+              <dd className={body}>{personal.location}</dd>
+            </div>
+          </dl>
+        </Section>
+      </div>
+
       <Footer />
-    </>
+    </main>
   );
 }

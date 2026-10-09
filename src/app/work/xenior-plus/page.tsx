@@ -15,17 +15,32 @@ const tokens = {
   "--hair": "#dedede",
 } as React.CSSProperties;
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 const dir = "/images/xenior+/";
 const gallery = {
   full: `${dir}xenior_thump.png`,
   LowWF: `${dir}LowWF-figure-15.jpg`,
   HighWF: `${dir}HighWF-figure-15.png`,
   form: [
-    `${dir}fullpage_snapshot_xenior-dev_cpe_kmutt_ac_th_2026-09-09-06-18-17.png`,
-    `${dir}fullpage_snapshot_xenior-dev_cpe_kmutt_ac_th_2026-09-09-06-16-30.png`,
-    `${dir}fullpage_snapshot_xenior-dev_cpe_kmutt_ac_th_2026-09-09-06-17-14.png`,
+    `${dir}Xenior Form  Screen 1.png`,
+    `${dir}Xenior Form  Screen 2.png`,
+    `${dir}Xenior Form  Screen 3.png`,
   ],
-  interface: `${dir}fullpage_snapshot_xenior-dev_cpe_kmutt_ac_th_2026-09-09-06-15-49.png`,
+  interface: [
+    {
+      src: `${dir}hero.png`,
+      alt: "Xenior+ homepage displayed on a laptop mockup",
+    },
+    {
+      src: `${dir}thumpnail (1).jpg`,
+      alt: "Xenior project assessment report interface",
+    },
+    {
+      src: `${dir}thumpnail (2).jpg`,
+      alt: "Overview of the Xenior+ website interface",
+    },
+  ],
 };
 
 const moreProjects = [
@@ -36,9 +51,9 @@ const moreProjects = [
 
 const meta = [
   { label: "Role", value: "UX/UI Designer & Frontend Developer" },
-  { label: "Duration", value: "2 semesters (~8 months)" },
-  { label: "Team", value: "3 members — primary executor for UX/UI and frontend" },
-  { label: "Stack", value: "Next.js, React, Tailwind CSS, Flask API, MySQL, Meilisearch" },
+  { label: "Timeline", value: "Aug 2025 – May 2026" },
+  { label: "Skills", value: "User Research, Wireframing, Prototyping, Usability Testing" },
+  { label: "Tools", value: "Figma, Procreate, Next.js, Tailwind CSS" },
 ];
 
 const problems = [
@@ -155,18 +170,28 @@ const uatIssues = [
 
 /* ---------- building blocks ---------- */
 
-const wrap = "mx-auto max-w-[1200px] px-5 md:px-12";
+// Same container width as the Work / About sections so left edges align
+const wrap = "mx-auto max-w-[1120px] px-5";
+// Single body style used everywhere (matches SkinMatch: 16px / 1.5 / #414141)
 const body = "text-base leading-[1.5] tracking-[-0.01em] text-[#414141]";
 const tones = { canvas: "bg-[var(--canvas)]", warm: "bg-[var(--warm)]", stone: "bg-[var(--stone)]" };
 
-function FadeIn({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function FadeIn({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
   const reduce = useReducedMotion();
   return (
     <motion.div
-      initial={reduce ? false : { opacity: 0, y: 20 }}
+      initial={reduce ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.8, delay, ease }}
       className={className}
     >
       {children}
@@ -191,7 +216,11 @@ function Section({
 
   return (
     <section className={tones[tone]}>
-      <FadeIn className={`${wrap} grid gap-8 py-16 md:gap-16 md:py-24 ${hasSideContent ? "md:grid-cols-[1fr_2fr]" : "md:grid-cols-1"}`}>
+      <FadeIn
+        className={`${wrap} grid gap-8 py-12 sm:py-16 lg:gap-16 lg:py-24 ${
+          hasSideContent ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]" : "lg:grid-cols-1"
+        }`}
+      >
         <div>
           <Label>{label}</Label>
           <h2 className="mt-3 text-[clamp(2.25rem,5vw,3.25rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[var(--ink)]">
@@ -200,13 +229,17 @@ function Section({
         </div>
         {hasSideContent && <div>{children}</div>}
       </FadeIn>
-      {wideContent && <FadeIn className="pb-16 md:pb-24">{wideContent}</FadeIn>}
+      {wideContent && <FadeIn className="pb-16 lg:pb-24">{wideContent}</FadeIn>}
     </section>
   );
 }
 
 function H3({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <h3 className={`text-2xl font-semibold leading-tight tracking-[-0.02em] text-[var(--ink)] ${className}`}>{children}</h3>;
+  return (
+    <h3 className={`text-xl font-semibold leading-tight tracking-[-0.02em] text-[var(--ink)] ${className}`}>
+      {children}
+    </h3>
+  );
 }
 
 type Item = string | { lead: string; text: string };
@@ -218,7 +251,7 @@ function Bullets({ items }: { items: Item[] }) {
         const text = typeof item === "string";
         return (
           <li key={text ? item : item.lead} className={`flex gap-3 ${body}`}>
-            <span aria-hidden className="mt-[0.65em] h-1 w-1 shrink-0 bg-[var(--ink)]" />
+            <span aria-hidden className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--ink)]" />
             <span>
               {text ? item : (<><strong className="font-semibold text-[var(--ink)]">{item.lead}</strong> {item.text}</>)}
             </span>
@@ -241,7 +274,7 @@ function Shot({
   imageClassName?: string;
 }) {
   return (
-    <div className={`overflow-hidden bg-white p-4 md:p-8 ${className}`}>
+    <div className={`overflow-hidden rounded-2xl border border-[var(--hair)] bg-white p-4 md:p-8 ${className}`}>
       <img src={src} alt={alt} className={`block h-auto w-full ${imageClassName}`} />
     </div>
   );
@@ -253,39 +286,55 @@ export default function XeniorPlusCaseStudy() {
   return (
     <main
       style={tokens}
-      className="work-case-study min-h-screen bg-white text-[var(--ink)] antialiased selection:bg-black selection:text-white"
+      className="work-case-study min-h-screen bg-white font-['Montserrat'] text-[var(--ink)] antialiased selection:bg-black selection:text-white"
     >
       <Navbar />
 
-      {/* Hero */}
+      {/* Hero: title → meta → summary → cover image */}
       <section className="bg-[var(--canvas)]">
-        <div className={`${wrap} pb-16 pt-[clamp(6rem,10vw,9rem)] md:pb-24`}>
-          <FadeIn className="mb-16 grid gap-8 md:grid-cols-[1fr_400px] md:gap-16">
-            <h1 className="text-[clamp(3.75rem,10vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.04em]">Xenior+</h1>
-            <p className={`${body} self-end`}>
+        <div className={`${wrap} pb-16 pt-[clamp(7rem,12vw,10rem)] md:pb-24`}>
+          {/* Title: identical style to "Work." and "About." */}
+          <FadeIn>
+            <h1 className="text-left font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
+              Xenior+
+            </h1>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <p className={`mt-10 max-w-full ${body}`}>
               An enhanced redesign of KMUTT’s Xenior system, with new features for project evaluation, search, and progress tracking across three integrated modules.
             </p>
           </FadeIn>
 
-          <Shot src={gallery.full} alt="Xenior+ full screen" />
+          {/* Meta directly under the title */}
+          <FadeIn delay={0.2}>
+            <dl className="mt-10 grid grid-cols-1 gap-x-8 gap-y-6 pt-6 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
+              {meta.map((m) => (
+                <div key={m.label} className="flex flex-col gap-2">
+                  <dt className="text-xs font-semibold leading-[1.4] tracking-[0.1em] text-[var(--ink)]">{m.label}</dt>
+                  <dd className="text-sm leading-snug text-[var(--ink)]">{m.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </FadeIn>
 
-          <dl className="mt-16 grid grid-cols-2 gap-x-8 gap-y-8 md:grid-cols-4">
-            {meta.map((m) => (
-              <div key={m.label}>
-                <dt><Label className="mb-2">{m.label}</Label></dt>
-                <dd className="text-sm leading-[1.4] text-[var(--ink)]">{m.value}</dd>
-              </div>
-            ))}
-          </dl>
+          <FadeIn delay={0.3} className="mt-12 md:mt-16">
+            <Shot src={gallery.full} alt="Xenior+ full screen" />
+          </FadeIn>
         </div>
       </section>
 
       <Section label="Context" title="Problem Statement" tone="warm">
-        <div className="grid gap-4 sm:grid-cols-2">
-          {problems.map((p) => (
-            <div key={p.title} className="border border-[var(--hair)] bg-white p-6 md:p-8">
-              <H3 className="mb-3">{p.title}</H3>
-              <p className="text-sm leading-[1.5] text-[#414141]">{p.detail}</p>
+        <div className="space-y-6">
+          {problems.map((p, index) => (
+            <div key={p.title} className="flex gap-4">
+              <span className="text-sm font-semibold tabular-nums text-[#585858]">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <H3 className="mb-2">{p.title}</H3>
+                <p className={body}>{p.detail}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -298,33 +347,33 @@ export default function XeniorPlusCaseStudy() {
       <Section label="Context" title="Users & Roles" tone="warm">
         <div className="grid gap-4 sm:grid-cols-2">
           {roles.map((r) => (
-            <div key={r.role} className="border border-[var(--hair)] bg-white p-6 md:p-8">
-              <H3 className="mb-3">{r.role}</H3>
-              <p className="text-sm leading-[1.5] text-[#414141]">{r.responsibilities}</p>
+            <div key={r.role} className="rounded-2xl border border-[var(--hair)] bg-white p-6">
+              <H3 className="mb-2">{r.role}</H3>
+              <p className={body}>{r.responsibilities}</p>
             </div>
           ))}
         </div>
       </Section>
 
       <Section label="Research" title="User Research & Evaluation">
-        <p className={`${body} mb-12`}>
+        <p className={`${body} mb-10`}>
           Before moving into final UI design and UAT, I conducted two rounds of evaluation with instructors to understand usability issues and validate design decisions.
         </p>
 
         <H3 className="mb-3">Round 1 — Instructor Feedback</H3>
-        <p className={`${body} mb-6`}>
+        <p className={`${body} mb-5`}>
           After the Phase 1 presentation, I collected feedback from <strong className="font-semibold text-[var(--ink)]">5 instructors</strong> on the home page, assessment flow, and rubric. Recurring findings included:
         </p>
         <Bullets items={round1} />
 
-        <H3 className="mb-3 mt-14">Round 2 — In-depth Interviews & Satisfaction Ratings</H3>
+        <H3 className="mb-3 mt-12">Round 2 — In-depth Interviews & Satisfaction Ratings</H3>
         <p className={`${body} mb-6`}>
           I conducted in-depth interviews with instructors and asked them to rate <strong className="font-semibold text-[var(--ink)]">7 areas on a 1–5 scale</strong>. I grouped the identified pain points by priority.
         </p>
-        <table className="mb-10 w-full border-collapse text-base">
+        <table className={`mb-10 w-full border-collapse ${body}`}>
           <caption className="sr-only">Average satisfaction score by area, 1 to 5</caption>
           <thead>
-            <tr className="border-b border-[var(--ink)] text-left">
+            <tr className="border-b border-[var(--ink)] text-left text-[var(--ink)]">
               <th scope="col" className="py-3 font-semibold">Area</th>
               <th scope="col" className="py-3 text-right font-semibold">Avg. Score</th>
             </tr>
@@ -332,8 +381,8 @@ export default function XeniorPlusCaseStudy() {
           <tbody>
             {scores.map(([area, score]) => (
               <tr key={area} className="border-b border-[var(--hair)]">
-                <td className="py-3 text-[#414141]">{area}</td>
-                <td className="py-3 text-right text-sm text-[var(--ink)]">{score}</td>
+                <td className="py-3">{area}</td>
+                <td className="py-3 text-right tabular-nums text-[var(--ink)]">{score}</td>
               </tr>
             ))}
           </tbody>
@@ -350,7 +399,7 @@ export default function XeniorPlusCaseStudy() {
         title="Design Process"
         tone="warm"
         wideContent={
-          <div className={`${wrap} grid grid-cols-1 items-stretch gap-10 md:grid-cols-2 md:gap-12`}>
+          <div className={`${wrap} grid grid-cols-1 items-stretch gap-10 lg:grid-cols-2 lg:gap-12`}>
             {designStages.map((s) => (
               <figure key={s.stage}>
                 <Shot
@@ -360,7 +409,7 @@ export default function XeniorPlusCaseStudy() {
                   imageClassName="h-full object-contain"
                 />
                 <figcaption className="mt-5">
-                  <H3 className="md:min-h-[2.5em]">{s.stage}</H3>
+                  <H3 className="lg:min-h-[2.5em]">{s.stage}</H3>
                   <p className={`${body} mt-2`}>{s.detail}</p>
                 </figcaption>
               </figure>
@@ -374,26 +423,33 @@ export default function XeniorPlusCaseStudy() {
         title="Key Feature: Xenior Form"
         wideContent={
           <ImageCarousel
-          label="Xenior Form screens"
-          images={gallery.form.map((src, index) => ({
-            src,
-            alt: `Xenior Form screen ${index + 1}`,
-          }))}
+            label="Xenior Form screens"
+            images={gallery.form.map((src, index) => ({
+              src,
+              alt: `Xenior Form screen ${index + 1}`,
+            }))}
           />
         }
       >
-        <p className={`${body} mb-6 text-[var(--ink)]`}>Xenior Form digitizes the evaluation process end-to-end:</p>
+        <p className={`${body} mb-5 text-[var(--ink)]`}>Xenior Form digitizes the evaluation process end-to-end:</p>
         <Bullets items={formFeatures} />
       </Section>
 
-      <Section label="Feature" title="Key Feature: Xenior Interface" tone="warm">
-        <p className={`${body} mb-6`}>
+      <Section
+        label="Feature"
+        title="Key Feature: Xenior Interface"
+        tone="warm"
+        wideContent={
+          <ImageCarousel
+            label="Xenior Interface screens"
+            images={gallery.interface}
+          />
+        }
+      >
+        <p className={`${body} mb-5`}>
           The interface redesign focused on making the system easier to navigate across different roles. Instead of giving every user the same generic dashboard, I structured the interface around the information and actions most relevant to each workflow.
         </p>
         <Bullets items={interfaceFeatures} />
-        <div className="mt-10">
-          <Shot src={gallery.interface} alt="Xenior Interface screen" />
-        </div>
       </Section>
 
       <Section label="Testing" title="Usability Testing & Iteration">
@@ -407,8 +463,8 @@ export default function XeniorPlusCaseStudy() {
               key={row.issue}
               className="flex flex-col gap-2 border-b border-[var(--hair)] py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8"
             >
-              <p className="text-base leading-snug text-[var(--ink)]">{row.issue}</p>
-              <span className="w-fit shrink-0 border border-[var(--hair)] bg-white px-3 py-1 text-xs tracking-[0.1em]">
+              <p className={body}>{row.issue}</p>
+              <span className="w-fit shrink-0 rounded-full border border-[var(--hair)] bg-white px-3 py-1 text-xs tracking-[0.1em] text-[var(--ink)]">
                 {row.resolution}
               </span>
             </li>
@@ -422,7 +478,7 @@ export default function XeniorPlusCaseStudy() {
       </Section>
 
       <Section label="Result" title="Outcome" tone="stone">
-        <p className={`${body} max-w-3xl text-[var(--ink)]`}>
+        <p className={body}>
           Xenior+ shipped as a fully implemented, deployed system covering all three planned modules (Form, Search, Interface), validated through system verification testing and UAT with instructors, teaching assistants, and students. The evidence-based approach — benchmarking search performance, load-testing for capacity limits, and structuring UAT feedback into a tracked action table — meant the team could point to concrete, measured improvements rather than subjective claims, while also leaving a clear, prioritized roadmap for what comes next.
         </p>
       </Section>

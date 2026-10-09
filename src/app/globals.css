@@ -97,13 +97,8 @@ video {
   border-radius: 16px;
 }
 
-.work-case-study [class*="overflow-hidden"],
-.work-case-study [class*="border-"][class*="bg-"] {
+.work-case-study [class*="overflow-hidden"] {
   border-radius: 16px;
-}
-
-.work-case-study :is(a, button)[class*="border-"] {
-  border-radius: 12px;
 }
 
 .case-study-image-carousel {

@@ -14,7 +14,7 @@ export function CaseStudyIntro({
   return (
     <section className="bg-white">
       <div className={`${contentWidth} pb-16 pt-[clamp(6rem,10vw,9rem)] md:pb-24`}>
-        <div className="grid gap-8 md:grid-cols-[1fr_400px] md:gap-16">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,400px)] lg:gap-16">
           <h1 className="text-[clamp(3.75rem,10vw,6.5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-[#111111]">
             {title}
           </h1>
@@ -33,7 +33,7 @@ export function CaseStudyMeta({
   items: { label: string; value: string }[];
 }) {
   return (
-    <dl className={`${contentWidth} grid grid-cols-2 gap-x-8 gap-y-8 pb-16 md:grid-cols-4 md:pb-24`}>
+    <dl className={`${contentWidth} grid grid-cols-1 gap-x-8 gap-y-6 pb-16 sm:grid-cols-2 md:gap-y-8 lg:grid-cols-4 lg:pb-24`}>
       {items.map((item) => (
         <div key={item.label}>
           <dt className="mb-2 text-xs leading-[1.4] tracking-[0.1em] text-[#585858]">
@@ -61,7 +61,7 @@ export function CaseStudySection({
 }) {
   return (
     <section className={`bg-white ${className}`}>
-      <div className={`${contentWidth} grid gap-8 py-16 md:grid-cols-[1fr_2fr] md:gap-16 md:py-24`}>
+      <div className={`${contentWidth} grid gap-8 py-12 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16 lg:py-24`}>
         <div>
           <p className="text-xs leading-[1.4] tracking-[0.1em] text-[#585858]">{label}</p>
           <h2 className="mt-3 text-[clamp(2.25rem,5vw,3.25rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[#111111]">
@@ -71,7 +71,7 @@ export function CaseStudySection({
         <div className="min-w-0">{children}</div>
       </div>
       {wideContent && (
-        <div className={`${contentWidth} pb-16 md:pb-24`}>
+        <div className={`${contentWidth} pb-16 lg:pb-24`}>
           {wideContent}
         </div>
       )}
@@ -123,13 +123,13 @@ export function CaseStudyMoreProjects({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-10%" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="mx-auto max-w-[1200px] px-5 py-16 md:px-12 md:py-24"
+        className="mx-auto max-w-[1200px] px-5 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-24"
       >
         <p className="text-xs leading-[1.4] tracking-[0.1em] text-[#585858]">Next</p>
         <h2 className="mb-10 mt-3 text-[clamp(2.25rem,5vw,3.25rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[#111111]">
           More Projects
         </h2>
-        <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <li key={project.name}>
               <Link

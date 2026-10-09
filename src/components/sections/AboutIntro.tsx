@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowDownToLine, ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight, Eye, Mail } from "lucide-react";
 import { personal } from "@/lib/data";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -14,39 +14,38 @@ export default function AboutIntro() {
       <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-2">
         <div className="mb-12">
           <h2 className="text-left font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
-           About.
+            About.
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2 md:items-center md:gap-x-20">
-          <div className="md:self-center">
-            <p className="max-w-xl font-['Montserrat'] text-lg leading-relaxed tracking-tight text-neutral-800 md:text-xl">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:items-center lg:gap-x-20">
+          <div className="lg:self-center">
+            <h2 className="font-['Montserrat'] text-[clamp(1.875rem,3.5vw,2.75rem)] font-medium leading-[1] tracking-[-0.05em] text-black">
+              <span className="mb-2 block">Hello, I&apos;m</span>
+              <span className="block">{personal.name}</span>
+            </h2>
+
+            <p className="mt-4 max-w-xl font-['Montserrat'] text-lg leading-relaxed tracking-tight text-neutral-800 md:text-xl">
               UX/UI designer who turns complex, role-based systems into clear interfaces, then builds them in Next.js.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="/about"
-                className="group inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-black bg-black px-4 py-3 font-['Montserrat'] text-xs font-medium uppercase tracking-[0.1em] text-white transition-colors hover:bg-white hover:text-black sm:px-5 sm:text-sm"
+                className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full border-2 border-black bg-black px-5 font-['Montserrat'] text-sm font-medium uppercase tracking-[0.1em] text-white transition-colors hover:bg-white hover:text-black"
               >
                 More about me
                 <ArrowUpRight size={16} aria-hidden="true" />
               </Link>
+
               <a
-                href={personal.resumeUrl}
+                href="/Resume_Chompunuch_UXUI.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-black px-4 py-3 font-['Montserrat'] text-xs font-medium uppercase tracking-[0.1em] text-black transition-colors hover:bg-black hover:text-white sm:px-5 sm:text-sm"
+                className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full border-2 border-black px-5 font-['Montserrat'] text-sm font-medium uppercase tracking-[0.1em] text-black transition-colors hover:bg-black hover:text-white"
               >
-                Download resume
-                <ArrowDownToLine size={16} aria-hidden="true" />
-              </a>
-              <a
-                href={`mailto:${personal.email}`}
-                className="group inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-black px-4 py-3 font-['Montserrat'] text-xs font-medium uppercase tracking-[0.1em] text-black transition-colors hover:bg-black hover:text-white sm:px-5 sm:text-sm"
-              >
-                Email me
-                <Mail size={16} aria-hidden="true" />
+                View resume
+                <Eye size={16} aria-hidden="true" />
               </a>
             </div>
 
@@ -58,7 +57,7 @@ export default function AboutIntro() {
           </div>
 
           <motion.div
-            className="relative order-2 w-full max-w-[460px] justify-self-center md:justify-self-end"
+            className="relative order-2 w-full max-w-[460px] justify-self-center lg:justify-self-end"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}

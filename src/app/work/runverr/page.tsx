@@ -1,23 +1,24 @@
 "use client";
 
+import React from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
+import { CaseStudyMoreProjects } from "@/components/work/CaseStudy";
 import ImageCarousel from "@/components/work/ImageCarousel";
-import {
-  CaseStudyIntro,
-  CaseStudyMeta,
-  CaseStudyMoreProjects,
-  CaseStudySection,
-  CaseStudyShot,
-  CaseStudySubheading,
-} from "@/components/work/CaseStudy";
 
+const tokens = {
+  "--ink": "#111111",
+  "--canvas": "#ffffff",
+  "--warm": "#ffffff",
+  "--stone": "#ffffff",
+  "--hair": "#dedede",
+} as React.CSSProperties;
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const gallery = {
-  hero: "/images/runverr/hero.jpg",
   full: "/images/runverr/runrun.png",
-  half1: "/images/runverr/runver_ipad.png",
-  half2: "/images/runverr/run_night.png",
   workflow: "/images/runverr/runverr_flow.jpg",
   fivecore: "/images/runverr/fivecore.png",
   UE5: "/images/runverr/UE5.jpg",
@@ -30,22 +31,20 @@ const moreProjects = [
 ];
 
 const meta = [
-  { label: "My Role", value: "Game Dev Intern" },
-  { label: "Engine", value: "Unreal Engine 5" },
+  { label: "Role", value: "Game Dev Intern" },
   { label: "Timeline", value: "Jun – Aug 2025" },
+  { label: "Engine", value: "Unreal Engine 5" },
   { label: "Platform", value: "PC Build" },
 ];
 
 const storyPoints = [
   {
     title: "Goal",
-    detail:
-      "Gradually overcome obstacles (collecting Score) to grow and achieve ultimate success (High Score).",
+    detail: "Gradually overcome obstacles (collecting Score) to grow and achieve ultimate success (High Score).",
   },
   {
     title: "Conflict",
-    detail:
-      "Buildings and obstacles represent the challenges and hurdles in a student's life.",
+    detail: "Buildings and obstacles represent the challenges and hurdles in a student's life.",
   },
   {
     title: "Drive",
@@ -55,12 +54,30 @@ const storyPoints = [
 ];
 
 const features = [
-  "Score System — Collect scores based on running distance; exceeding the High Score immediately registers as the New High Score.",
-  "Energy System — Energy decreases continuously while running; players must collect Heart Items to restore it, or the game ends.",
-  "Item System — 4 Items: Heart (restores energy), Piggy Bank (Coin x2), Robot Magnet (attracts coins), and Jump Boots (jump higher).",
-  "Day/Night Cycle — Environment shifts from day to night; visibility decreases at night, requiring players to use the light from coins to navigate.",
-  "Coin Collection — Collect and accumulate coins to purchase new characters in the Select Character screen.",
-  "PC Packaging — Build and package the game as a fully playable PC Build for Windows installations.",
+  {
+    lead: "Score System —",
+    text: "Collect scores based on running distance; exceeding the High Score immediately registers as the New High Score.",
+  },
+  {
+    lead: "Energy System —",
+    text: "Energy decreases continuously while running; players must collect Heart Items to restore it, or the game ends.",
+  },
+  {
+    lead: "Item System —",
+    text: "4 Items: Heart (restores energy), Piggy Bank (Coin x2), Robot Magnet (attracts coins), and Jump Boots (jump higher).",
+  },
+  {
+    lead: "Day/Night Cycle —",
+    text: "Environment shifts from day to night; visibility decreases at night, requiring players to use the light from coins to navigate.",
+  },
+  {
+    lead: "Coin Collection —",
+    text: "Collect and accumulate coins to purchase new characters in the Select Character screen.",
+  },
+  {
+    lead: "PC Packaging —",
+    text: "Build and package the game as a fully playable PC Build for Windows installations.",
+  },
 ];
 
 const demoChecklist = [
@@ -95,37 +112,200 @@ const skillsGained = [
   "Recognized the critical importance of teamwork and communication through regular consultations with advisors.",
 ];
 
+/* ---------- building blocks ---------- */
+
+// Same container width as the Work / About sections so left edges align
+const wrap = "mx-auto max-w-[1120px] px-5";
+// Single body style used everywhere (16px / 1.5 / #414141)
+const body = "text-base leading-[1.5] tracking-[-0.01em] text-[#414141]";
+const tones = { canvas: "bg-[var(--canvas)]", warm: "bg-[var(--warm)]", stone: "bg-[var(--stone)]" };
+
+function FadeIn({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      initial={reduce ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.8, delay, ease }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function Label({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <p className={`text-xs leading-[1.4] tracking-[0.1em] text-[#585858] ${className}`}>{children}</p>;
+}
+
+function Section({
+  label, title, tone = "canvas", children, wideContent,
+}: {
+  label: string;
+  title: string;
+  tone?: keyof typeof tones;
+  children?: React.ReactNode;
+  wideContent?: React.ReactNode;
+}) {
+  const hasSideContent = children != null;
+
+  return (
+    <section className={tones[tone]}>
+      <FadeIn
+        className={`${wrap} grid gap-8 py-12 sm:py-16 lg:gap-16 lg:py-24 ${
+          hasSideContent ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]" : "lg:grid-cols-1"
+        }`}
+      >
+        <div>
+          <Label>{label}</Label>
+          <h2 className="mt-3 text-[clamp(2.25rem,5vw,3.25rem)] font-semibold leading-[1.15] tracking-[-0.035em] text-[var(--ink)]">
+            {title}
+          </h2>
+        </div>
+        {hasSideContent && <div>{children}</div>}
+      </FadeIn>
+      {wideContent && <FadeIn className="pb-16 lg:pb-24">{wideContent}</FadeIn>}
+    </section>
+  );
+}
+
+function H3({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <h3 className={`text-xl font-semibold leading-tight tracking-[-0.02em] text-[var(--ink)] ${className}`}>
+      {children}
+    </h3>
+  );
+}
+
+type Item = string | { lead: string; text: string };
+
+function Bullets({ items }: { items: Item[] }) {
+  return (
+    <ul className="space-y-3">
+      {items.map((item) => {
+        const text = typeof item === "string";
+        return (
+          <li key={text ? item : item.lead} className={`flex gap-3 ${body}`}>
+            <span aria-hidden className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--ink)]" />
+            <span>
+              {text ? item : (<><strong className="font-semibold text-[var(--ink)]">{item.lead}</strong> {item.text}</>)}
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+function Checklist({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-3">
+      {items.map((item) => (
+        <li key={item} className={`flex gap-3 ${body}`}>
+          <span aria-hidden className="text-[var(--ink)]">✓</span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Numbered({ items }: { items: { title: string; detail: string }[] }) {
+  return (
+    <div className="space-y-6">
+      {items.map((p, index) => (
+        <div key={p.title} className="flex gap-4">
+          <span className="text-sm font-semibold tabular-nums text-[#585858]">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <div>
+            <H3 className="mb-2">{p.title}</H3>
+            <p className={body}>{p.detail}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Shot({
+  src,
+  alt,
+  className = "",
+  imageClassName = "",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  imageClassName?: string;
+}) {
+  return (
+    <div className={`overflow-hidden rounded-2xl border border-[var(--hair)] bg-white p-4 md:p-8 ${className}`}>
+      <img src={src} alt={alt} className={`block h-auto w-full ${imageClassName}`} />
+    </div>
+  );
+}
+
+/* ---------- page ---------- */
+
 export default function RunverrProject() {
   return (
-    <main className="work-case-study min-h-screen bg-white text-[#111111] antialiased selection:bg-[#e5e5e5] selection:text-[#111111]">
+    <main
+      style={tokens}
+      className="work-case-study min-h-screen bg-white font-['Montserrat'] text-[var(--ink)] antialiased selection:bg-black selection:text-white"
+    >
       <Navbar />
-      <CaseStudyIntro
-        title="Runverr"
-        description="An Unreal Engine 5 Endless Runner developed for KMUTT’s Mediatier Project, featuring scoring, energy, items, a day/night cycle, and high score system."
-      />
-      <CaseStudyShot src={gallery.full} alt="Runverr gameplay" />
-      <CaseStudyMeta items={meta} />
 
-      <CaseStudySection label="Context" title="The Story Behind the Run">
-        <p className="mb-8 text-base leading-[1.5] tracking-[-0.01em] text-[#414141]">
+      {/* Hero: title → summary → meta → cover image */}
+      <section className="bg-[var(--canvas)]">
+        <div className={`${wrap} pb-16 pt-[clamp(7rem,12vw,10rem)] md:pb-24`}>
+          {/* Title: identical style to "Work." and "About." */}
+          <FadeIn>
+            <h1 className="text-left font-['Montserrat'] text-[clamp(4rem,10vw,8rem)] font-medium leading-[0.8] tracking-[-0.06em] text-black">
+              Runverr
+            </h1>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <p className={`mt-10 max-w-full ${body}`}>
+              An Unreal Engine 5 Endless Runner developed for KMUTT’s Mediatier Project, featuring scoring, energy, items, a day/night cycle, and high score system.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+            <dl className="mt-10 grid grid-cols-1 gap-x-8 gap-y-6 pt-6 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
+              {meta.map((m) => (
+                <div key={m.label} className="flex flex-col gap-2">
+                  <dt className="text-xs font-semibold leading-[1.4] tracking-[0.1em] text-[var(--ink)]">{m.label}</dt>
+                  <dd className="text-sm leading-snug text-[var(--ink)]">{m.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </FadeIn>
+
+          <FadeIn delay={0.3} className="mt-12 md:mt-16">
+            <Shot src={gallery.full} alt="Runverr gameplay" />
+          </FadeIn>
+        </div>
+      </section>
+
+      <Section label="Context" title="The Story Behind the Run" tone="warm">
+        <p className={`${body} mb-8`}>
           The character is a university freshman — experiencing growth while facing obstacles like difficult lessons and life challenges, which can be overcome with perseverance.
         </p>
-        <div className="space-y-6">
-          {storyPoints.map((point, index) => (
-            <div key={point.title} className="flex gap-4">
-              <span className="text-sm font-semibold tabular-nums text-[#585858]">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <CaseStudySubheading className="mb-2 text-xl">{point.title}</CaseStudySubheading>
-                <p className="text-base leading-[1.5] text-[#414141]">{point.detail}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </CaseStudySection>
+        <Numbered items={storyPoints} />
+      </Section>
 
-      <CaseStudySection
+      <Section
         label="Process"
         title="Development"
         wideContent={
@@ -140,83 +320,63 @@ export default function RunverrProject() {
           />
         }
       >
-        <p className="text-base leading-[1.5] text-[#414141]">
+        <p className={body}>
           Runverr came together through a hands-on workflow in Unreal Engine 5, from building gameplay logic and FiveCore systems to connecting each part into a playable PC game.
         </p>
-      </CaseStudySection>
+      </Section>
 
-      <CaseStudySection label="Feature" title="What I Built">
-        <ul className="space-y-3 text-base leading-[1.5] text-[#414141]">
-          {features.map((feature) => (
-            <li key={feature} className="flex gap-3">
-              <span aria-hidden="true" className="mt-[0.65em] h-1 w-1 shrink-0 bg-[#111111]" />
-              {feature}
-            </li>
-          ))}
-        </ul>
-      </CaseStudySection>
+      <Section label="Feature" title="What I Built" tone="warm">
+        <Bullets items={features} />
+      </Section>
 
-      <CaseStudySection label="Delivery" title="Demo Day &amp; Delivery">
-        <p className="mb-6 text-base leading-[1.5] text-[#414141]">
+      <Section label="Delivery" title="Demo Day & Delivery">
+        <p className={`${body} mb-6`}>
           On July 25, 2025, the completed Runverr mini-game was presented to professors from both the Media Arts and Computer Engineering faculties — the game was successfully built and playable as a PC Package.
         </p>
-        <ul className="space-y-3 text-base leading-[1.5] text-[#414141]">
-          {demoChecklist.map((item) => (
-            <li key={item} className="flex gap-3">
-              <span aria-hidden="true" className="text-[#111111]">✓</span>
-              {item}
-            </li>
-          ))}
-        </ul>
-      </CaseStudySection>
+        <Checklist items={demoChecklist} />
+      </Section>
 
-      <CaseStudySection label="Demo" title="Gameplay">
-        <video
-          src="/images/runverr/runverr-demo.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="block aspect-video w-full object-cover"
-        />
-      </CaseStudySection>
-
-      <CaseStudySection label="Reflection" title="What Was Hard">
-        <div className="space-y-6">
-          {challenges.map((challenge, index) => (
-            <div key={challenge.title} className="flex gap-4">
-              <span className="text-sm font-semibold tabular-nums text-[#585858]">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <CaseStudySubheading className="mb-2 text-xl">{challenge.title}</CaseStudySubheading>
-                <p className="text-base leading-[1.5] text-[#414141]">{challenge.detail}</p>
-              </div>
+      <Section
+        label="Demo"
+        title="Gameplay"
+        tone="warm"
+        wideContent={
+          <div className={wrap}>
+            <div className="overflow-hidden rounded-2xl border border-[var(--hair)] bg-white">
+              <video
+                src="/images/runverr/runverr-demo.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="block aspect-video w-full object-cover"
+              />
             </div>
-          ))}
-        </div>
-      </CaseStudySection>
+          </div>
+        }
+      />
 
-      <CaseStudySection label="Learning" title="What I Learned">
-        <CaseStudySubheading className="mb-4 text-xl">Skills Gained</CaseStudySubheading>
-        <ul className="mb-10 space-y-3 text-base leading-[1.5] text-[#414141]">
-          {skillsGained.map((skill) => (
-            <li key={skill} className="flex gap-3">
-              <span aria-hidden="true" className="text-[#111111]">✓</span>
-              {skill}
-            </li>
-          ))}
-        </ul>
-        <CaseStudySubheading className="mb-4 text-xl">Key Insight</CaseStudySubheading>
-        <blockquote className="border-l-2 border-[#dedede] pl-6 text-base leading-[1.5] text-[#414141]">
+      <Section label="Reflection" title="What Was Hard">
+        <Numbered items={challenges} />
+      </Section>
+
+      <Section label="Learning" title="What I Learned" tone="warm">
+        <H3 className="mb-4">Skills Gained</H3>
+        <div className="mb-12">
+          <Checklist items={skillsGained} />
+        </div>
+
+        <H3 className="mb-4">Key Insight</H3>
+        <blockquote className={`border-l-2 border-[var(--hair)] pl-6 ${body}`}>
           Overcoming complex system challenges required proactive research and guidance. This experience was instrumental in developing vital self-learning skills and the resilience to manage work pressure effectively.
           <cite className="mt-4 block text-xs not-italic tracking-[0.1em] text-[#585858]">
             — Bim, Game Development Intern
           </cite>
         </blockquote>
-      </CaseStudySection>
+      </Section>
 
       <CaseStudyMoreProjects projects={moreProjects} />
+
       <Footer />
     </main>
   );
