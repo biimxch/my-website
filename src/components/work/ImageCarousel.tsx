@@ -123,7 +123,8 @@ export default function ImageCarousel({
           gap: "clamp(12px, 2vw, 24px)",
           width: "100%",
           marginInline: 0,
-          paddingInline: "calc((100% - clamp(240px, 40vw, 700px)) / 2)",
+          paddingInline:
+            "calc((100% - min(calc(100% - 40px), 920px)) / 2)",
           scrollSnapType: "x mandatory",
           scrollBehavior: reduceMotion ? "auto" : "smooth",
           scrollbarWidth: "none",
@@ -140,7 +141,7 @@ export default function ImageCarousel({
               activeIndex === index ? "scale-100 opacity-100" : "scale-[0.94] opacity-60"
             }`}
             style={{
-              width: "clamp(240px, 40vw, 700px)",
+              width: "min(calc(100% - 40px), 920px)",
               scrollSnapAlign: "center",
               scrollSnapStop: "always",
             }}

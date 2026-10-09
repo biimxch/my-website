@@ -347,7 +347,7 @@ export default function XeniorPlusCaseStudy() {
       <Section label="Context" title="Users & Roles" tone="warm">
         <div className="grid gap-4 sm:grid-cols-2">
           {roles.map((r) => (
-            <div key={r.role} className="rounded-2xl border border-[var(--hair)] bg-white p-6">
+            <div key={r.role} className="rounded-3xl border border-[var(--hair)] bg-white p-6">
               <H3 className="mb-2">{r.role}</H3>
               <p className={body}>{r.responsibilities}</p>
             </div>
