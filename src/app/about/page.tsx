@@ -43,7 +43,7 @@ const experiences = [
 const education = [
   {
     school: "King Mongkut's University of Technology Thonburi",
-    period: "Jun 2022 – Jul 2025",
+    period: "Jul 2022 – Jun 2025",
     degree: "B.Eng. in Computer Engineering · GPA 3.01",
     description:
       "Completed coursework in Computer Engineering, Software Engineering, and Humanities Computing. Led the development of Xenior+, a role-based web platform for managing academic projects at KMUTT, with a focus on user navigation, project evaluation, and search. Also completed a game development internship and served as a Teaching Assistant, building experience in front-end development, wireframing, and user research. Passionate about creating seamless and enjoyable user experiences.",
